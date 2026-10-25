@@ -108,53 +108,66 @@ def prices(symbol):
 
 
 
+
 def macro(series):
-    key=os.getenv('FRED_API_KEY','')
-    if not key:return {'status':'unavailable','reason':'FRED_API_KEY not configured'}
-    try:
-        
-    params = {
-        'symbol': symbol,
-        'interval': '1day',
-        'outputsize': 260,
-        'apikey': key,
-        'format': 'JSON'
-    }
+    key = os.getenv('FRED_API_KEY', '')
 
-    # Specify London Stock Exchange for the FTSE 100 ETF.
-    if symbol == 'ISF':
-        params['exchange'] = 'LSE'
-
-    response = S.get(
-        'https://api.twelvedata.com/time_series',
-        params=params,
-        timeout=25
-    )
-
-    try:
-        j = response.json()
-    except ValueError:
+    if not key:
         return {
             'status': 'unavailable',
-            'reason': f'Non-JSON API response (HTTP {response.status_code})'
+            'reason': 'FRED_API_KEY not configured'
         }
 
-    if response.status_code >= 400:
+    try:
+        j = get_json(
+            'https://api.stlouisfed.org/fred/series/observations',
+            {
+                'series_id': series,
+                'api_key': key,
+                'file_type': 'json',
+                'sort_order': 'desc',
+                'limit': 8
+            }
+        )
+
+        observations = [
+            x for x in j['observations']
+            if x['value'] != '.'
+        ]
+
+        if not observations:
+            raise ValueError('No numeric observations')
+
+        latest = observations[0]
+        age = (
+            TODAY - datetime.date.fromisoformat(latest['date'])
+        ).days
+
         return {
-            'status': 'unavailable',
-            'reason': (
-                f"HTTP {response.status_code}: "
-                f"{j.get('message', 'API request failed')}"
+            'status': (
+                'ok'
+                if age <= CFG['max_macro_age_days']
+                else 'stale'
+            ),
+            'value': float(latest['value']),
+            'observation_date': latest['date'],
+            'age_days': age,
+            'source': (
+                'https://fred.stlouisfed.org/series/' + series
+            ),
+            'caveat': (
+                'Observation date is not publication timestamp; '
+                'revisions possible'
             )
         }
 
-        observations=[x for x in j['observations'] if x['value']!='.']
-        if not observations:raise ValueError('No numeric observations')
-        latest=observations[0];age=(TODAY-datetime.date.fromisoformat(latest['date'])).days
-        return {'status':'ok' if age<=CFG['max_macro_age_days'] else 'stale','value':float(latest['value']),
-                'observation_date':latest['date'],'age_days':age,'source':'https://fred.stlouisfed.org/series/'+series,
-                'caveat':'Observation date is not publication timestamp; revisions possible'}
-    except (ValueError,KeyError,requests.RequestException) as e:return {'status':'unavailable','reason':str(e)}
+    except (ValueError, KeyError, requests.RequestException) as e:
+        return {
+            'status': 'unavailable',
+            'reason': str(e)
+        }
+
+
 
 def main():
     out={'generated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'markets':{},'macro':{},
