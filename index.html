@@ -20,6 +20,37 @@ let technicalRows=Object.entries(core).map(([key,value])=>
  let realYield = data.macro?.DFII10 || {};
  let dollarIndex = data.macro?.DTWEXBGS || {};
  
+let overallGoldScore = null;
+let overallGoldBias = 'Incomplete';
+
+if (
+  n === 'Gold' &&
+  realYield.status === 'ok' &&
+  dollarIndex.status === 'ok' &&
+  p.status === 'ok' &&
+Number.isFinite(Number(p.technical_score)) &&
+  structure.trend
+) {
+  let technicalPoints = Number(p.technical_score) * 5;
+
+  let trend = String(structure.trend).toLowerCase();
+  let structurePoints = trend === 'bullish' ? 25 :
+                        trend === 'bearish' ? -25 : 0;
+
+  let yieldPoints = realYield.direction === 'falling' ? 25 :
+                    realYield.direction === 'rising' ? -25 : 0;
+
+  let dollarPoints = dollarIndex.direction === 'falling' ? 25 :
+                     dollarIndex.direction === 'rising' ? -25 : 0;
+
+  overallGoldScore = technicalPoints + structurePoints +
+                     yieldPoints + dollarPoints;
+
+  overallGoldBias = overallGoldScore >= 25 ? 'Bullish' :
+                    overallGoldScore <= -25 ? 'Bearish' : 'Neutral';
+}
+                     
+ 
 let dollarRows = n === 'Gold' ? `
 <h2>Gold — US Dollar Strength Analysis</h2>
 <div class="row"><span>US Dollar Index</span><b>${dollarIndex.status === 'ok' ? fmt(dollarIndex.value) : 'Unavailable'}</b></div>
@@ -38,7 +69,30 @@ let realYieldRows = n === 'Gold' ? `
 <div class="row"><span>Gold macro implication</span><b>${realYield.status !== 'ok' ? 'Unavailable' : realYield.direction === 'falling' ? 'Supportive' : realYield.direction === 'rising' ? 'Unfavourable' : 'Neutral'}</b></div>
 ` : '';
 
-$('detail').innerHTML=`<div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
+let overallGoldDisplay = '';
+
+if (n === 'Gold') {
+  let biasColor = overallGoldBias === 'Bullish' ? '#22c55e' :
+                  overallGoldBias === 'Bearish' ? '#ef4444' : '#ffffff';
+
+  let scoreText = overallGoldScore === null
+    ? 'Unavailable'
+    : (overallGoldScore > 0 ? '+' : '') + overallGoldScore + ' / 100';
+
+  overallGoldDisplay = `
+    <h2>Overall FMIS Gold Score</h2>
+    <div class="row">
+      <span>Overall market bias</span>
+      <b style="color:${biasColor};font-size:22px">${overallGoldBias}</b>
+    </div>
+    <div class="row">
+      <span>Combined score</span>
+      <b style="color:${biasColor}">${scoreText}</b>
+    </div>
+  `;
+}
+
+$('detail').innerHTML=`${overallGoldDisplay}<div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
 <h2>Market Structure</h2>
 <div class="row"><span>Daily structure</span><b>${safe(structure.trend || 'Unavailable')}</b></div>
 <div class="row"><span>Last swing high</span><b>${fmt(structure.last_swing_high)}</b></div>
