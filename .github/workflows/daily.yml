@@ -33,7 +33,7 @@ jobs:
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
-        run: python update_data.py
+        run: python update.py
 
       - name: Commit updated data
         run: |
