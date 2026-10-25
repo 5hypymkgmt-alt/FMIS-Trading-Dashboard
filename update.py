@@ -55,7 +55,42 @@ def macro(series):
     key=os.getenv('FRED_API_KEY','')
     if not key:return {'status':'unavailable','reason':'FRED_API_KEY not configured'}
     try:
-        j=get_json('https://api.stlouisfed.org/fred/series/observations',{'series_id':series,'api_key':key,'file_type':'json','sort_order':'desc','limit':8})
+        
+    params = {
+        'symbol': symbol,
+        'interval': '1day',
+        'outputsize': 260,
+        'apikey': key,
+        'format': 'JSON'
+    }
+
+    # Specify London Stock Exchange for the FTSE 100 ETF.
+    if symbol == 'ISF':
+        params['exchange'] = 'LSE'
+
+    response = S.get(
+        'https://api.twelvedata.com/time_series',
+        params=params,
+        timeout=25
+    )
+
+    try:
+        j = response.json()
+    except ValueError:
+        return {
+            'status': 'unavailable',
+            'reason': f'Non-JSON API response (HTTP {response.status_code})'
+        }
+
+    if response.status_code >= 400:
+        return {
+            'status': 'unavailable',
+            'reason': (
+                f"HTTP {response.status_code}: "
+                f"{j.get('message', 'API request failed')}"
+            )
+        }
+
         observations=[x for x in j['observations'] if x['value']!='.']
         if not observations:raise ValueError('No numeric observations')
         latest=observations[0];age=(TODAY-datetime.date.fromisoformat(latest['date'])).days
