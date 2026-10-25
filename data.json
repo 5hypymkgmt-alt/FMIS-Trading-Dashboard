@@ -1,13 +1,29 @@
 {
-  "generated_at_utc": "2026-10-24T19:14:50.089032+00:00",
+  "generated_at_utc": "2026-10-25T15:25:40.750280+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
       "chart": "AMEX:SPY",
       "note": "US ETF proxy; not the SPX index or US500 CFD",
       "price": {
-        "status": "unavailable",
-        "reason": "PRICE_API_KEY not configured; no automated price feed"
+        "status": "ok",
+        "date": "2026-10-23",
+        "age_days": 2,
+        "close": 759.97,
+        "ema20": 768.827,
+        "ema50": 765.83,
+        "rsi14": 42.09,
+        "factors": {
+          "price_vs_ema20": -1,
+          "ema20_vs_ema50": 1,
+          "weekly_trend": 1,
+          "momentum_5d": -1,
+          "rsi_14": -1
+        },
+        "technical_score": -1,
+        "technical_max": 5,
+        "source": "https://twelvedata.com/",
+        "feed": "Twelve Data daily API; plan/exchange delays may apply"
       }
     },
     "Gold": {
@@ -15,8 +31,24 @@
       "chart": "OANDA:XAUUSD",
       "note": "GLD ETF price proxy; chart is spot gold, different instruments",
       "price": {
-        "status": "unavailable",
-        "reason": "PRICE_API_KEY not configured; no automated price feed"
+        "status": "ok",
+        "date": "2026-10-23",
+        "age_days": 2,
+        "close": 366.61,
+        "ema20": 380.364,
+        "ema50": 387.262,
+        "rsi14": 34.09,
+        "factors": {
+          "price_vs_ema20": -1,
+          "ema20_vs_ema50": -1,
+          "weekly_trend": -1,
+          "momentum_5d": -1,
+          "rsi_14": -1
+        },
+        "technical_score": -5,
+        "technical_max": 5,
+        "source": "https://twelvedata.com/",
+        "feed": "Twelve Data daily API; plan/exchange delays may apply"
       }
     },
     "Nasdaq 100": {
@@ -24,8 +56,24 @@
       "chart": "NASDAQ:QQQ",
       "note": "US ETF proxy; not the NDX index",
       "price": {
-        "status": "unavailable",
-        "reason": "PRICE_API_KEY not configured; no automated price feed"
+        "status": "ok",
+        "date": "2026-10-23",
+        "age_days": 2,
+        "close": 704.4,
+        "ema20": 727.108,
+        "ema50": 725.356,
+        "rsi14": 36.51,
+        "factors": {
+          "price_vs_ema20": -1,
+          "ema20_vs_ema50": 1,
+          "weekly_trend": -1,
+          "momentum_5d": -1,
+          "rsi_14": -1
+        },
+        "technical_score": -3,
+        "technical_max": 5,
+        "source": "https://twelvedata.com/",
+        "feed": "Twelve Data daily API; plan/exchange delays may apply"
       }
     },
     "FTSE 100": {
@@ -34,34 +82,58 @@
       "note": "London ETF proxy; not the UKX index",
       "price": {
         "status": "unavailable",
-        "reason": "PRICE_API_KEY not configured; no automated price feed"
+        "reason": "404 Client Error: Not Found for url: https://api.twelvedata.com/time_series?symbol=ISF.L&interval=1day&outputsize=260&apikey=46d990f1633043358efa57fc79f3f312&format=JSON"
       }
     }
   },
   "macro": {
     "DGS10": {
-      "status": "unavailable",
-      "reason": "FRED_API_KEY not configured"
+      "status": "ok",
+      "value": 4.96,
+      "observation_date": "2026-10-22",
+      "age_days": 3,
+      "source": "https://fred.stlouisfed.org/series/DGS10",
+      "caveat": "Observation date is not publication timestamp; revisions possible"
     },
     "DGS2": {
-      "status": "unavailable",
-      "reason": "FRED_API_KEY not configured"
+      "status": "ok",
+      "value": 4.65,
+      "observation_date": "2026-10-22",
+      "age_days": 3,
+      "source": "https://fred.stlouisfed.org/series/DGS2",
+      "caveat": "Observation date is not publication timestamp; revisions possible"
     },
     "T10YIE": {
-      "status": "unavailable",
-      "reason": "FRED_API_KEY not configured"
+      "status": "ok",
+      "value": 2.34,
+      "observation_date": "2026-10-23",
+      "age_days": 2,
+      "source": "https://fred.stlouisfed.org/series/T10YIE",
+      "caveat": "Observation date is not publication timestamp; revisions possible"
     },
     "UNRATE": {
-      "status": "unavailable",
-      "reason": "FRED_API_KEY not configured"
+      "status": "stale",
+      "value": 4.2,
+      "observation_date": "2026-09-01",
+      "age_days": 54,
+      "source": "https://fred.stlouisfed.org/series/UNRATE",
+      "caveat": "Observation date is not publication timestamp; revisions possible"
     },
     "CPIAUCSL": {
-      "status": "unavailable",
-      "reason": "FRED_API_KEY not configured"
+      "status": "stale",
+      "value": 336.298,
+      "observation_date": "2026-09-01",
+      "age_days": 54,
+      "source": "https://fred.stlouisfed.org/series/CPIAUCSL",
+      "caveat": "Observation date is not publication timestamp; revisions possible"
     },
     "VIXCLS": {
-      "status": "unavailable",
-      "reason": "FRED_API_KEY not configured"
+      "status": "ok",
+      "value": 19.03,
+      "observation_date": "2026-10-22",
+      "age_days": 3,
+      "source": "https://fred.stlouisfed.org/series/VIXCLS",
+      "caveat": "Observation date is not publication timestamp; revisions possible"
     }
   },
   "positioning": {
