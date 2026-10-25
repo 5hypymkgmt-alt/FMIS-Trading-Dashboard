@@ -19,6 +19,67 @@ let technicalRows=Object.entries(core).map(([key,value])=>
  let structure = p.market_structure || {};
  let realYield = data.macro?.DFII10 || {};
  let dollarIndex = data.macro?.DTWEXBGS || {};
+                      
+let treasuryYield = data.macro?.DGS10 || {};
+let vixIndex = data.macro?.VIXCLS || {};
+                      
+let overallIndexScore = null;
+let overallIndexBias = 'Incomplete';
+                      
+if (
+  (n === 'S&P 500' || n === 'Nasdaq 100') &&
+  p.status === 'ok' &&
+  Number.isFinite(Number(p.technical_score)) &&
+  ['Bullish', 'Bearish', 'Ranging / Mixed'].includes(structure.trend) &&
+  treasuryYield.status === 'ok' &&
+  vixIndex.status === 'ok'
+) {
+  let technicalPoints = Number(p.technical_score) * 5;
+
+  let trend = structure.trend.toLowerCase();
+  let structurePoints = trend === 'bullish' ? 25 :
+                        trend === 'bearish' ? -25 : 0;
+
+  let yieldPoints = treasuryYield.direction === 'falling' ? 25 :
+                    treasuryYield.direction === 'rising' ? -25 : 0;
+
+  let vixPoints = vixIndex.direction === 'falling' ? 25 :
+                  vixIndex.direction === 'rising' ? -25 : 0;
+
+  overallIndexScore = technicalPoints + structurePoints +
+                      yieldPoints + vixPoints;
+
+  overallIndexBias = overallIndexScore >= 25 ? 'Bullish' :
+                     overallIndexScore <= -25 ? 'Bearish' : 'Neutral';
+}
+                      
+let overallIndexDisplay = '';
+                      
+if (n === 'S&P 500' || n === 'Nasdaq 100') {
+  let biasColor = overallIndexBias === 'Bullish' ? '#22c55e' :
+                  overallIndexBias === 'Bearish' ? '#ef4444' : '#ffffff';
+
+  let scoreText = overallIndexScore === null
+    ? 'Unavailable'
+    : (overallIndexScore > 0 ? '+' : '') + overallIndexScore + ' / 100';
+
+  overallIndexDisplay = `
+    <h2>Overall FMIS ${n} Score</h2>
+    <div class="row">
+      <span>Overall market bias</span>
+      <b style="color:${biasColor};font-size:22px">${overallIndexBias}</b>
+    </div>
+    <div class="row">
+      <span>Combined score</span>
+      <b style="color:${biasColor}">${scoreText}</b>
+    </div>
+  `;
+}
+
+
+
+
+
  
 let overallGoldScore = null;
 let overallGoldBias = 'Incomplete';
@@ -94,7 +155,9 @@ if (n === 'Gold') {
   `;
 }
 
-$('detail').innerHTML=`${overallGoldDisplay}<div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
+$('detail').innerHTML=`${overallGoldDisplay}
+${overallIndexDisplay}
+<div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
 <h2>Market Structure</h2>
 <div class="row"><span>Daily structure</span><b>${safe(structure.trend || 'Unavailable')}</b></div>
 <div class="row"><span>Last swing high</span><b>${fmt(structure.last_swing_high)}</b></div>
