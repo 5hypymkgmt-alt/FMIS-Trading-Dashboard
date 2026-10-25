@@ -22,7 +22,47 @@ def rsi(closes,n=14):
         g=(g*(n-1)+gains[i])/n;l=(l*(n-1)+losses[i])/n
     return 100 if l==0 else 100-100/(1+g/l)
 
+def market_structure(high, low, close, dates, strength=5):
+    swing_highs = []
+    swing_lows = []
 
+    for i in range(strength, len(close) - strength):
+        if high[i] > max(high[i-strength:i]) and \
+           high[i] > max(high[i+1:i+strength+1]):
+            swing_highs.append((i, high[i]))
+
+        if low[i] < min(low[i-strength:i]) and \
+           low[i] < min(low[i+1:i+strength+1]):
+            swing_lows.append((i, low[i]))
+
+    if len(swing_highs) < 2 or len(swing_lows) < 2:
+        return {'trend': 'Insufficient structure'}
+
+    h1, h2 = swing_highs[-2], swing_highs[-1]
+    l1, l2 = swing_lows[-2], swing_lows[-1]
+
+    if h2[1] > h1[1] and l2[1] > l1[1]:
+        trend = 'Bullish'
+    elif h2[1] < h1[1] and l2[1] < l1[1]:
+        trend = 'Bearish'
+    else:
+        trend = 'Ranging / Mixed'
+
+    bos = 'None'
+
+    if close[-1] > h2[1] and close[-2] <= h2[1]:
+        bos = 'Bullish BOS'
+    elif close[-1] < l2[1] and close[-2] >= l2[1]:
+        bos = 'Bearish BOS'
+
+    return {
+        'trend': trend,
+        'last_swing_high': round(h2[1], 3),
+        'last_swing_low': round(l2[1], 3),
+        'swing_high_date': dates[h2[0]],
+        'swing_low_date': dates[l2[0]],
+        'bos': bos
+    }
 def prices(symbol):
     key = os.getenv('PRICE_API_KEY', '')
     if not key:
@@ -53,6 +93,8 @@ def prices(symbol):
     try:
         dates = [x['datetime'][:10] for x in vals]
         close = [float(x['close']) for x in vals]
+        high = [float(x['high']) for x in vals]
+        low = [float(x['low']) for x in vals]
 
         if len(close) < 210:
             raise ValueError('At least 210 daily bars required')
@@ -60,6 +102,7 @@ def prices(symbol):
         last = close[-1]
         e20 = ema(close, 20)
         e50 = ema(close, 50)
+        structure = market_structure(high, low, close, dates)
 
         groups = {}
         for d, c in zip(dates, close):
@@ -96,6 +139,7 @@ def prices(symbol):
             'factors': factors,
             'technical_score': sum(factors.values()),
             'technical_max': len(factors),
+            'market_structure': structure,
             'source': 'https://twelvedata.com/',
             'feed': 'Twelve Data daily API; plan/exchange delays may apply'
         }
