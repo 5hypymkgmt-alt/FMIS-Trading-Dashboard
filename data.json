@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T17:06:59.412011+00:00",
+  "generated_at_utc": "2026-10-25T17:22:26.425406+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -166,5 +166,48 @@
     "long_technical": "all core trend gates + technical score >= 4/5",
     "short_technical": "all core trend gates + technical score <= -4/5",
     "final": "NO TRADE until macro, positioning, sentiment, level reaction, stop and event risk are verified"
+  },
+  "macro_scores": {
+    "Gold": {
+      "score": 1,
+      "maximum_score": 3,
+      "indicators_available": 3,
+      "indicators_required": 3,
+      "bias": "Mixed macro",
+      "factors": {
+        "DGS10": 1,
+        "DGS2": 1,
+        "T10YIE": -1
+      },
+      "note": "Heuristic macro score, not a trade signal"
+    },
+    "S&P 500": {
+      "score": 2,
+      "maximum_score": 4,
+      "indicators_available": 4,
+      "indicators_required": 4,
+      "bias": "Bullish macro",
+      "factors": {
+        "DGS10": 1,
+        "DGS2": 1,
+        "UNRATE": 1,
+        "VIXCLS": -1
+      },
+      "note": "Heuristic macro score, not a trade signal"
+    },
+    "Nasdaq 100": {
+      "score": 2,
+      "maximum_score": 4,
+      "indicators_available": 4,
+      "indicators_required": 4,
+      "bias": "Bullish macro",
+      "factors": {
+        "DGS10": 1,
+        "DGS2": 1,
+        "UNRATE": 1,
+        "VIXCLS": -1
+      },
+      "note": "Heuristic macro score, not a trade signal"
+    }
   }
 }
