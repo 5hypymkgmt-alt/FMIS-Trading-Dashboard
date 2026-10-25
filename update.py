@@ -109,14 +109,12 @@ def prices(symbol):
 
 
 
+
 def macro(series):
     key = os.getenv('FRED_API_KEY', '')
-
     if not key:
-        return {
-            'status': 'unavailable',
-            'reason': 'FRED_API_KEY not configured'
-        }
+        return {'status': 'unavailable',
+                'reason': 'FRED_API_KEY not configured'}
 
     try:
         j = get_json(
@@ -126,42 +124,53 @@ def macro(series):
                 'api_key': key,
                 'file_type': 'json',
                 'sort_order': 'desc',
-                'limit': 8
+                'limit': 60
             }
         )
 
-        observations = [
+        obs = [
             x for x in j['observations']
             if x['value'] != '.'
         ]
 
-        if not observations:
-            raise ValueError('No numeric observations')
+        if len(obs) < 2:
+            raise ValueError('Insufficient observations')
 
-        latest = observations[0]
+        latest = obs[0]
+        previous = obs[min(5, len(obs) - 1)]
+
+        value = float(latest['value'])
+        previous_value = float(previous['value'])
+        change = value - previous_value
+
         age = (
             TODAY - datetime.date.fromisoformat(latest['date'])
         ).days
 
+        # Monthly data has a longer acceptable age.
+        max_age = 75 if series in (
+            'UNRATE', 'CPIAUCSL'
+        ) else 10
+
         return {
-            'status': (
-                'ok'
-                if age <= CFG['max_macro_age_days']
-                else 'stale'
+            'status': 'ok' if age <= max_age else 'stale',
+            'value': value,
+            'previous_value': previous_value,
+            'change': round(change, 4),
+            'direction': (
+                'rising' if change > 0
+                else 'falling' if change < 0
+                else 'unchanged'
             ),
-            'value': float(latest['value']),
             'observation_date': latest['date'],
+            'comparison_date': previous['date'],
             'age_days': age,
-            'source': (
-                'https://fred.stlouisfed.org/series/' + series
-            ),
-            'caveat': (
-                'Observation date is not publication timestamp; '
-                'revisions possible'
-            )
+            'source': 'https://fred.stlouisfed.org/series/' + series,
+            'caveat': 'Observation dates are not release dates; revisions possible'
         }
 
-    except (ValueError, KeyError, requests.RequestException) as e:
+    except (ValueError, KeyError, TypeError,
+            requests.RequestException) as e:
         return {
             'status': 'unavailable',
             'reason': str(e)
