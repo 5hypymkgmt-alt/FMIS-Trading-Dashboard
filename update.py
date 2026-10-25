@@ -278,9 +278,28 @@ def main():
         try:p=prices(cfg['symbol'])
         except Exception as e:p={'status':'unavailable','reason':str(e)}
         out['markets'][name]={**cfg,'price':p}
+    
     for series in CFG['macro_series']:
-        try:out['macro'][series]=macro(series)
-        out['macro_scores'] = macro_scores(out['macro'])    except Exception as e:out['macro'][series]={'status':'unavailable','reason':str(e)}
+        try:
+            out['macro'][series] = macro(series)
+        except Exception as e:
+            out['macro'][series] = {
+                'status': 'unavailable',
+                'reason': str(e)
+            }
+
+    out['macro_scores'] = macro_scores(out['macro'])
+
+    (ROOT / 'data.json').write_text(
+        json.dumps(out, indent=2)
+    )
+
+    print('Wrote data.json:', out['generated_at_utc'])
+
+
+if __name__ == '__main__':
+    main()
+
     (ROOT/'data.json').write_text(json.dumps(out,indent=2))
     print('Wrote data.json:',out['generated_at_utc'])
 if __name__=='__main__':main()
