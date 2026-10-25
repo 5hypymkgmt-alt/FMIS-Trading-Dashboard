@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T20:44:12.264424+00:00",
+  "generated_at_utc": "2026-10-25T21:05:41.175760+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -148,6 +148,18 @@
       "comparison_date": "2026-09-23",
       "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DFII10",
+      "caveat": "Observation dates are not release dates; revisions possible"
+    },
+    "DTWEXBGS": {
+      "status": "ok",
+      "value": 121.4048,
+      "previous_value": 119.3489,
+      "change": 2.0559,
+      "direction": "rising",
+      "observation_date": "2026-10-16",
+      "comparison_date": "2026-09-17",
+      "age_days": 9,
+      "source": "https://fred.stlouisfed.org/series/DTWEXBGS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "UNRATE": {
