@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T17:22:26.425406+00:00",
+  "generated_at_utc": "2026-10-25T19:50:23.706285+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -22,6 +22,14 @@
         },
         "technical_score": -1,
         "technical_max": 5,
+        "market_structure": {
+          "trend": "Bullish",
+          "last_swing_high": 781.62,
+          "last_swing_low": 758.79,
+          "swing_high_date": "2026-10-06",
+          "swing_low_date": "2026-10-01",
+          "bos": "None"
+        },
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
       }
@@ -47,6 +55,14 @@
         },
         "technical_score": -5,
         "technical_max": 5,
+        "market_structure": {
+          "trend": "Ranging / Mixed",
+          "last_swing_high": 429.42,
+          "last_swing_low": 373.36,
+          "swing_high_date": "2026-08-24",
+          "swing_low_date": "2026-10-14",
+          "bos": "None"
+        },
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
       }
@@ -72,6 +88,14 @@
         },
         "technical_score": -3,
         "technical_max": 5,
+        "market_structure": {
+          "trend": "Ranging / Mixed",
+          "last_swing_high": 762.86,
+          "last_swing_low": 700.0,
+          "swing_high_date": "2026-10-06",
+          "swing_low_date": "2026-09-16",
+          "bos": "None"
+        },
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
       }
