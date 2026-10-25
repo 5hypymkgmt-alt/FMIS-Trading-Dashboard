@@ -181,7 +181,7 @@ def macro(series):
             raise ValueError('Insufficient observations')
 
         latest = obs[0]
-        previous = obs[min(5, len(obs) - 1)]
+        previous = obs[min(20 if series == 'DFII10' else 5, len(obs) - 1)]
 
         value = float(latest['value'])
         previous_value = float(previous['value'])
