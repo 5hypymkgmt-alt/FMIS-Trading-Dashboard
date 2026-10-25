@@ -16,7 +16,17 @@ function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price;let ms
 let technicalRows=Object.entries(core).map(([key,value])=>
   `<div class="row"><span>${safe(factorNames[key]||key)}</span><b class="${value>0?'good':value<0?'bad':'warning'}">${value>0?'+1 Bullish':value<0?'−1 Bearish':'0 Neutral'}</b></div>`
 ).join('');let alignedLong=core.price_vs_ema20===1&&core.ema20_vs_ema50===1&&core.weekly_trend===1;let alignedShort=core.price_vs_ema20===-1&&core.ema20_vs_ema50===-1&&core.weekly_trend===-1;let candidate=p.status==='ok'&&p.technical_score>=4&&alignedLong?'LONG TECHNICAL CANDIDATE':p.status==='ok'&&p.technical_score<=-4&&alignedShort?'SHORT TECHNICAL CANDIDATE':'NO TRADE';
- let structure = p.market_structure || {};                     
+ let structure = p.market_structure || {};
+ let realYield = data.macro?.DFII10 || {};
+                      
+let realYieldRows = n === 'Gold' ? `
+<h2>Gold — Real Yield Analysis</h2>
+<div class="row"><span>US 10-year real yield</span><b>${realYield.status === 'ok' ? fmt(realYield.value) + '%' : 'Unavailable'}</b></div>
+<div class="row"><span>20-observation change</span><b>${realYield.status === 'ok' ? fmt(realYield.change) + ' pp' : 'Unavailable'}</b></div>
+<div class="row"><span>Yield direction</span><b>${realYield.status === 'ok' ? safe(realYield.direction) : 'Unavailable'}</b></div>
+<div class="row"><span>Gold macro implication</span><b>${realYield.status !== 'ok' ? 'Unavailable' : realYield.direction === 'falling' ? 'Supportive' : realYield.direction === 'rising' ? 'Unfavourable' : 'Neutral'}</b></div>
+` : '';
+
 $('detail').innerHTML=`<div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
 <h2>Market Structure</h2>
 <div class="row"><span>Daily structure</span><b>${safe(structure.trend || 'Unavailable')}</b></div>
@@ -25,6 +35,7 @@ $('detail').innerHTML=`<div class="row"><span>Technical score</span><b>${p.statu
 <div class="row"><span>Last swing low</span><b>${fmt(structure.last_swing_low)}</b></div>
 <div class="row"><span>Swing low date</span><b>${safe(structure.swing_low_date || '—')}</b></div>
 <div class="row"><span>Break of structure</span><b>${safe(structure.bos || 'None')}</b></div>
+${realYieldRows}
 <div class="row"><span>Macro score</span><b>${ms ? ms.score+' / '+ms.maximum_score : 'Unavailable'}</b></div><div class="row"><span>Macro outlook</span><b>${ms ? safe(ms.bias) : 'Unavailable'}</b></div><div class="row"><span>Daily close</span><b>${fmt(p.close)}</b></div><div class="row"><span>20 EMA</span><b>${fmt(p.ema20)}</b></div><div class="row"><span>50 EMA</span><b>${fmt(p.ema50)}</b></div><div class="row"><span>RSI (14)</span><b>${fmt(p.rsi14)}</b></div><div class="row"><span>As-of date</span><b>${safe(p.date||'Unavailable')}</b></div><p><span class="badge">${candidate}</span></p><p class="small">Technical score only; final system status: NO TRADE until independent context and risk checks are complete.</p>`;
 
 let sym=encodeURIComponent(m.chart);$('chart').innerHTML=`<iframe title="Daily market chart" src="https://s.tradingview.com/widgetembed/?symbol=${sym}&interval=D&theme=dark&style=1&hidesidetoolbar=1&hideideas=1&locale=en" loading="lazy"></iframe>`;}
