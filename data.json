@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T16:58:50.494540+00:00",
+  "generated_at_utc": "2026-10-25T17:06:59.412011+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -81,50 +81,74 @@
     "DGS10": {
       "status": "ok",
       "value": 4.96,
+      "previous_value": 5.1,
+      "change": -0.14,
+      "direction": "falling",
       "observation_date": "2026-10-22",
+      "comparison_date": "2026-10-15",
       "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DGS10",
-      "caveat": "Observation date is not publication timestamp; revisions possible"
+      "caveat": "Observation dates are not release dates; revisions possible"
     },
     "DGS2": {
       "status": "ok",
       "value": 4.65,
+      "previous_value": 4.77,
+      "change": -0.12,
+      "direction": "falling",
       "observation_date": "2026-10-22",
+      "comparison_date": "2026-10-15",
       "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DGS2",
-      "caveat": "Observation date is not publication timestamp; revisions possible"
+      "caveat": "Observation dates are not release dates; revisions possible"
     },
     "T10YIE": {
       "status": "ok",
       "value": 2.34,
+      "previous_value": 2.35,
+      "change": -0.01,
+      "direction": "falling",
       "observation_date": "2026-10-23",
+      "comparison_date": "2026-10-16",
       "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/T10YIE",
-      "caveat": "Observation date is not publication timestamp; revisions possible"
+      "caveat": "Observation dates are not release dates; revisions possible"
     },
     "UNRATE": {
-      "status": "stale",
+      "status": "ok",
       "value": 4.2,
+      "previous_value": 4.3,
+      "change": -0.1,
+      "direction": "falling",
       "observation_date": "2026-09-01",
+      "comparison_date": "2026-04-01",
       "age_days": 54,
       "source": "https://fred.stlouisfed.org/series/UNRATE",
-      "caveat": "Observation date is not publication timestamp; revisions possible"
+      "caveat": "Observation dates are not release dates; revisions possible"
     },
     "CPIAUCSL": {
-      "status": "stale",
+      "status": "ok",
       "value": 336.298,
+      "previous_value": 332.407,
+      "change": 3.891,
+      "direction": "rising",
       "observation_date": "2026-09-01",
+      "comparison_date": "2026-04-01",
       "age_days": 54,
       "source": "https://fred.stlouisfed.org/series/CPIAUCSL",
-      "caveat": "Observation date is not publication timestamp; revisions possible"
+      "caveat": "Observation dates are not release dates; revisions possible"
     },
     "VIXCLS": {
       "status": "ok",
       "value": 19.03,
+      "previous_value": 16.46,
+      "change": 2.57,
+      "direction": "rising",
       "observation_date": "2026-10-22",
+      "comparison_date": "2026-10-15",
       "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/VIXCLS",
-      "caveat": "Observation date is not publication timestamp; revisions possible"
+      "caveat": "Observation dates are not release dates; revisions possible"
     }
   },
   "positioning": {
