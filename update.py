@@ -300,6 +300,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-    (ROOT/'data.json').write_text(json.dumps(out,indent=2))
-    print('Wrote data.json:',out['generated_at_utc'])
-if __name__=='__main__':main()
+    
