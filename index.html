@@ -29,7 +29,9 @@ if (
   dollarIndex.status === 'ok' &&
   p.status === 'ok' &&
 Number.isFinite(Number(p.technical_score)) &&
-  structure.trend
+  
+['Bullish', 'Bearish', 'Ranging / Mixed'].includes(structure.trend)
+
 ) {
   let technicalPoints = Number(p.technical_score) * 5;
 
