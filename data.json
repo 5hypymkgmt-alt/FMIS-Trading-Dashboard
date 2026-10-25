@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T15:25:40.750280+00:00",
+  "generated_at_utc": "2026-10-25T16:23:39.879772+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -29,7 +29,7 @@
     "Gold": {
       "symbol": "GLD",
       "chart": "OANDA:XAUUSD",
-      "note": "GLD ETF price proxy; chart is spot gold, different instruments",
+      "note": "GLD ETF proxy; not spot gold",
       "price": {
         "status": "ok",
         "date": "2026-10-23",
@@ -77,12 +77,12 @@
       }
     },
     "FTSE 100": {
-      "symbol": "ISF.L",
+      "symbol": "ISF",
       "chart": "TVC:UKX",
-      "note": "London ETF proxy; not the UKX index",
+      "note": "iShares Core FTSE 100 ETF, LSE, quoted in GBp; not the FTSE 100 index",
       "price": {
         "status": "unavailable",
-        "reason": "404 Client Error: Not Found for url: https://api.twelvedata.com/time_series?symbol=ISF.L&interval=1day&outputsize=260&apikey=46d990f1633043358efa57fc79f3f312&format=JSON"
+        "reason": "404 Client Error: Not Found for url: https://api.twelvedata.com/time_series?symbol=ISF&interval=1day&outputsize=260&apikey=46d990f1633043358efa57fc79f3f312&format=JSON"
       }
     }
   },
