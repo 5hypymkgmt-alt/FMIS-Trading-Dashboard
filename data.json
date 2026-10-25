@@ -1,0 +1,83 @@
+{
+  "generated_at_utc": "2026-10-24T19:14:50.089032+00:00",
+  "markets": {
+    "S&P 500": {
+      "symbol": "SPY",
+      "chart": "AMEX:SPY",
+      "note": "US ETF proxy; not the SPX index or US500 CFD",
+      "price": {
+        "status": "unavailable",
+        "reason": "PRICE_API_KEY not configured; no automated price feed"
+      }
+    },
+    "Gold": {
+      "symbol": "GLD",
+      "chart": "OANDA:XAUUSD",
+      "note": "GLD ETF price proxy; chart is spot gold, different instruments",
+      "price": {
+        "status": "unavailable",
+        "reason": "PRICE_API_KEY not configured; no automated price feed"
+      }
+    },
+    "Nasdaq 100": {
+      "symbol": "QQQ",
+      "chart": "NASDAQ:QQQ",
+      "note": "US ETF proxy; not the NDX index",
+      "price": {
+        "status": "unavailable",
+        "reason": "PRICE_API_KEY not configured; no automated price feed"
+      }
+    },
+    "FTSE 100": {
+      "symbol": "ISF.L",
+      "chart": "TVC:UKX",
+      "note": "London ETF proxy; not the UKX index",
+      "price": {
+        "status": "unavailable",
+        "reason": "PRICE_API_KEY not configured; no automated price feed"
+      }
+    }
+  },
+  "macro": {
+    "DGS10": {
+      "status": "unavailable",
+      "reason": "FRED_API_KEY not configured"
+    },
+    "DGS2": {
+      "status": "unavailable",
+      "reason": "FRED_API_KEY not configured"
+    },
+    "T10YIE": {
+      "status": "unavailable",
+      "reason": "FRED_API_KEY not configured"
+    },
+    "UNRATE": {
+      "status": "unavailable",
+      "reason": "FRED_API_KEY not configured"
+    },
+    "CPIAUCSL": {
+      "status": "unavailable",
+      "reason": "FRED_API_KEY not configured"
+    },
+    "VIXCLS": {
+      "status": "unavailable",
+      "reason": "FRED_API_KEY not configured"
+    }
+  },
+  "positioning": {
+    "status": "manual",
+    "source": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
+    "note": "Weekly Tuesday positions typically published Friday. No automatic contract mapping configured."
+  },
+  "sentiment": {
+    "status": "unavailable",
+    "note": "No verified free retail sentiment feed connected. Do not infer sentiment from price."
+  },
+  "rules": {
+    "minimum_rr": 2,
+    "max_risk_percent": 1,
+    "long_technical": "all core trend gates + technical score >= 4/5",
+    "short_technical": "all core trend gates + technical score <= -4/5",
+    "final": "NO TRADE until macro, positioning, sentiment, level reaction, stop and event risk are verified"
+  }
+}

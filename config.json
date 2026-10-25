@@ -1,0 +1,11 @@
+{
+  "markets": {
+    "S&P 500": {"symbol":"SPY", "chart":"AMEX:SPY", "note":"US ETF proxy; not the SPX index or US500 CFD"},
+    "Gold": {"symbol":"GLD", "chart":"OANDA:XAUUSD", "note":"GLD ETF price proxy; chart is spot gold, different instruments"},
+    "Nasdaq 100": {"symbol":"QQQ", "chart":"NASDAQ:QQQ", "note":"US ETF proxy; not the NDX index"},
+    "FTSE 100": {"symbol":"ISF.L", "chart":"TVC:UKX", "note":"London ETF proxy; not the UKX index"}
+  },
+  "macro_series": ["DGS10","DGS2","T10YIE","UNRATE","CPIAUCSL","VIXCLS"],
+  "max_price_age_days": 5,
+  "max_macro_age_days": 45
+}

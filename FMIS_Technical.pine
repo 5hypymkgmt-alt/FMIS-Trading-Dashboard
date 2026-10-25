@@ -1,0 +1,30 @@
+//@version=6
+indicator("FMIS Daily Technical Filter", overlay=true)
+// Use on DAILY chart; completed prior weekly bar avoids lookahead.
+fast=ta.ema(close,20)
+slow=ta.ema(close,50)
+wClose=request.security(syminfo.tickerid,"W",close[1],lookahead=barmerge.lookahead_on)
+wEMA=request.security(syminfo.tickerid,"W",ta.ema(close,20)[1],lookahead=barmerge.lookahead_on)
+priceScore=close>fast?1:close<fast?-1:0
+trendScore=fast>slow?1:fast<slow?-1:0
+weekScore=wClose>wEMA?1:wClose<wEMA?-1:0
+momentumScore=close>close[5]?1:close<close[5]?-1:0
+r=ta.rsi(close,14)
+rsiScore=r>55?1:r<45?-1:0
+score=priceScore+trendScore+weekScore+momentumScore+rsiScore
+longCandidate=barstate.isconfirmed and timeframe.isdaily and score>=4 and priceScore==1 and trendScore==1 and weekScore==1
+shortCandidate=barstate.isconfirmed and timeframe.isdaily and score<=-4 and priceScore==-1 and trendScore==-1 and weekScore==-1
+plot(fast,"EMA 20",color=color.aqua,linewidth=2)
+plot(slow,"EMA 50",color=color.orange,linewidth=2)
+plotshape(longCandidate,title="Long candidate",text="FMIS L",style=shape.labelup,location=location.belowbar,color=color.green,textcolor=color.white,size=size.tiny)
+plotshape(shortCandidate,title="Short candidate",text="FMIS S",style=shape.labeldown,location=location.abovebar,color=color.red,textcolor=color.white,size=size.tiny)
+alertcondition(longCandidate,"FMIS long technical candidate","FMIS technical LONG candidate on {{ticker}}; confirm macro, COT, sentiment, level, stop and 2R")
+alertcondition(shortCandidate,"FMIS short technical candidate","FMIS technical SHORT candidate on {{ticker}}; confirm macro, COT, sentiment, level, stop and 2R")
+var table t=table.new(position.top_right,2,3,border_width=1)
+if barstate.islast
+    table.cell(t,0,0,"Technical score")
+    table.cell(t,1,0,str.tostring(score)+" / 5")
+    table.cell(t,0,1,"Weekly")
+    table.cell(t,1,1,weekScore==1?"Bullish":weekScore==-1?"Bearish":"Neutral")
+    table.cell(t,0,2,"Final trade gate")
+    table.cell(t,1,2,"MANUAL REVIEW")
