@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-25T20:36:15.832021+00:00",
+  "generated_at_utc": "2026-10-25T20:44:12.264424+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -141,11 +141,11 @@
     "DFII10": {
       "status": "ok",
       "value": 2.64,
-      "previous_value": 2.78,
-      "change": -0.14,
+      "previous_value": 2.76,
+      "change": -0.12,
       "direction": "falling",
       "observation_date": "2026-10-22",
-      "comparison_date": "2026-10-15",
+      "comparison_date": "2026-09-23",
       "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DFII10",
       "caveat": "Observation dates are not release dates; revisions possible"
