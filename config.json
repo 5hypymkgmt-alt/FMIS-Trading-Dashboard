@@ -1,10 +1,35 @@
+
 {
   "markets": {
-    "S&P 500": {"symbol":"SPY", "chart":"AMEX:SPY", "note":"US ETF proxy; not the SPX index or US500 CFD"},
-    "Gold": {"symbol":"GLD", "chart":"OANDA:XAUUSD", "note":"GLD ETF price proxy; chart is spot gold, different instruments"},
-    "Nasdaq 100": {"symbol":"QQQ", "chart":"NASDAQ:QQQ", "note":"US ETF proxy; not the NDX index"},
-    "FTSE 100": {"symbol":"ISF", "chart":"TVC:UKX", "note":"iShares Core FTSE 100 ETF, LSE, quoted in GBp; not the FTSE 100 index"}
-  "macro_series": ["DGS10","DGS2","T10YIE","UNRATE","CPIAUCSL","VIXCLS"],
+    "S&P 500": {
+      "symbol": "SPY",
+      "chart": "AMEX:SPY",
+      "note": "US ETF proxy; not the SPX index or US500 CFD"
+    },
+    "Gold": {
+      "symbol": "GLD",
+      "chart": "OANDA:XAUUSD",
+      "note": "GLD ETF proxy; not spot gold"
+    },
+    "Nasdaq 100": {
+      "symbol": "QQQ",
+      "chart": "NASDAQ:QQQ",
+      "note": "US ETF proxy; not the NDX index"
+    },
+    "FTSE 100": {
+      "symbol": "ISF",
+      "chart": "TVC:UKX",
+      "note": "iShares Core FTSE 100 ETF, LSE, quoted in GBp; not the FTSE 100 index"
+    }
+  },
+  "macro_series": [
+    "DGS10",
+    "DGS2",
+    "T10YIE",
+    "UNRATE",
+    "CPIAUCSL",
+    "VIXCLS"
+  ],
   "max_price_age_days": 5,
   "max_macro_age_days": 45
 }
