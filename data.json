@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-26T21:01:25.359708+00:00",
+  "generated_at_utc": "2026-10-26T21:35:11.338024+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -51,9 +51,9 @@
       "previous_value": 2.35,
       "change": -0.01,
       "direction": "falling",
-      "observation_date": "2026-10-23",
-      "comparison_date": "2026-10-16",
-      "age_days": 3,
+      "observation_date": "2026-10-26",
+      "comparison_date": "2026-10-19",
+      "age_days": 0,
       "source": "https://fred.stlouisfed.org/series/T10YIE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
