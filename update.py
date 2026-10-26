@@ -176,7 +176,8 @@ def prices(symbol):
             'format': 'JSON'
         }
     )
-
+if 'values' not in j:
+    print(f"Twelve Data error for {symbol}: {j.get('message', 'Unknown error')}")
     if j.get('status') == 'error' or 'values' not in j:
         print(f"Twelve Data error for {symbol}: {j.get('message', j.get('status', 'Unknown error'))}")
         return {
