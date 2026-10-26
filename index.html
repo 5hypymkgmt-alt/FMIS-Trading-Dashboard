@@ -85,7 +85,7 @@ let confidenceText = overallIndexScore === null
 </div>
 
 <div style="background:#374151;height:12px;border-radius:6px;overflow:hidden;margin-top:8px;">
-  <div style="width:${overallGoldScore === null ? 0 : Math.min(100, Math.abs(overallGoldScore))}%;height:100%;background:${biasColor};border-radius:6px;"></div>
+  <div style="width:${overallIndexScore === null ? 0 : Math.min(100, Math.abs(overallIndexScore))}%;height:100%;background:${biasColor};border-radius:6px;"></div>
 </div>
 
 
@@ -180,6 +180,11 @@ let confidenceText = overallGoldScore === null
   <span>Market confidence</span>
   <b style="color:${biasColor}">${confidenceText}</b>
 </div>
+
+<div style="background:#374151;height:12px;border-radius:6px;overflow:hidden;margin-top:8px;">
+  <div style="width:${overallGoldScore === null ? 0 : Math.min(100, Math.abs(overallGoldScore))}%;height:100%;background:${biasColor};border-radius:6px;"></div>
+</div>
+
 
   `;
 }
