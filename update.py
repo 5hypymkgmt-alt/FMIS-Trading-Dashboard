@@ -220,10 +220,13 @@ def prices(symbol):
             'feed': 'Twelve Data daily API; plan/exchange delays may apply'
         }
 
-    except (ValueError, KeyError, IndexError, TypeError) as e:
-        return {
-            'status': 'unavailable',
-            'reason': str(e)
+    
+        except (ValueError, KeyError, IndexError, TypeError) as e:
+            return {
+                'status': 'unavailable',
+                'reason': str(e)
+            }
+
         }
 
 
