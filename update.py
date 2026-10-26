@@ -178,11 +178,13 @@ def prices(symbol):
             structure = market_structure(high, low, close, dates)
 
 
+            
             groups = {}
             for d, c in zip(dates, close):
-            dt = datetime.date.fromisoformat(d)
-            week = (dt.isocalendar().year, dt.isocalendar().week)
-            groups[week] = c
+                dt = datetime.date.fromisoformat(d)
+                week = (dt.isocalendar().year, dt.isocalendar().week)
+                groups[week] = c
+
 
             w = list(groups.values())[:-1]
 
