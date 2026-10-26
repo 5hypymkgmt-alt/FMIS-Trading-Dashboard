@@ -22,6 +22,77 @@ def rsi(closes,n=14):
         g=(g*(n-1)+gains[i])/n;l=(l*(n-1)+losses[i])/n
     return 100 if l==0 else 100-100/(1+g/l)
 
+def backtest_trades(open_prices, high, low, close, signals,
+                    hold_days=5, reward_risk=1.5,
+                    atr_period=14):
+    """
+    Test historical long (+1) and short (-1) signals.
+    Enter at the next day's open.
+    Stop distance = previous day's ATR.
+    """
+    results = []
+
+    for i in range(atr_period, len(close) - hold_days):
+        direction = signals[i]
+
+        if direction not in (1, -1):
+            continue
+
+        # ATR uses information available at signal close.
+        tr = []
+        for j in range(i - atr_period + 1, i + 1):
+            tr.append(max(
+                high[j] - low[j],
+                abs(high[j] - close[j - 1]),
+                abs(low[j] - close[j - 1])
+            ))
+
+        risk = sum(tr) / atr_period
+        if risk <= 0:
+            continue
+
+        entry = open_prices[i + 1]
+        stop = entry - direction * risk
+        target = entry + direction * risk * reward_risk
+
+        outcome = "expired"
+
+        for j in range(i + 1, i + hold_days + 1):
+            stop_hit = (
+                low[j] <= stop if direction == 1
+                else high[j] >= stop
+            )
+            target_hit = (
+                high[j] >= target if direction == 1
+                else low[j] <= target
+            )
+
+            # Conservative when both levels are hit.
+            if stop_hit:
+                outcome = "loss"
+                break
+            if target_hit:
+                outcome = "win"
+                break
+
+        results.append(outcome)
+
+    wins = results.count("win")
+    losses = results.count("loss")
+    expired = results.count("expired")
+    total = len(results)
+
+    return {
+        "trades": total,
+        "wins": wins,
+        "losses": losses,
+        "expired": expired,
+        "win_rate_pct": round(100 * wins / total, 1)
+                        if total else None
+    }
+
+
+
 def market_structure(high, low, close, dates, strength=5):
     swing_highs = []
     swing_lows = []
