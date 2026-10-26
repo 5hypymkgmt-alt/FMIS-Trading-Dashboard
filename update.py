@@ -184,7 +184,7 @@ def prices(symbol):
             'status': 'unavailable',
             'reason': j.get('message', 'No price history returned')
         }
-        }
+        
 
     
         vals = sorted(j['values'], key=lambda x: x['datetime'])
