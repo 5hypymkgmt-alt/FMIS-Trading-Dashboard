@@ -426,12 +426,12 @@ def main():
          'rules':{'minimum_rr':2,'max_risk_percent':1,'long_technical':'all core trend gates + technical score >= 4/5',
                   'short_technical':'all core trend gates + technical score <= -4/5',
                   'final':'NO TRADE until macro, positioning, sentiment, level reaction, stop and event risk are verified'}}
-            for name, cfg in CFG['markets'].items():
-        print(f"Processing market: {name}, symbol: {cfg['symbol']}")
-        try:
-            p = prices(cfg['symbol'])
-        except Exception as e:
-            p = {'status': 'unavailable', 'reason': str(e)}
+    for name, cfg in CFG['markets'].items():
+                print(f"Processing market: {name}, symbol: {cfg['symbol']}")
+                try:
+                        p = prices(cfg['symbol'])
+                except Exception as e:
+                        p = {'status': 'unavailable', 'reason': str(e)}
         out['markets'][name] = {**cfg, 'price': p}
     
     for series in CFG['macro_series']:
