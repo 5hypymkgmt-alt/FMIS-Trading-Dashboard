@@ -1,128 +1,47 @@
 {
-  "generated_at_utc": "2026-10-26T18:15:33.499828+00:00",
+  "generated_at_utc": "2026-10-26T20:49:27.425638+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
       "chart": "AMEX:SPY",
       "note": "SPY ETF proxy for S&P 500",
-      "price": {
-        "status": "ok",
-        "date": "2026-10-26",
-        "age_days": 0,
-        "close": 765.625,
-        "ema20": 768.522,
-        "ema50": 765.822,
-        "rsi14": 47.55,
-        "factors": {
-          "price_vs_ema20": -1,
-          "ema20_vs_ema50": 1,
-          "weekly_trend": 1,
-          "momentum_5d": -1,
-          "rsi_14": 0
-        },
-        "technical_score": 0,
-        "technical_max": 5,
-        "market_structure": {
-          "trend": "Bullish",
-          "last_swing_high": 781.62,
-          "last_swing_low": 758.79,
-          "swing_high_date": "2026-10-06",
-          "swing_low_date": "2026-10-01",
-          "bos": "None"
-        },
-        "source": "https://twelvedata.com/",
-        "feed": "Twelve Data daily API; plan/exchange delays may apply"
-      }
+      "price": null
     },
     "Gold": {
       "symbol": "GLD",
       "chart": "OANDA:XAUUSD",
       "note": "GLD ETF proxy for XAU/USD spot gold",
-      "price": {
-        "status": "ok",
-        "date": "2026-10-26",
-        "age_days": 0,
-        "close": 368.44,
-        "ema20": 379.228,
-        "ema50": 386.524,
-        "rsi14": 36.39,
-        "factors": {
-          "price_vs_ema20": -1,
-          "ema20_vs_ema50": -1,
-          "weekly_trend": -1,
-          "momentum_5d": -1,
-          "rsi_14": -1
-        },
-        "technical_score": -5,
-        "technical_max": 5,
-        "market_structure": {
-          "trend": "Ranging / Mixed",
-          "last_swing_high": 429.42,
-          "last_swing_low": 373.36,
-          "swing_high_date": "2026-08-24",
-          "swing_low_date": "2026-10-14",
-          "bos": "None"
-        },
-        "source": "https://twelvedata.com/",
-        "feed": "Twelve Data daily API; plan/exchange delays may apply"
-      }
+      "price": null
     },
     "Nasdaq 100": {
       "symbol": "QQQ",
       "chart": "NASDAQ:QQQ",
       "note": "QQQ ETF proxy for Nasdaq 100",
-      "price": {
-        "status": "ok",
-        "date": "2026-10-26",
-        "age_days": 0,
-        "close": 713.765,
-        "ema20": 725.838,
-        "ema50": 724.901,
-        "rsi14": 42.68,
-        "factors": {
-          "price_vs_ema20": -1,
-          "ema20_vs_ema50": 1,
-          "weekly_trend": -1,
-          "momentum_5d": -1,
-          "rsi_14": -1
-        },
-        "technical_score": -3,
-        "technical_max": 5,
-        "market_structure": {
-          "trend": "Ranging / Mixed",
-          "last_swing_high": 762.86,
-          "last_swing_low": 700.0,
-          "swing_high_date": "2026-10-06",
-          "swing_low_date": "2026-09-16",
-          "bos": "None"
-        },
-        "source": "https://twelvedata.com/",
-        "feed": "Twelve Data daily API; plan/exchange delays may apply"
-      }
+      "price": null
     }
   },
   "macro": {
     "DGS10": {
       "status": "ok",
-      "value": 4.96,
-      "previous_value": 5.1,
-      "change": -0.14,
+      "value": 5.0,
+      "previous_value": 5.09,
+      "change": -0.09,
       "direction": "falling",
-      "observation_date": "2026-10-22",
-      "comparison_date": "2026-10-15",
-      "age_days": 4,
+      "observation_date": "2026-10-23",
+      "comparison_date": "2026-10-16",
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DGS10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "DGS2": {
       "status": "ok",
-      "value": 4.65,
-      "previous_value": 4.77,
-      "change": -0.12,
+      "value": 4.69,
+      "previous_value": 4.74,
+      "change": -0.05,
       "direction": "falling",
-      "observation_date": "2026-10-22",
-      "comparison_date": "2026-10-15",
-      "age_days": 4,
+      "observation_date": "2026-10-23",
+      "comparison_date": "2026-10-16",
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DGS2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -140,25 +59,25 @@
     },
     "DFII10": {
       "status": "ok",
-      "value": 2.64,
-      "previous_value": 2.76,
-      "change": -0.12,
+      "value": 2.66,
+      "previous_value": 2.85,
+      "change": -0.19,
       "direction": "falling",
-      "observation_date": "2026-10-22",
-      "comparison_date": "2026-09-23",
-      "age_days": 4,
+      "observation_date": "2026-10-23",
+      "comparison_date": "2026-09-24",
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DFII10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "DTWEXBGS": {
       "status": "ok",
-      "value": 121.4048,
-      "previous_value": 119.3489,
-      "change": 2.0559,
+      "value": 121.3202,
+      "previous_value": 120.5521,
+      "change": 0.7681,
       "direction": "rising",
-      "observation_date": "2026-10-16",
-      "comparison_date": "2026-09-17",
-      "age_days": 10,
+      "observation_date": "2026-10-23",
+      "comparison_date": "2026-09-24",
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DTWEXBGS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
