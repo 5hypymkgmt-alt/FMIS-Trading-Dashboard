@@ -178,31 +178,31 @@ def prices(symbol):
             structure = market_structure(high, low, close, dates)
 
 
-        groups = {}
-        for d, c in zip(dates, close):
+            groups = {}
+            for d, c in zip(dates, close):
             dt = datetime.date.fromisoformat(d)
             week = (dt.isocalendar().year, dt.isocalendar().week)
             groups[week] = c
 
-        w = list(groups.values())[:-1]
+            w = list(groups.values())[:-1]
 
-        if len(w) < 21:
-            raise ValueError('At least 21 completed weekly bars required')
+            if len(w) < 21:
+                raise ValueError('At least 21 completed weekly bars required')
 
-        ew = ema(w, 20)
-        current_rsi = rsi(close)
+            ew = ema(w, 20)
+            current_rsi = rsi(close)
 
-        factors = {
+            factors = {
             'price_vs_ema20': 1 if last > e20 else -1 if last < e20 else 0,
             'ema20_vs_ema50': 1 if e20 > e50 else -1 if e20 < e50 else 0,
             'weekly_trend': 1 if w[-1] > ew else -1 if w[-1] < ew else 0,
             'momentum_5d': 1 if last > close[-6] else -1 if last < close[-6] else 0,
             'rsi_14': 1 if current_rsi > 55 else -1 if current_rsi < 45 else 0
-        }
+            }
 
-        age = (TODAY - datetime.date.fromisoformat(dates[-1])).days
+            age = (TODAY - datetime.date.fromisoformat(dates[-1])).days
 
-        return {
+            return {
             'status': 'ok' if age <= CFG['max_price_age_days'] else 'stale',
             'date': dates[-1],
             'age_days': age,
