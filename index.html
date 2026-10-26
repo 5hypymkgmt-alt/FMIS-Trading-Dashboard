@@ -152,6 +152,10 @@ if (n === 'Gold') {
     ? 'Unavailable'
     : (overallGoldScore > 0 ? '+' : '') + overallGoldScore + ' / 100';
 
+let confidenceText = overallGoldScore === null
+  ? 'Unavailable'
+  : Math.min(100, Math.abs(overallGoldScore)).toFixed(0) + '%';
+
   overallGoldDisplay = `
     <h2>Overall FMIS Gold Score</h2>
     <div class="row">
@@ -162,6 +166,11 @@ if (n === 'Gold') {
       <span>Combined score</span>
       <b style="color:${biasColor}">${scoreText}</b>
     </div>
+<div class="row">
+  <span>Market confidence</span>
+  <b style="color:${biasColor}">${confidenceText}</b>
+</div>
+
   `;
 }
 
