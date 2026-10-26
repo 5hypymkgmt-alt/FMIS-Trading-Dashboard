@@ -178,6 +178,7 @@ def prices(symbol):
     )
 
     if j.get('status') == 'error' or 'values' not in j:
+        print(f"Twelve Data error for {symbol}: {j.get('message', j.get('status', 'Unknown error'))}")
         return {
             'status': 'unavailable',
             'reason': j.get('message', 'No price history returned')
