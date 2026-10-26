@@ -91,10 +91,13 @@ def prices(symbol):
     vals = sorted(j['values'], key=lambda x: x['datetime'])
 
     try:
-        dates = [x['datetime'][:10] for x in vals]
-        close = [float(x['close']) for x in vals]
-        high = [float(x['high']) for x in vals]
-        low = [float(x['low']) for x in vals]
+        
+dates = [x['datetime'][:10] for x in vals]
+open_prices = [float(x['open']) for x in vals]
+close = [float(x['close']) for x in vals]
+high = [float(x['high']) for x in vals]
+low = [float(x['low']) for x in vals]
+
 
         if len(close) < 210:
             raise ValueError('At least 210 daily bars required')
