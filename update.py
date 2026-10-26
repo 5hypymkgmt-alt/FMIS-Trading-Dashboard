@@ -159,24 +159,24 @@ def prices(symbol):
             'reason': j.get('message', 'No price history returned')
         }
 
-    vals = sorted(j['values'], key=lambda x: x['datetime'])
+    
+        vals = sorted(j['values'], key=lambda x: x['datetime'])
 
-    try:
-        
-       dates = [x['datetime'][:10] for x in vals]
-       open_prices = [float(x['open']) for x in vals]
-       close = [float(x['close']) for x in vals]
-       high = [float(x['high']) for x in vals]
-       low = [float(x['low']) for x in vals]
+        try:
+            dates = [x['datetime'][:10] for x in vals]
+            open_prices = [float(x['open']) for x in vals]
+            close = [float(x['close']) for x in vals]
+            high = [float(x['high']) for x in vals]
+            low = [float(x['low']) for x in vals]
 
+            if len(close) < 210:
+                raise ValueError('At least 210 daily bars required')
 
-               if len(close) < 210:
-            raise ValueError('At least 210 daily bars required')
+            last = close[-1]
+            e20 = ema(close, 20)
+            e50 = ema(close, 50)
+            structure = market_structure(high, low, close, dates)
 
-        last = close[-1]
-        e20 = ema(close, 20)
-        e50 = ema(close, 50)
-        structure = market_structure(high, low, close, dates)
 
         groups = {}
         for d, c in zip(dates, close):
