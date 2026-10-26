@@ -227,7 +227,7 @@ def prices(symbol):
                 'reason': str(e)
             }
 
-        }
+        
 
 
 
