@@ -170,7 +170,7 @@ def prices(symbol):
        low = [float(x['low']) for x in vals]
 
 
-        if len(close) < 210:
+               if len(close) < 210:
             raise ValueError('At least 210 daily bars required')
 
         last = close[-1]
