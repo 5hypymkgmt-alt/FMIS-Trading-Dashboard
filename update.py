@@ -203,6 +203,19 @@ def prices(symbol):
             e20 = ema(close, 20)
             e50 = ema(close, 50)
             structure = market_structure(high, low, close, dates)
+            recent_structure = []
+            for i in range(max(0, len(close) - 20), len(close)):
+                historical = market_structure(
+                    high[:i + 1],
+                    low[:i + 1],
+                    close[:i + 1],
+                    dates[:i + 1]
+                )
+                recent_structure.append({
+                'date': dates[i],
+                'bos': historical.get('bos', 'None'),
+                'choch': historical.get('choch', 'None')
+                })
 
 
             
@@ -243,6 +256,7 @@ def prices(symbol):
             'technical_score': sum(factors.values()),
             'technical_max': len(factors),
             'market_structure': structure,
+            'recent_structure': recent_structure,
             'source': 'https://twelvedata.com/',
             'feed': 'Twelve Data daily API; plan/exchange delays may apply'
         }
