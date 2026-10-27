@@ -248,7 +248,7 @@ def prices(symbol):
         }
 
     
-        except (ValueError, KeyError, IndexError, TypeError) as e:
+    except (ValueError, KeyError, IndexError, TypeError) as e:
             return {
                 'status': 'unavailable',
                 'reason': str(e)
