@@ -4,9 +4,9 @@
 let data=null;const $=id=>document.getElementById(id);const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function fmt(n){return typeof n==='number'?n.toLocaleString(undefined,{maximumFractionDigits:3}):'—'}
 function render(){let names=Object.keys(data.markets);$('status').textContent='Last pipeline run (UTC): '+(data.generated_at_utc||'unknown')+' • Feeds can be delayed or unavailable. No fabricated values.';
-$('markets').innerHTML=names.map(n=>{let p=data.markets[n].price || {status:'unavailable',factors:{},market_structure:{}};return `<div class="card"><div class="metric">${safe(n)}</div><div class="big">${p.status==='ok'||p.status==='stale'?fmt(p.close):'No data'}</div><span class="badge ${p.status==='ok'?'good':'warning'}">${safe(p.status)}</span><p class="small">${safe(p.date||p.reason||'')}</p><p class="small">${safe(data.markets[n].note)}</p></div>`}).join('');$('market').innerHTML=names.map(n=>`<option>${safe(n)}</option>`).join('');$('market').onchange=showMarket;showMarket();
+$('markets').innerHTML=names.map(n=>{let p=data.markets[n].price || {status:'unavailable',factors:{}};return `<div class="card"><div class="metric">${safe(n)}</div><div class="big">${p.status==='ok'||p.status==='stale'?fmt(p.close):'No data'}</div><span class="badge ${p.status==='ok'?'good':'warning'}">${safe(p.status)}</span><p class="small">${safe(p.date||p.reason||'')}</p><p class="small">${safe(data.markets[n].note)}</p></div>`}).join('');$('market').innerHTML=names.map(n=>`<option>${safe(n)}</option>`).join('');$('market').onchange=showMarket;showMarket();
 $('macro').innerHTML=Object.entries(data.macro).map(([k,v])=>`<div class="row"><span><a href="${safe(v.source||'https://fred.stlouisfed.org/')}" target="_blank" rel="noreferrer">${safe(k)}</a></span><b>${v.status==='ok'||v.status==='stale'?fmt(v.value):'Unavailable'}</b></div><p class="small">${safe(v.observation_date||v.reason||'')} • ${safe(v.status)}</p>`).join('');$('sentiment').innerHTML=`<p><b>CFTC positioning:</b> ${safe(data.positioning.status)} — ${safe(data.positioning.note)}</p><p><b>Retail sentiment:</b> ${safe(data.sentiment.status)} — ${safe(data.sentiment.note)}</p><p class="small">These factors are deliberately excluded from automated conviction scores until a validated data source and market-specific mapping exist.</p>`}
-function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{},market_structure:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
+function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
   price_vs_ema20:'Price vs 20 EMA',
   ema20_vs_ema50:'20 EMA vs 50 EMA',
   weekly_trend:'Weekly trend',
@@ -16,7 +16,7 @@ function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {st
 let technicalRows=Object.entries(core).map(([key,value])=>
   `<div class="row"><span>${safe(factorNames[key]||key)}</span><b class="${value>0?'good':value<0?'bad':'warning'}">${value>0?'+1 Bullish':value<0?'−1 Bearish':'0 Neutral'}</b></div>`
 ).join('');let alignedLong=core.price_vs_ema20===1&&core.ema20_vs_ema50===1&&core.weekly_trend===1;let alignedShort=core.price_vs_ema20===-1&&core.ema20_vs_ema50===-1&&core.weekly_trend===-1;let candidate=p.status==='ok'&&p.technical_score>=4&&alignedLong?'LONG TECHNICAL CANDIDATE':p.status==='ok'&&p.technical_score<=-4&&alignedShort?'SHORT TECHNICAL CANDIDATE':'NO TRADE';
- let structure = p.market_structure || {};
+
  let realYield = data.macro?.DFII10 || {};
  let dollarIndex = data.macro?.DTWEXBGS || {};
                       
@@ -30,15 +30,11 @@ if (
   (n === 'S&P 500' || n === 'Nasdaq 100') &&
   p.status === 'ok' &&
   Number.isFinite(Number(p.technical_score)) &&
-  ['Bullish', 'Bearish', 'Ranging / Mixed'].includes(structure.trend) &&
+
   treasuryYield.status === 'ok' &&
   vixIndex.status === 'ok'
 ) {
   let technicalPoints = Number(p.technical_score) * 5;
-
-  let trend = structure.trend.toLowerCase();
-  let structurePoints = trend === 'bullish' ? 25 :
-                        trend === 'bearish' ? -25 : 0;
 
   let yieldPoints = treasuryYield.direction === 'falling' ? 25 :
                     treasuryYield.direction === 'rising' ? -25 : 0;
@@ -46,8 +42,7 @@ if (
   let vixPoints = vixIndex.direction === 'falling' ? 25 :
                   vixIndex.direction === 'rising' ? -25 : 0;
 
-  overallIndexScore = technicalPoints + structurePoints +
-                      yieldPoints + vixPoints;
+  overallIndexScore = technicalPoints + yieldPoints + vixPoints;
 
   overallIndexBias = overallIndexScore >= 25 ? 'Bullish' :
                      overallIndexScore <= -25 ? 'Bearish' : 'Neutral';
@@ -61,11 +56,11 @@ if (n === 'S&P 500' || n === 'Nasdaq 100') {
 
   let scoreText = overallIndexScore === null
     ? 'Unavailable'
-    : (overallIndexScore > 0 ? '+' : '') + overallIndexScore + ' / 100';
+    : (overallIndexScore > 0 ? '+' : '') + overallIndexScore + ' / 75';
 
 let confidenceText = overallIndexScore === null
   ? 'Unavailable'
-  : Math.min(100, Math.abs(overallIndexScore)).toFixed(0) + '%';
+  : Math.min(100, Math.abs(overallIndexScore) / 75 * 100).toFixed(0) + '%';
 
   overallIndexDisplay = `
     <h2>Overall FMIS ${n} Score</h2>
@@ -83,7 +78,7 @@ let confidenceText = overallIndexScore === null
 </div>
 
 <div style="background:#374151;height:12px;border-radius:6px;overflow:hidden;margin-top:8px;">
-  <div style="width:${overallIndexScore === null ? 0 : Math.min(100, Math.abs(overallIndexScore))}%;height:100%;background:${biasColor};border-radius:6px;"></div>
+  <div style="width:${overallIndexScore === null ? 0 : Math.min(100, Math.abs(overallIndexScore) / 75 * 100)}%;height:100%;background:${biasColor};border-radius:6px;"></div>
 </div>
 
 
@@ -107,16 +102,10 @@ if (
   realYield.status === 'ok' &&
   dollarIndex.status === 'ok' &&
   p.status === 'ok' &&
-Number.isFinite(Number(p.technical_score)) &&
-  
-['Bullish', 'Bearish', 'Ranging / Mixed'].includes(structure.trend)
+Number.isFinite(Number(p.technical_score))
 
 ) {
   let technicalPoints = Number(p.technical_score) * 5;
-
-  let trend = String(structure.trend).toLowerCase();
-  let structurePoints = trend === 'bullish' ? 25 :
-                        trend === 'bearish' ? -25 : 0;
 
   let yieldPoints = realYield.direction === 'falling' ? 25 :
                     realYield.direction === 'rising' ? -25 : 0;
@@ -124,8 +113,7 @@ Number.isFinite(Number(p.technical_score)) &&
   let dollarPoints = dollarIndex.direction === 'falling' ? 25 :
                      dollarIndex.direction === 'rising' ? -25 : 0;
 
-  overallGoldScore = technicalPoints + structurePoints +
-                     yieldPoints + dollarPoints;
+  overallGoldScore = technicalPoints + yieldPoints + dollarPoints;
 
   overallGoldBias = overallGoldScore >= 25 ? 'Bullish' :
                     overallGoldScore <= -25 ? 'Bearish' : 'Neutral';
@@ -158,11 +146,11 @@ if (n === 'Gold') {
 
   let scoreText = overallGoldScore === null
     ? 'Unavailable'
-    : (overallGoldScore > 0 ? '+' : '') + overallGoldScore + ' / 100';
+    : (overallGoldScore > 0 ? '+' : '') + overallGoldScore + ' / 75';
 
 let confidenceText = overallGoldScore === null
   ? 'Unavailable'
-  : Math.min(100, Math.abs(overallGoldScore)).toFixed(0) + '%';
+  : Math.min(100, Math.abs(overallGoldScore) / 75 * 100).toFixed(0) + '%';
 
   overallGoldDisplay = `
     <h2>Overall FMIS Gold Score</h2>
@@ -177,10 +165,10 @@ let confidenceText = overallGoldScore === null
 </div>
 
 <div style="background:#374151;height:12px;border-radius:6px;overflow:hidden;margin-top:8px;">
-  <div style="width:${overallGoldScore === null ? 0 : Math.min(100, Math.abs(overallGoldScore))}%;height:100%;background:${biasColor};border-radius:6px;"></div>
+  <div style="width:${overallGoldScore === null ? 0 : Math.min(100, Math.abs(overallGoldScore) / 75 * 100)}%;height:100%;background:${biasColor};border-radius:6px;"></div>
 </div>
 
-</div>
+
 <div class="row">
   <span>Combined score</span>
   <b style="color:${biasColor}">${scoreText}</b>
@@ -195,15 +183,6 @@ let confidenceText = overallGoldScore === null
 $('detail').innerHTML=`${overallGoldDisplay}
 ${overallIndexDisplay}
 <div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
-<h2>Market Structure</h2>
-<div class="row"><span>Daily structure</span><b>${safe(structure.trend || 'Unavailable')}</b></div>
-<div class="row"><span>Last swing high</span><b>${fmt(structure.last_swing_high)}</b></div>
-<div class="row"><span>Swing high date</span><b>${safe(structure.swing_high_date || '—')}</b></div>
-<div class="row"><span>Last swing low</span><b>${fmt(structure.last_swing_low)}</b></div>
-<div class="row"><span>Swing low date</span><b>${safe(structure.swing_low_date || '—')}</b></div>
-<div class="row"><span>Break of structure</span><b>${safe(structure.bos || 'None')}</b></div>
-
-<div class="row"><span>Change of character</span><b style="color:${structure.choch?.includes('Bullish')?'#22c55e':structure.choch?.includes('Bearish')?'#ef4444':'#ffffff'}">${safe(structure.choch || 'None')}</b></div>
 
 ${realYieldRows}
 ${dollarRows}
