@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-26T22:13:23.290056+00:00",
+  "generated_at_utc": "2026-10-27T17:24:04.873589+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -29,7 +29,7 @@
       "direction": "falling",
       "observation_date": "2026-10-23",
       "comparison_date": "2026-10-16",
-      "age_days": 3,
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DGS10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -41,7 +41,7 @@
       "direction": "falling",
       "observation_date": "2026-10-23",
       "comparison_date": "2026-10-16",
-      "age_days": 3,
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DGS2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -53,7 +53,7 @@
       "direction": "falling",
       "observation_date": "2026-10-26",
       "comparison_date": "2026-10-19",
-      "age_days": 0,
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/T10YIE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -65,7 +65,7 @@
       "direction": "falling",
       "observation_date": "2026-10-23",
       "comparison_date": "2026-09-24",
-      "age_days": 3,
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DFII10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -77,7 +77,7 @@
       "direction": "rising",
       "observation_date": "2026-10-23",
       "comparison_date": "2026-09-24",
-      "age_days": 3,
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DTWEXBGS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -89,7 +89,7 @@
       "direction": "falling",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 55,
+      "age_days": 56,
       "source": "https://fred.stlouisfed.org/series/UNRATE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -101,19 +101,19 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 55,
+      "age_days": 56,
       "source": "https://fred.stlouisfed.org/series/CPIAUCSL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "VIXCLS": {
       "status": "ok",
-      "value": 19.45,
-      "previous_value": 19.99,
-      "change": -0.54,
+      "value": 18.39,
+      "previous_value": 18.44,
+      "change": -0.05,
       "direction": "falling",
-      "observation_date": "2026-10-23",
-      "comparison_date": "2026-10-16",
-      "age_days": 3,
+      "observation_date": "2026-10-26",
+      "comparison_date": "2026-10-19",
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/VIXCLS",
       "caveat": "Observation dates are not release dates; revisions possible"
     }
