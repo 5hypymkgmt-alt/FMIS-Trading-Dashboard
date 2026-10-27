@@ -187,9 +187,9 @@ def prices(symbol):
         
 
     
-        vals = sorted(j['values'], key=lambda x: x['datetime'])
+    vals = sorted(j['values'], key=lambda x: x['datetime'])
 
-        try:
+    try:
             dates = [x['datetime'][:10] for x in vals]
             open_prices = [float(x['open']) for x in vals]
             close = [float(x['close']) for x in vals]
