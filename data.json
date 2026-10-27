@@ -1,23 +1,107 @@
 {
-  "generated_at_utc": "2026-10-27T17:55:06.536773+00:00",
+  "generated_at_utc": "2026-10-27T18:44:44.550852+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
       "chart": "AMEX:SPY",
       "note": "SPY ETF proxy for S&P 500",
-      "price": null
+      "price": {
+        "status": "ok",
+        "date": "2026-10-27",
+        "age_days": 0,
+        "close": 769.15,
+        "ema20": 768.56,
+        "ema50": 765.943,
+        "rsi14": 50.68,
+        "factors": {
+          "price_vs_ema20": 1,
+          "ema20_vs_ema50": 1,
+          "weekly_trend": 1,
+          "momentum_5d": 1,
+          "rsi_14": 0
+        },
+        "technical_score": 4,
+        "technical_max": 5,
+        "market_structure": {
+          "trend": "Bullish",
+          "last_swing_high": 781.62,
+          "last_swing_low": 758.79,
+          "swing_high_date": "2026-10-06",
+          "swing_low_date": "2026-10-01",
+          "bos": "None",
+          "choch": "None"
+        },
+        "source": "https://twelvedata.com/",
+        "feed": "Twelve Data daily API; plan/exchange delays may apply"
+      }
     },
     "Gold": {
       "symbol": "GLD",
       "chart": "OANDA:XAUUSD",
       "note": "GLD ETF proxy for XAU/USD spot gold",
-      "price": null
+      "price": {
+        "status": "ok",
+        "date": "2026-10-27",
+        "age_days": 0,
+        "close": 371.6,
+        "ema20": 378.448,
+        "ema50": 385.915,
+        "rsi14": 40.33,
+        "factors": {
+          "price_vs_ema20": -1,
+          "ema20_vs_ema50": -1,
+          "weekly_trend": -1,
+          "momentum_5d": -1,
+          "rsi_14": -1
+        },
+        "technical_score": -5,
+        "technical_max": 5,
+        "market_structure": {
+          "trend": "Ranging / Mixed",
+          "last_swing_high": 429.42,
+          "last_swing_low": 373.36,
+          "swing_high_date": "2026-08-24",
+          "swing_low_date": "2026-10-14",
+          "bos": "None",
+          "choch": "None"
+        },
+        "source": "https://twelvedata.com/",
+        "feed": "Twelve Data daily API; plan/exchange delays may apply"
+      }
     },
     "Nasdaq 100": {
       "symbol": "QQQ",
       "chart": "NASDAQ:QQQ",
       "note": "QQQ ETF proxy for Nasdaq 100",
-      "price": null
+      "price": {
+        "status": "ok",
+        "date": "2026-10-27",
+        "age_days": 0,
+        "close": 720.555,
+        "ema20": 725.2,
+        "ema50": 724.672,
+        "rsi14": 46.78,
+        "factors": {
+          "price_vs_ema20": -1,
+          "ema20_vs_ema50": 1,
+          "weekly_trend": -1,
+          "momentum_5d": 1,
+          "rsi_14": 0
+        },
+        "technical_score": 0,
+        "technical_max": 5,
+        "market_structure": {
+          "trend": "Ranging / Mixed",
+          "last_swing_high": 762.86,
+          "last_swing_low": 700.0,
+          "swing_high_date": "2026-10-06",
+          "swing_low_date": "2026-09-16",
+          "bos": "None",
+          "choch": "None"
+        },
+        "source": "https://twelvedata.com/",
+        "feed": "Twelve Data daily API; plan/exchange delays may apply"
+      }
     }
   },
   "macro": {
