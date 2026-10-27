@@ -208,6 +208,18 @@ ${overallIndexDisplay}
 <div class="row"><span><b>Market Structure History (BOS / CHoCH)</b></span></div>
 ${structureHistory || '<div class="row"><span>No recent structure events</span></div>'}
 
+
+
+${n === 'Gold' && data.cot?.gold?.status === 'ok' ? `
+  <div class="row"><span><b>Gold — Commitment of Traders (COT)</b></span></div>
+  <div class="row"><span>Report date</span><b>${safe(data.cot.gold.report_date)}</b></div>
+  <div class="row"><span>Long positions</span><b>${Number(data.cot.gold.long).toLocaleString()}</b></div>
+  <div class="row"><span>Short positions</span><b>${Number(data.cot.gold.short).toLocaleString()}</b></div>
+  <div class="row"><span>Net positioning</span><b style="color:${data.cot.gold.net >= 0 ? '#22c55e' : '#ef4444'}">${data.cot.gold.net > 0 ? '+' : ''}${Number(data.cot.gold.net).toLocaleString()}</b></div>
+  <div class="row"><span>Weekly change</span><b style="color:${data.cot.gold.weekly_change > 0 ? '#22c55e' : data.cot.gold.weekly_change < 0 ? '#ef4444' : '#ffffff'}">${data.cot.gold.weekly_change > 0 ? '+' : ''}${Number(data.cot.gold.weekly_change).toLocaleString()}</b></div>
+  <div class="row"><span>Positioning bias</span><b style="color:${data.cot.gold.net >= 0 ? '#22c55e' : '#ef4444'}">${safe(data.cot.gold.bias)}</b></div>
+` : ''}
+
 ${realYieldRows}
 ${dollarRows}
 <div class="row"><span>Macro score</span><b>${ms ? ms.score+' / '+ms.maximum_score : 'Unavailable'}</b></div><div class="row"><span>Macro outlook</span><b>${ms ? safe(ms.bias) : 'Unavailable'}</b></div><div class="row"><span>Daily close</span><b>${fmt(p.close)}</b></div><div class="row"><span>20 EMA</span><b>${fmt(p.ema20)}</b></div><div class="row"><span>50 EMA</span><b>${fmt(p.ema50)}</b></div><div class="row"><span>RSI (14)</span><b>${fmt(p.rsi14)}</b></div><div class="row"><span>As-of date</span><b>${safe(p.date||'Unavailable')}</b></div><p><span class="badge">${candidate}</span></p><p class="small">Technical score only; final system status: NO TRADE until independent context and risk checks are complete.</p>`;
