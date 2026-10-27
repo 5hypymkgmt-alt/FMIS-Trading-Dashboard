@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-27T21:41:40.574626+00:00",
+  "generated_at_utc": "2026-10-27T23:56:50.178643+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -281,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-27",
         "age_days": 0,
-        "close": 721.24,
-        "ema20": 725.265,
+        "close": 721.25,
+        "ema20": 725.266,
         "ema50": 724.699,
-        "rsi14": 47.15,
+        "rsi14": 47.16,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
