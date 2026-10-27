@@ -1,5 +1,7 @@
 """Daily FMIS data updater. Requires FRED_API_KEY for macro; optional PRICE_API_KEY (Twelve Data)."""
 import os, json, csv, io, math, datetime, pathlib, requests
+from cot_data import fetch_cot_data, calculate_cot_positioning
+
 ROOT=pathlib.Path(__file__).parent
 CFG=json.loads((ROOT/'config.json').read_text())
 TODAY=datetime.datetime.now(datetime.timezone.utc).date()
@@ -440,6 +442,24 @@ def main():
          'rules':{'minimum_rr':2,'max_risk_percent':1,'long_technical':'all core trend gates + technical score >= 4/5',
                   'short_technical':'all core trend gates + technical score <= -4/5',
                   'final':'NO TRADE until macro, positioning, sentiment, level reaction, stop and event risk are verified'}}
+    
+    # Gold COT positioning - separate from existing FMIS scores
+    try:
+        gold_reports = fetch_cot_data("disaggregated", "088691")
+        out["cot"] = {
+            "gold": calculate_cot_positioning(gold_reports)
+        }
+        print("Gold COT data retrieved successfully")
+    except Exception as e:
+        out["cot"] = {
+            "gold": {
+                "status": "unavailable",
+                "reason": str(e)
+            }
+        }
+        print(f"Gold COT unavailable: {e}")
+
+
     for name, cfg in CFG['markets'].items():
         print(f"Processing market: {name}, symbol: {cfg['symbol']}")
         try:
