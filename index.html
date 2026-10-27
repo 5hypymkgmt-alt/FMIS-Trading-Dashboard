@@ -15,7 +15,28 @@ function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {st
 };
 let technicalRows=Object.entries(core).map(([key,value])=>
   `<div class="row"><span>${safe(factorNames[key]||key)}</span><b class="${value>0?'good':value<0?'bad':'warning'}">${value>0?'+1 Bullish':value<0?'−1 Bearish':'0 Neutral'}</b></div>`
-).join('');let alignedLong=core.price_vs_ema20===1&&core.ema20_vs_ema50===1&&core.weekly_trend===1;let alignedShort=core.price_vs_ema20===-1&&core.ema20_vs_ema50===-1&&core.weekly_trend===-1;let candidate=p.status==='ok'&&p.technical_score>=4&&alignedLong?'LONG TECHNICAL CANDIDATE':p.status==='ok'&&p.technical_score<=-4&&alignedShort?'SHORT TECHNICAL CANDIDATE':'NO TRADE';
+).join('');
+
+
+let structureHistory = (p.recent_structure || [])
+  .filter(item =>
+    (item.bos && item.bos !== 'None') ||
+    (item.choch && item.choch !== 'None')
+  )
+  .slice(-5)
+  .reverse()
+  .map(item => {
+    let signals = [item.bos, item.choch]
+      .filter(s => s && s !== 'None');
+    let label = signals.join(' | ');
+    let color = label.includes('Bearish') ? '#ef4444' :
+                label.includes('Bullish') ? '#22c55e' : '#ffffff';
+    return `<div class="row"><span>${safe(item.date)}</span><b style="color:${color}">${safe(label)}</b></div>`;
+  })
+  .join('');
+
+                      
+let alignedLong=core.price_vs_ema20===1&&core.ema20_vs_ema50===1&&core.weekly_trend===1;let alignedShort=core.price_vs_ema20===-1&&core.ema20_vs_ema50===-1&&core.weekly_trend===-1;let candidate=p.status==='ok'&&p.technical_score>=4&&alignedLong?'LONG TECHNICAL CANDIDATE':p.status==='ok'&&p.technical_score<=-4&&alignedShort?'SHORT TECHNICAL CANDIDATE':'NO TRADE';
 
  let realYield = data.macro?.DFII10 || {};
  let dollarIndex = data.macro?.DTWEXBGS || {};
@@ -183,6 +204,9 @@ let confidenceText = overallGoldScore === null
 $('detail').innerHTML=`${overallGoldDisplay}
 ${overallIndexDisplay}
 <div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
+
+<div class="row"><span><b>Market Structure History (BOS / CHoCH)</b></span></div>
+${structureHistory || '<div class="row"><span>No recent structure events</span></div>'}
 
 ${realYieldRows}
 ${dollarRows}
