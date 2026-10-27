@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-27T18:44:44.550852+00:00",
+  "generated_at_utc": "2026-10-27T19:24:39.212471+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,10 +9,10 @@
         "status": "ok",
         "date": "2026-10-27",
         "age_days": 0,
-        "close": 769.15,
-        "ema20": 768.56,
-        "ema50": 765.943,
-        "rsi14": 50.68,
+        "close": 770.29,
+        "ema20": 768.668,
+        "ema50": 765.988,
+        "rsi14": 51.61,
         "factors": {
           "price_vs_ema20": 1,
           "ema20_vs_ema50": 1,
@@ -31,6 +31,108 @@
           "bos": "None",
           "choch": "None"
         },
+        "recent_structure": [
+          {
+            "date": "2026-09-30",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-01",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-02",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-05",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-06",
+            "bos": "None",
+            "choch": "Bullish CHoCH"
+          },
+          {
+            "date": "2026-10-07",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-08",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-09",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-12",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-13",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-14",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-15",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-16",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-19",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-20",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-21",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-22",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-23",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-26",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-27",
+            "bos": "None",
+            "choch": "None"
+          }
+        ],
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
       }
@@ -43,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-27",
         "age_days": 0,
-        "close": 371.6,
-        "ema20": 378.448,
-        "ema50": 385.915,
-        "rsi14": 40.33,
+        "close": 372.295,
+        "ema20": 378.514,
+        "ema50": 385.943,
+        "rsi14": 41.12,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -65,6 +167,108 @@
           "bos": "None",
           "choch": "None"
         },
+        "recent_structure": [
+          {
+            "date": "2026-09-30",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-01",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-02",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-05",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-06",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-07",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-08",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-09",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-12",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-13",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-14",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-15",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-16",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-19",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-20",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-21",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-22",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-23",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-26",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-27",
+            "bos": "None",
+            "choch": "None"
+          }
+        ],
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
       }
@@ -77,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-27",
         "age_days": 0,
-        "close": 720.555,
-        "ema20": 725.2,
-        "ema50": 724.672,
-        "rsi14": 46.78,
+        "close": 721.56,
+        "ema20": 725.295,
+        "ema50": 724.711,
+        "rsi14": 47.33,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
@@ -99,6 +303,108 @@
           "bos": "None",
           "choch": "None"
         },
+        "recent_structure": [
+          {
+            "date": "2026-09-30",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-01",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-02",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-05",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-06",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-07",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-08",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-09",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-12",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-13",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-14",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-15",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-16",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-19",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-20",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-21",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-22",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-23",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-26",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-27",
+            "bos": "None",
+            "choch": "None"
+          }
+        ],
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
       }
