@@ -122,6 +122,7 @@
         .filter(e => String(e.impact).toLowerCase() === "high")
         .map(e => ({
           name: e.title || e.name || "Economic event",
+          country: e.country || "",
           date: releaseDate(e),
           markets: markets(e)
         }))
