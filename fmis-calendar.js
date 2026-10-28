@@ -59,6 +59,23 @@
     return days + "d " + hours + "h " + (minutes % 60) + "m";
   }
 
+function nextMarketEvent(market) {
+  const marketNames = {
+    "Gold": "Gold",
+    "S&P 500": "S&P 500",
+    "Nasdaq 100": "Nasdaq 100",
+    "FTSE 100": "FTSE 100"
+  };
+
+  const target = marketNames[market];
+  if (!target) return null;
+
+  return events.find(event =>
+    event.date.getTime() > Date.now() &&
+    event.markets.split("|").map(m => m.trim()).includes(target)
+  ) || null;
+}
+
   function render() {
     panel.replaceChildren();
 
