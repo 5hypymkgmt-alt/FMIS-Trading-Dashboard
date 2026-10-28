@@ -121,7 +121,54 @@ function nextMarketEvent(market) {
     link.style.display = "inline-block";
     link.style.marginTop = "12px";
     panel.appendChild(link);
+    renderMarketEvents();
   }
+
+  
+function renderMarketEvents() {
+  const container = document.getElementById("markets");
+  if (!container) return;
+
+  const cards = container.querySelectorAll(".card");
+
+  cards.forEach(card => {
+    const heading = card.querySelector(".metric");
+    if (!heading) return;
+
+    const market = heading.textContent.trim();
+    const existing = card.querySelector(".fmis-market-event");
+    if (existing) existing.remove();
+
+    const event = nextMarketEvent(market);
+    const indicator = document.createElement("div");
+    indicator.className = "fmis-market-event";
+    indicator.style.marginTop = "12px";
+    indicator.style.paddingTop = "10px";
+    indicator.style.borderTop = "1px solid #29384c";
+    indicator.style.fontSize = "12px";
+
+    const label = document.createElement("strong");
+    label.textContent = "Next High-Impact Event";
+    indicator.appendChild(label);
+
+    const detail = document.createElement("div");
+    detail.style.marginTop = "5px";
+
+    if (event) {
+      detail.textContent =
+        event.name + " — " +
+        ukTime(event.date) + " UK — " +
+        countdown(event.date);
+    } else {
+      detail.textContent =
+        "No upcoming relevant event in current feed.";
+    }
+
+    indicator.appendChild(detail);
+    card.appendChild(indicator);
+  });
+}
+
 
   async function load() {
     try {
@@ -160,5 +207,17 @@ function nextMarketEvent(market) {
 
   load();
   setInterval(render, 60000);
+  const marketContainer = document.getElementById("markets");
+
+if (marketContainer) {
+  const observer = new MutationObserver(() => {
+    observer.disconnect();
+    renderMarketEvents();
+    observer.observe(marketContainer, { childList: true });
+  });
+
+  observer.observe(marketContainer, { childList: true });
+  renderMarketEvents();
+}
   setInterval(load, 900000);
 })();
