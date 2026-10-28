@@ -310,17 +310,17 @@ def macro(series):
         value = float(latest['value'])
         previous_value = float(previous['value'])
         change = value - previous_value
-            # Annual CPI inflation and its change
-    inflation_yoy = None
-    inflation_previous_yoy = None
+        # Annual CPI inflation and its change
+        inflation_yoy = None
+        inflation_previous_yoy = None
 
-    if series == 'CPIAUCSL' and len(obs) >= 14:
-        cpi_12m = float(obs[12]['value'])
-        cpi_13m = float(obs[13]['value'])
-        cpi_1m = float(obs[1]['value'])
+        if series == 'CPIAUCSL' and len(obs) >= 14:
+            cpi_12m = float(obs[12]['value'])
+            cpi_13m = float(obs[13]['value'])
+            cpi_1m = float(obs[1]['value'])
 
-        if cpi_12m > 0 and cpi_13m > 0:
-            inflation_yoy = round(
+            if cpi_12m > 0 and cpi_13m > 0:
+                inflation_yoy = round(
                 (value / cpi_12m - 1) * 100, 3
             )
             inflation_previous_yoy = round(
