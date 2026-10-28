@@ -310,19 +310,37 @@ def macro(series):
         value = float(latest['value'])
         previous_value = float(previous['value'])
         change = value - previous_value
+            # Annual CPI inflation and its change
+    inflation_yoy = None
+    inflation_previous_yoy = None
+
+    if series == 'CPIAUCSL' and len(obs) >= 14:
+        cpi_12m = float(obs[12]['value'])
+        cpi_13m = float(obs[13]['value'])
+        cpi_1m = float(obs[1]['value'])
+
+        if cpi_12m > 0 and cpi_13m > 0:
+            inflation_yoy = round(
+                (value / cpi_12m - 1) * 100, 3
+            )
+            inflation_previous_yoy = round(
+                (cpi_1m / cpi_13m - 1) * 100, 3
+            )
 
         age = (
             TODAY - datetime.date.fromisoformat(latest['date'])
         ).days
 
         # Monthly data has a longer acceptable age.
-        max_age = 75 if series in (
-            'UNRATE', 'CPIAUCSL'
-        ) else 10
+            max_age = 75 if series in (
+             'UNRATE', 'CPIAUCSL', 'INDPRO'
+            ) else 10
 
         return {
             'status': 'ok' if age <= max_age else 'stale',
             'value': value,
+            'inflation_yoy': inflation_yoy,
+            'inflation_previous_yoy': inflation_previous_yoy,
             'previous_value': previous_value,
             'change': round(change, 4),
             'direction': (
@@ -433,7 +451,106 @@ def macro_scores(macro_data):
         }
 
     return results
+def us_economic_health(macro_data):
+    """Assess US economic health using three FRED indicators."""
 
+    factors = {
+        "Employment": ("UNRATE", -1),
+        "Inflation": ("CPIAUCSL", -1),
+        "Industrial production": ("INDPRO", 1),
+    }
+
+    score = 0
+    details = {}
+    available = 0
+
+    for name, (series, weight) in factors.items():
+        data = macro_data.get(series, {})
+        status = data.get("status")
+
+        if status != "ok":
+            details[name] = {
+                "status": status or "unavailable",
+                "score": None,
+                "series": series,
+            }
+            continue
+        
+        if series == "CPIAUCSL":
+            current = data.get("inflation_yoy")
+            previous = data.get("inflation_previous_yoy")
+
+            if current is None or previous is None:
+                details[name] = {
+                    "status": "unavailable",
+                    "score": None,
+                    "series": series,
+                }
+                continue
+
+            if current < previous:
+                points = 1
+            elif current > previous:
+                points = -1
+            else:
+                points = 0
+
+            score += points
+            available += 1
+
+            details[name] = {
+                "status": "ok",
+                "score": points,
+                "series": series,
+                "inflation_yoy": current,
+                "inflation_previous_yoy": previous,
+                "observation_date": data.get("observation_date"),
+            }
+            continue
+        direction = data.get("direction")
+
+        if direction == "rising":
+            points = weight
+        elif direction == "falling":
+            points = -weight
+        elif direction == "unchanged":
+            points = 0
+        else:
+            details[name] = {
+                "status": "unavailable",
+                "score": None,
+                "series": series,
+            }
+            continue
+
+        score += points
+        available += 1
+
+        details[name] = {
+            "status": "ok",
+            "score": points,
+            "series": series,
+            "value": data.get("value"),
+            "observation_date": data.get("observation_date"),
+        }
+
+    if available < len(factors):
+        bias = "Insufficient data"
+    elif score >= 2:
+        bias = "Bullish"
+    elif score <= -2:
+        bias = "Bearish"
+    else:
+        bias = "Neutral"
+
+    return {
+        "score": score,
+        "maximum_score": len(factors),
+        "indicators_available": available,
+        "bias": bias,
+        "factors": details,
+        "note": "Directional economic-health heuristic, not a trading signal",
+    }
 def main():
     out={'generated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'markets':{},'macro':{},
          'positioning':{'status':'manual','source':'https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm',
@@ -479,6 +596,7 @@ def main():
             
 
     out['macro_scores'] = macro_scores(out['macro'])
+    out['us_economic_health'] = us_economic_health(out['macro'])
 
     (ROOT / 'data.json').write_text(
         json.dumps(out, indent=2)
