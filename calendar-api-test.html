@@ -3,102 +3,249 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1">
-<title>FMIS Calendar API Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FMIS Economic Calendar</title>
 <style>
-  body {
-    background: #090f1b;
-    color: #eaf1fc;
-    font-family: Arial, sans-serif;
-    padding: 30px;
-  }
-  .panel {
-    background: #151f30;
-    border: 1px solid #29384c;
-    border-radius: 12px;
-    padding: 24px;
-    max-width: 750px;
-    margin: auto;
-  }
-  h1 { color: #72a9ff; }
-  .success { color: #4ade80; }
-  .error { color: #ff6b6b; }
-  .event {
-    border-bottom: 1px solid #29384c;
-    padding: 12px 0;
-  }
-  .date { color: #ffbf69; }
+:root {
+  color-scheme: dark;
+}
+body {
+  margin: 0;
+  padding: 25px;
+  background: #090f1b;
+  color: #eaf1fc;
+  font-family: Arial, sans-serif;
+}
+.panel {
+  max-width: 850px;
+  margin: 25px auto;
+  padding: 25px;
+  background: #151f30;
+  border: 1px solid #29384c;
+  border-radius: 14px;
+}
+h1 { color: #72a9ff; }
+.subtitle { color: #9daec4; }
+.event {
+  padding: 18px 0;
+  border-bottom: 1px solid #29384c;
+}
+.event-title {
+  font-size: 17px;
+  font-weight: bold;
+}
+.badge {
+  display: inline-block;
+  margin: 8px 0;
+  padding: 5px 9px;
+  border-radius: 5px;
+  background: #752323;
+  color: #ffb0b0;
+  font-size: 12px;
+  font-weight: bold;
+}
+.time {
+  color: #ffbf69;
+  margin: 8px 0;
+}
+.markets {
+  color: #9daec4;
+  font-size: 13px;
+}
+.countdown {
+  color: #4ade80;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.error { color: #ff6b6b; }
+a { color: #72a9ff; }
 </style>
 </head>
 <body>
 
 <main class="panel">
-  <h1>FMIS Economic Calendar</h1>
-  <h2>Live API Connection Test</h2>
+  <h1>FMIS Market Intelligence</h1>
+  <p class="subtitle">
+    Economic Calendar — Live Data Test
+  </p>
+
+  <h2>Upcoming High-Impact Events</h2>
   <p id="status">Connecting to economic calendar...</p>
+  <p id="countdown" class="countdown"></p>
   <div id="events"></div>
-  <p>
-    Data source:
-    <a href="https://www.financecalendar.com/"
-       style="color:#72a9ff">
+
+  <p class="subtitle">
+    Source:
+    <a href="https://www.financecalendar.com/">
       Finance Calendar
     </a>
+    — Times displayed in UK local time.
   </p>
 </main>
 
 <script>
 const API =
-  "https://www.financecalendar.com/wp-json/fc/v1/calendar?country=US,GB&impact=high&limit=5";
+  "https://www.financecalendar.com/wp-json/fc/v1/calendar?country=US,GB&impact=high&limit=20";
 
-const status = document.getElementById("status");
+const statusBox = document.getElementById("status");
 const eventsBox = document.getElementById("events");
+const countdownBox = document.getElementById("countdown");
 
-async function testCalendar() {
+let upcomingEvents = [];
+
+function getMarkets(event) {
+  const text = [
+    event.country,
+    event.title,
+    event.name
+  ].filter(Boolean).join(" ").toUpperCase();
+
+  if (text.includes("US") ||
+      text.includes("FOMC") ||
+      text.includes("FEDERAL RESERVE")) {
+    return "Gold | S&P 500 | Nasdaq 100";
+  }
+
+  if (text.includes("UK") ||
+      text.includes("BOE") ||
+      text.includes("BANK OF ENGLAND")) {
+    return "FTSE 100 | Gold";
+  }
+
+  return "Multiple markets — verify impact";
+}
+
+function getReleaseDate(event) {
+  if (event.all_day === true) return null;
+
+  const raw = event.release_at_utc;
+  if (!raw || !/[zZ]|[+-]\d{2}:\d{2}$/.test(raw)) {
+    return null;
+  }
+
+  const date = new Date(raw);
+  return Number.isFinite(date.getTime()) ? date : null;
+}
+
+function ukTime(date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/London",
+    dateStyle: "medium",
+    timeStyle: "short"
+  }).format(date);
+}
+
+function updateCountdown() {
+  const now = Date.now();
+  const next = upcomingEvents.find(e =>
+    e.releaseDate.getTime() > now
+  );
+
+  if (!next) {
+    countdownBox.textContent =
+      "No upcoming events with confirmed release times.";
+    return;
+  }
+
+  const difference = next.releaseDate.getTime() - now;
+  const days = Math.floor(difference / 86400000);
+  const hours = Math.floor(
+    (difference % 86400000) / 3600000
+  );
+  const minutes = Math.floor(
+    (difference % 3600000) / 60000
+  );
+
+  countdownBox.textContent =
+    "Next event: " + next.name +
+    " — " + days + "d " +
+    hours + "h " + minutes + "m";
+}
+
+async function loadCalendar() {
   try {
-    const response = await fetch(API);
+    const response = await fetch(API, {
+      cache: "no-store"
+    });
 
     if (!response.ok) {
       throw new Error("HTTP " + response.status);
     }
 
     const data = await response.json();
+    if (!Array.isArray(data.events)) {
+      throw new Error("Unexpected API response");
+    }
 
-    const events = Array.isArray(data)
-      ? data
-      : Array.isArray(data.events)
-        ? data.events
-        : [];
+    const now = Date.now();
 
-    status.textContent =
-      "Connection successful! Events: " + events.length;
-    status.className = "success";
+    upcomingEvents = data.events
+      .filter(e => String(e.impact).toLowerCase() === "high")
+      .map(e => ({
+        name: e.title || e.name || "Economic event",
+        markets: getMarkets(e),
+        releaseDate: getReleaseDate(e)
+      }))
+      .filter(e =>
+        e.releaseDate &&
+        e.releaseDate.getTime() >= now
+      )
+      .sort((a, b) =>
+        a.releaseDate - b.releaseDate
+      );
 
-    events.forEach(event => {
+    eventsBox.replaceChildren();
+
+    statusBox.textContent =
+      "Connection successful — " +
+      upcomingEvents.length +
+      " upcoming timed events.";
+
+    if (!upcomingEvents.length) {
+      eventsBox.textContent =
+        "No upcoming timed events returned. " +
+        "This does not confirm an empty calendar.";
+    }
+
+    upcomingEvents.forEach(event => {
       const row = document.createElement("div");
       row.className = "event";
 
-      const name = document.createElement("strong");
-      name.textContent =
-        event.title || event.name || "Economic Event";
+      const title = document.createElement("div");
+      title.className = "event-title";
+      title.textContent = event.name;
 
-      const date = document.createElement("p");
-      date.className = "date";
-      date.textContent = event.date || "Date unavailable";
+      const badge = document.createElement("span");
+      badge.className = "badge";
+      badge.textContent = "HIGH IMPACT";
 
-      row.append(name, date);
+      const time = document.createElement("div");
+      time.className = "time";
+      time.textContent =
+        "UK release time: " + ukTime(event.releaseDate);
+
+      const markets = document.createElement("div");
+      markets.className = "markets";
+      markets.textContent =
+        "Potentially affected: " + event.markets;
+
+      row.append(title, badge, time, markets);
       eventsBox.appendChild(row);
     });
 
+    updateCountdown();
+
   } catch (error) {
-    status.textContent =
-      "Connection failed: " + error.message;
-    status.className = "error";
+    statusBox.textContent =
+      "Calendar connection failed: " + error.message;
+    statusBox.className = "error";
+    countdownBox.textContent = "";
+    eventsBox.replaceChildren();
   }
 }
 
-testCalendar();
+loadCalendar();
+setInterval(updateCountdown, 60000);
 </script>
-
 </body>
 </html>
