@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+<title>FMIS Calendar API Test</title>
+<style>
+  body {
+    background: #090f1b;
+    color: #eaf1fc;
+    font-family: Arial, sans-serif;
+    padding: 30px;
+  }
+  .panel {
+    background: #151f30;
+    border: 1px solid #29384c;
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 750px;
+    margin: auto;
+  }
+  h1 { color: #72a9ff; }
+  .success { color: #4ade80; }
+  .error { color: #ff6b6b; }
+  .event {
+    border-bottom: 1px solid #29384c;
+    padding: 12px 0;
+  }
+  .date { color: #ffbf69; }
+</style>
+</head>
+<body>
+
+<main class="panel">
+  <h1>FMIS Economic Calendar</h1>
+  <h2>Live API Connection Test</h2>
+  <p id="status">Connecting to economic calendar...</p>
+  <div id="events"></div>
+  <p>
+    Data source:
+    <a href="https://www.financecalendar.com/"
+       style="color:#72a9ff">
+      Finance Calendar
+    </a>
+  </p>
+</main>
+
+<script>
+const API =
+  "https://www.financecalendar.com/wp-json/fc/v1/calendar?country=US,GB&impact=high&limit=5";
+
+const status = document.getElementById("status");
+const eventsBox = document.getElementById("events");
+
+async function testCalendar() {
+  try {
+    const response = await fetch(API);
+
+    if (!response.ok) {
+      throw new Error("HTTP " + response.status);
+    }
+
+    const data = await response.json();
+
+    const events = Array.isArray(data)
+      ? data
+      : Array.isArray(data.events)
+        ? data.events
+        : [];
+
+    status.textContent =
+      "Connection successful! Events: " + events.length;
+    status.className = "success";
+
+    events.forEach(event => {
+      const row = document.createElement("div");
+      row.className = "event";
+
+      const name = document.createElement("strong");
+      name.textContent =
+        event.title || event.name || "Economic Event";
+
+      const date = document.createElement("p");
+      date.className = "date";
+      date.textContent = event.date || "Date unavailable";
+
+      row.append(name, date);
+      eventsBox.appendChild(row);
+    });
+
+  } catch (error) {
+    status.textContent =
+      "Connection failed: " + error.message;
+    status.className = "error";
+  }
+}
+
+testCalendar();
+</script>
+
+</body>
+</html>
