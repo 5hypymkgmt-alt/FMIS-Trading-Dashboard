@@ -54,8 +54,9 @@ if (name === 'Employment' && factor.value != null) {
   detail = `CPI annual change: ${Number(factor.inflation_yoy).toFixed(2)}%`;
 } else if (name === 'Industrial production' && factor.value != null) {
   detail = `Production index: ${fmt(factor.value)}`;
+} else if (name === 'Real GDP growth' && factor.value != null) {
+  detail = `GDP growth: ${Number(factor.value).toFixed(1)}%`;
 }
-
 return `<div class="row">
   <span>
     <b>${safe(name)}</b>
