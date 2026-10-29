@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-29T19:17:51.254057+00:00",
+  "generated_at_utc": "2026-10-29T19:23:35.643913+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,10 +9,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 767.35,
-        "ema20": 768.807,
-        "ema50": 766.257,
-        "rsi14": 48.85,
+        "close": 767.81,
+        "ema20": 768.851,
+        "ema50": 766.275,
+        "rsi14": 49.23,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
@@ -145,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 367.41,
-        "ema20": 377.025,
-        "ema50": 384.747,
-        "rsi14": 37.61,
+        "close": 367.61,
+        "ema20": 377.044,
+        "ema50": 384.755,
+        "rsi14": 37.75,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -281,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 712.48,
-        "ema20": 724.078,
-        "ema50": 724.254,
-        "rsi14": 43.14,
+        "close": 713.12,
+        "ema20": 724.139,
+        "ema50": 724.279,
+        "rsi14": 43.42,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -638,9 +638,9 @@
     }
   },
   "us_economic_health": {
-    "score": 2,
-    "maximum_score": 4,
-    "indicators_available": 4,
+    "score": 3,
+    "maximum_score": 5,
+    "indicators_available": 5,
     "bias": "Bullish",
     "factors": {
       "Employment": {
@@ -671,6 +671,13 @@
         "series": "A191RL1Q225SBEA",
         "value": 3.4,
         "observation_date": "2026-07-01"
+      },
+      "Retail Sales": {
+        "status": "ok",
+        "score": 1,
+        "series": "RSAFS",
+        "value": 745021.0,
+        "observation_date": "2026-09-01"
       }
     },
     "note": "Directional economic-health heuristic, not a trading signal"
