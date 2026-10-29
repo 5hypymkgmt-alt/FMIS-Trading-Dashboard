@@ -505,10 +505,10 @@ def us_economic_health(macro_data):
             else:
                 points = 0
 
-            score += points
-            available += 1
+score += points
+available += 1
 
-            details[name] = {
+details[name] = {
                 "status": "ok",
                 "score": points,
                 "series": series,
@@ -542,10 +542,10 @@ else:
     }
     continue
 
-        score += points
-        available += 1
+score += points
+available += 1
 
-        details[name] = {
+details[name] = {
             "status": "ok",
             "score": points,
             "series": series,
@@ -553,16 +553,16 @@ else:
             "observation_date": data.get("observation_date"),
         }
 
-    if available < len(factors):
+if available < len(factors):
         bias = "Insufficient data"
-    elif score >= 2:
+elif score >= 2:
         bias = "Bullish"
-    elif score <= -2:
+elif score <= -2:
         bias = "Bearish"
-    else:
+else:
         bias = "Neutral"
 
-    return {
+return {
         "score": score,
         "maximum_score": len(factors),
         "indicators_available": available,
