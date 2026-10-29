@@ -463,6 +463,7 @@ def us_economic_health(macro_data):
         "Industrial production": ("INDPRO", 1),
         "Real GDP growth": ("A191RL1Q225SBEA", 1),
         "Retail Sales": ("RSAFS", 1),
+        "Consumer Sentiment": ("UMCSENT", 1),
 }
     
 
