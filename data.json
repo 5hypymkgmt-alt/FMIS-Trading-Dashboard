@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-29T19:30:39.125500+00:00",
+  "generated_at_utc": "2026-10-29T19:42:12.466791+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,10 +9,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 768.2,
-        "ema20": 768.888,
-        "ema50": 766.29,
-        "rsi14": 49.56,
+        "close": 768.16,
+        "ema20": 768.885,
+        "ema50": 766.288,
+        "rsi14": 49.53,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
@@ -145,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 368.03,
-        "ema20": 377.084,
-        "ema50": 384.771,
-        "rsi14": 38.06,
+        "close": 368.25,
+        "ema20": 377.105,
+        "ema50": 384.78,
+        "rsi14": 38.22,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -281,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 713.625,
-        "ema20": 724.187,
-        "ema50": 724.299,
-        "rsi14": 43.64,
+        "close": 713.44,
+        "ema20": 724.169,
+        "ema50": 724.292,
+        "rsi14": 43.56,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -549,6 +549,20 @@
       "comparison_date": "2026-04-01",
       "age_days": 58,
       "source": "https://fred.stlouisfed.org/series/RSAFS",
+      "caveat": "Observation dates are not release dates; revisions possible"
+    },
+    "UMCSENT": {
+      "status": "stale",
+      "value": 48.1,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
+      "previous_value": 49.8,
+      "change": -1.7,
+      "direction": "falling",
+      "observation_date": "2026-09-01",
+      "comparison_date": "2026-04-01",
+      "age_days": 58,
+      "source": "https://fred.stlouisfed.org/series/UMCSENT",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "VIXCLS": {
