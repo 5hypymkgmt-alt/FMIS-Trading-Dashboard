@@ -55,8 +55,11 @@ if (name === 'Employment' && factor.value != null) {
 } else if (name === 'Industrial production' && factor.value != null) {
   detail = `Production index: ${fmt(factor.value)}`;
 } else if (name === 'Real GDP growth' && factor.value != null) {
-  detail = `GDP growth: ${Number(factor.value).toFixed(1)}%`;
+    detail = `GDP growth: ${Number(factor.value).toFixed(1)}%`;
+} else if (name === 'Retail Sales' && factor.value != null) {
+  detail = `Retail sales: $${fmt(factor.value)} million`;
 }
+
 return `<div class="row">
   <span>
     <b>${safe(name)}</b>
