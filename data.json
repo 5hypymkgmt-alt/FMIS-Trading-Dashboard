@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-29T19:46:16.652213+00:00",
+  "generated_at_utc": "2026-10-29T19:52:26.562891+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,10 +9,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 768.08,
-        "ema20": 768.877,
-        "ema50": 766.285,
-        "rsi14": 49.46,
+        "close": 768.94,
+        "ema20": 768.959,
+        "ema50": 766.319,
+        "rsi14": 50.2,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
@@ -145,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 368.2,
-        "ema20": 377.1,
-        "ema50": 384.778,
-        "rsi14": 38.18,
+        "close": 368.47,
+        "ema20": 377.125,
+        "ema50": 384.788,
+        "rsi14": 38.38,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -281,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 713.23,
-        "ema20": 724.149,
-        "ema50": 724.284,
-        "rsi14": 43.47,
+        "close": 714.655,
+        "ema20": 724.285,
+        "ema50": 724.34,
+        "rsi14": 44.09,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -652,9 +652,9 @@
     }
   },
   "us_economic_health": {
-    "score": 3,
-    "maximum_score": 5,
-    "indicators_available": 5,
+    "score": 2,
+    "maximum_score": 6,
+    "indicators_available": 6,
     "bias": "Bullish",
     "factors": {
       "Employment": {
@@ -691,6 +691,13 @@
         "score": 1,
         "series": "RSAFS",
         "value": 745021.0,
+        "observation_date": "2026-09-01"
+      },
+      "Consumer Sentiment": {
+        "status": "ok",
+        "score": -1,
+        "series": "UMCSENT",
+        "value": 48.1,
         "observation_date": "2026-09-01"
       }
     },
