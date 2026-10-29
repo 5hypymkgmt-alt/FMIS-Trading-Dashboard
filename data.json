@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-29T18:23:28.129911+00:00",
+  "generated_at_utc": "2026-10-29T19:08:58.665551+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,10 +9,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 767.56,
-        "ema20": 768.827,
-        "ema50": 766.265,
-        "rsi14": 49.02,
+        "close": 767.73,
+        "ema20": 768.844,
+        "ema50": 766.272,
+        "rsi14": 49.16,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
@@ -145,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 367.23,
-        "ema20": 377.007,
-        "ema50": 384.74,
-        "rsi14": 37.48,
+        "close": 367.65,
+        "ema20": 377.047,
+        "ema50": 384.756,
+        "rsi14": 37.78,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -281,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 713.52,
-        "ema20": 724.177,
-        "ema50": 724.295,
-        "rsi14": 43.59,
+        "close": 713.16,
+        "ema20": 724.143,
+        "ema50": 724.281,
+        "rsi14": 43.44,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -535,6 +535,20 @@
       "comparison_date": "2026-04-01",
       "age_days": 120,
       "source": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
+      "caveat": "Observation dates are not release dates; revisions possible"
+    },
+    "RSAFS": {
+      "status": "stale",
+      "value": 745021.0,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
+      "previous_value": 723921.0,
+      "change": 21100.0,
+      "direction": "rising",
+      "observation_date": "2026-09-01",
+      "comparison_date": "2026-04-01",
+      "age_days": 58,
+      "source": "https://fred.stlouisfed.org/series/RSAFS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "VIXCLS": {
