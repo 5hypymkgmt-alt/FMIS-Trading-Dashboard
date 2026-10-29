@@ -470,6 +470,14 @@ def us_economic_health(macro_data):
         "Retail Sales": ("RSAFS", 1),
         "Consumer Sentiment": ("UMCSENT", 1),
     }
+        thresholds = {
+        "Employment": 0.1,
+        "Inflation": 0.1,
+        "Industrial production": 0.2,
+        "Real GDP growth": 0.2,
+        "Retail Sales": 1000,
+        "Consumer Sentiment": 1.0,
+    }
 
     score = 0
     details = {}
@@ -530,19 +538,19 @@ def us_economic_health(macro_data):
         else:
             direction = "unchanged"
 
-        if direction == "rising":
-            points = weight
-        elif direction == "falling":
-            points = -weight
-        elif direction == "unchanged":
-            points = 0
-        else:
-            details[name] = {
-                "status": "unavailable",
-                "score": None,
-                "series": series,
-            }
-            continue
+            threshold = thresholds[name]
+
+            if health_change is None:
+                points = 0
+            elif abs(health_change) < threshold:
+                points = 0
+            elif direction == "rising":
+                points = weight
+            elif direction == "falling":
+                points = -weight
+            else:
+                points = 0
+        
 
         score += points
         available += 1
