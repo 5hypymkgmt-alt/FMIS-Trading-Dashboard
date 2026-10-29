@@ -304,7 +304,7 @@ def macro(series):
 
         latest = obs[0]
         
-        previous = obs[min(20 if series in ('DFII10', 'DTWEXBGS') else 5, len(obs) - 1)]
+        previous = obs[1] if series == 'A191RL1Q225SBEA' else obs[min(20 if series in ('DFII10', 'DTWEXBGS') else 5, len(obs)-1)]
 
 
         value = float(latest['value'])
