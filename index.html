@@ -43,10 +43,29 @@ if (healthPanel) {
         const label = s > 0 ? '+1 Bullish'
           : s < 0 ? '-1 Bearish' : '0 Neutral';
 
-        return `<div class="row">
-          <span>${safe(name)}</span>
-          <b style="color:${c}">${label}</b>
-        </div>`;
+        
+const date = factor.observation_date || 'Date unavailable';
+
+let detail = 'Value unavailable';
+
+if (name === 'Employment' && factor.value != null) {
+  detail = `Unemployment: ${fmt(factor.value)}%`;
+} else if (name === 'Inflation' && factor.inflation_yoy != null) {
+  detail = `CPI annual change: ${Number(factor.inflation_yoy).toFixed(2)}%`;
+} else if (name === 'Industrial production' && factor.value != null) {
+  detail = `Production index: ${fmt(factor.value)}`;
+}
+
+return `<div class="row">
+  <span>
+    <b>${safe(name)}</b>
+    <span class="small" style="display:block">
+      ${safe(detail)} · ${safe(date)}
+    </span>
+  </span>
+  <b style="color:${c}">${label}</b>
+</div>`;
+
       }).join('');
 
     healthPanel.innerHTML = `
