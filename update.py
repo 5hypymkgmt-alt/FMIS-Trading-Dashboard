@@ -470,7 +470,7 @@ def us_economic_health(macro_data):
         "Retail Sales": ("RSAFS", 1),
         "Consumer Sentiment": ("UMCSENT", 1),
     }
-        thresholds = {
+    thresholds = {
         "Employment": 0.1,
         "Inflation": 0.1,
         "Industrial production": 0.2,
