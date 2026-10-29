@@ -19,8 +19,47 @@ let data=null;const $=id=>document.getElementById(id);const safe=s=>String(s??''
 function fmt(n){return typeof n==='number'?n.toLocaleString(undefined,{maximumFractionDigits:3}):'—'}
 function render(){let names=Object.keys(data.markets);$('status').textContent='Last pipeline run (UTC): '+(data.generated_at_utc||'unknown')+' • Feeds can be delayed or unavailable. No fabricated values.';
 $('markets').innerHTML=names.map(n=>{let p=data.markets[n].price || {status:'unavailable',factors:{}};return `<div class="card"><div class="metric">${safe(n)}</div><div class="big">${p.status==='ok'||p.status==='stale'?fmt(p.close):'No data'}</div><span class="badge ${p.status==='ok'?'good':'warning'}">${safe(p.status)}</span><p class="small">${safe(p.date||p.reason||'')}</p><p class="small">${safe(data.markets[n].note)}</p></div>`}).join('');$('market').innerHTML=names.map(n=>`<option>${safe(n)}</option>`).join('');$('market').onchange=showMarket;showMarket();
-$('macro').innerHTML=Object.entries(data.macro).map(([k,v])=>`<div class="row"><span><a href="${safe(v.source||'https://fred.stlouisfed.org/')}" target="_blank" rel="noreferrer">${safe(k)}</a></span><b>${v.status==='ok'||v.status==='stale'?fmt(v.value):'Unavailable'}</b></div><p class="small">${safe(v.observation_date||v.reason||'')} • ${safe(v.status)}</p>`).join('');$('sentiment').innerHTML=`<p><b>CFTC positioning:</b> ${safe(data.positioning.status)} — ${safe(data.positioning.note)}</p><p><b>Retail sentiment:</b> ${safe(data.sentiment.status)} — ${safe(data.sentiment.note)}</p><p class="small">These factors are deliberately excluded from automated conviction scores until a validated data source and market-specific mapping exist.</p>`}
-function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
+$('macro').innerHTML=Object.entries(data.macro).map(([k,v])=>`<div class="row"><span><a href="${safe(v.source||'https://fred.stlouisfed.org/')}" target="_blank" rel="noreferrer">${safe(k)}</a></span><b>${v.status==='ok'||v.status==='stale'?fmt(v.value):'Unavailable'}</b></div><p class="small">${safe(v.observation_date||v.reason||'')} • ${safe(v.status)}</p>`).join('');$('sentiment').innerHTML=`<p><b>CFTC positioning:</b> ${safe(data.positioning.status)} — ${safe(data.positioning.note)}</p><p><b>Retail sentiment:</b> ${safe(data.sentiment.status)} — ${safe(data.sentiment.note)}</p><p class="small">These factors are deliberately excluded from automated conviction scores until a validated data source and market-specific mapping exist.</p>`
+
+const health = data.us_economic_health;
+const healthPanel = $('us-economic-health');
+
+if (healthPanel) {
+  if (!health) {
+    healthPanel.textContent = 'Economic health data unavailable';
+  } else {
+    const score = health.score ?? 0;
+    const maximum = health.maximum_score ?? 0;
+    const bias = health.bias ?? 'Neutral';
+
+    const colour = bias === 'Bullish' ? '#22c55e'
+      : bias === 'Bearish' ? '#ef4444' : '#ffffff';
+
+    const factors = Object.entries(health.factors || {})
+      .map(([name, factor]) => {
+        const s = factor.score;
+        const c = s > 0 ? '#22c55e'
+          : s < 0 ? '#ef4444' : '#ffffff';
+        const label = s > 0 ? '+1 Bullish'
+          : s < 0 ? '-1 Bearish' : '0 Neutral';
+
+        return `<div class="row">
+          <span>${safe(name)}</span>
+          <b style="color:${c}">${label}</b>
+        </div>`;
+      }).join('');
+
+    healthPanel.innerHTML = `
+      <div class="big" style="color:${colour}">
+        ${score > 0 ? '+' : ''}${score} / ${maximum}
+      </div>
+      <p style="color:${colour}">${safe(bias)}</p>
+      ${factors}
+    `;
+  }
+}
+}
+  function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
   price_vs_ema20:'Price vs 20 EMA',
   ema20_vs_ema50:'20 EMA vs 50 EMA',
   weekly_trend:'Weekly trend',
