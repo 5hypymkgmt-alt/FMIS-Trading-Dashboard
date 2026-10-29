@@ -331,10 +331,13 @@ def macro(series):
             TODAY - datetime.date.fromisoformat(latest['date'])
         ).days
 
-        # Monthly data has a longer acceptable age.
-        max_age = 75 if series in (
-            'UNRATE', 'CPIAUCSL', 'INDPRO'
-        ) else 10
+        # Allow for different economic reporting frequencies.
+        if series == 'A191RL1Q225SBEA':
+            max_age = 150
+        elif series in ('UNRATE', 'CPIAUCSL', 'INDPRO'):
+            max_age = 75
+        else:
+           max_age = 10
 
         return {
             'status': 'ok' if age <= max_age else 'stale',
