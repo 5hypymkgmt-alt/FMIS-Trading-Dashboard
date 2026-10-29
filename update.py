@@ -458,8 +458,10 @@ def macro_scores(macro_data):
         }
 
     return results
+
 def us_economic_health(macro_data):
-    """Assess US economic health using six FRED indicators."""
+    """Calculate a directional US economic health score."""
+
     factors = {
         "Employment": ("UNRATE", -1),
         "Inflation": ("CPIAUCSL", -1),
@@ -467,8 +469,7 @@ def us_economic_health(macro_data):
         "Real GDP growth": ("A191RL1Q225SBEA", 1),
         "Retail Sales": ("RSAFS", 1),
         "Consumer Sentiment": ("UMCSENT", 1),
-}
-    
+    }
 
     score = 0
     details = {}
@@ -485,7 +486,7 @@ def us_economic_health(macro_data):
                 "series": series,
             }
             continue
-        
+
         if series == "CPIAUCSL":
             current = data.get("inflation_yoy")
             previous = data.get("inflation_previous_yoy")
@@ -505,10 +506,10 @@ def us_economic_health(macro_data):
             else:
                 points = 0
 
-score += points
-available += 1
+            score += points
+            available += 1
 
-details[name] = {
+            details[name] = {
                 "status": "ok",
                 "score": points,
                 "series": series,
@@ -517,35 +518,36 @@ details[name] = {
                 "observation_date": data.get("observation_date"),
             }
             continue
-health_change = data.get("health_change")
 
-if health_change is None:
-    direction = None
-elif health_change > 0:
-    direction = "rising"
-elif health_change < 0:
-    direction = "falling"
-else:
-    direction = "unchanged"
+        health_change = data.get("health_change")
 
-if direction == "rising":
-    points = weight
-elif direction == "falling":
-    points = -weight
-elif direction == "unchanged":
-    points = 0
-else:
-    details[name] = {
-        "status": "unavailable",
-        "score": None,
-        "series": series,
-    }
-    continue
+        if health_change is None:
+            direction = None
+        elif health_change > 0:
+            direction = "rising"
+        elif health_change < 0:
+            direction = "falling"
+        else:
+            direction = "unchanged"
 
-score += points
-available += 1
+        if direction == "rising":
+            points = weight
+        elif direction == "falling":
+            points = -weight
+        elif direction == "unchanged":
+            points = 0
+        else:
+            details[name] = {
+                "status": "unavailable",
+                "score": None,
+                "series": series,
+            }
+            continue
 
-details[name] = {
+        score += points
+        available += 1
+
+        details[name] = {
             "status": "ok",
             "score": points,
             "series": series,
@@ -553,16 +555,16 @@ details[name] = {
             "observation_date": data.get("observation_date"),
         }
 
-if available < len(factors):
+    if available < len(factors):
         bias = "Insufficient data"
-elif score >= 2:
+    elif score >= 2:
         bias = "Bullish"
-elif score <= -2:
+    elif score <= -2:
         bias = "Bearish"
-else:
+    else:
         bias = "Neutral"
 
-return {
+    return {
         "score": score,
         "maximum_score": len(factors),
         "indicators_available": available,
@@ -570,6 +572,7 @@ return {
         "factors": details,
         "note": "Directional economic-health heuristic, not a trading signal",
     }
+
 def main():
     out={'generated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'markets':{},'macro':{},
          'positioning':{'status':'manual','source':'https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm',
