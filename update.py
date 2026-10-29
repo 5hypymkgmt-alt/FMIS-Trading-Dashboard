@@ -310,6 +310,8 @@ def macro(series):
         value = float(latest['value'])
         previous_value = float(previous['value'])
         change = value - previous_value
+        health_previous_value = float(obs[1]['value'])
+        health_change = value - health_previous_value
         # Annual CPI inflation and its change
         inflation_yoy = None
         inflation_previous_yoy = None
@@ -345,6 +347,8 @@ def macro(series):
             'inflation_yoy': inflation_yoy,
             'inflation_previous_yoy': inflation_previous_yoy,
             'previous_value': previous_value,
+            'health_previous_value': health_previous_value,
+            'health_change': round(health_change, 4),
             'change': round(change, 4),
             'direction': (
                 'rising' if change > 0
@@ -455,8 +459,7 @@ def macro_scores(macro_data):
 
     return results
 def us_economic_health(macro_data):
-    """Assess US economic health using five FRED indicators."""
-
+    """Assess US economic health using six FRED indicators."""
     factors = {
         "Employment": ("UNRATE", -1),
         "Inflation": ("CPIAUCSL", -1),
@@ -514,21 +517,30 @@ def us_economic_health(macro_data):
                 "observation_date": data.get("observation_date"),
             }
             continue
-        direction = data.get("direction")
+health_change = data.get("health_change")
 
-        if direction == "rising":
-            points = weight
-        elif direction == "falling":
-            points = -weight
-        elif direction == "unchanged":
-            points = 0
-        else:
-            details[name] = {
-                "status": "unavailable",
-                "score": None,
-                "series": series,
-            }
-            continue
+if health_change is None:
+    direction = None
+elif health_change > 0:
+    direction = "rising"
+elif health_change < 0:
+    direction = "falling"
+else:
+    direction = "unchanged"
+
+if direction == "rising":
+    points = weight
+elif direction == "falling":
+    points = -weight
+elif direction == "unchanged":
+    points = 0
+else:
+    details[name] = {
+        "status": "unavailable",
+        "score": None,
+        "series": series,
+    }
+    continue
 
         score += points
         available += 1
