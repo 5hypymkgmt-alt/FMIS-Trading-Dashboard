@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-29T19:42:12.466791+00:00",
+  "generated_at_utc": "2026-10-29T19:46:16.652213+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,10 +9,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 768.16,
-        "ema20": 768.885,
-        "ema50": 766.288,
-        "rsi14": 49.53,
+        "close": 768.08,
+        "ema20": 768.877,
+        "ema50": 766.285,
+        "rsi14": 49.46,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
@@ -145,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 368.25,
-        "ema20": 377.105,
-        "ema50": 384.78,
-        "rsi14": 38.22,
+        "close": 368.2,
+        "ema20": 377.1,
+        "ema50": 384.778,
+        "rsi14": 38.18,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -281,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-29",
         "age_days": 0,
-        "close": 713.44,
-        "ema20": 724.169,
-        "ema50": 724.292,
-        "rsi14": 43.56,
+        "close": 713.23,
+        "ema20": 724.149,
+        "ema50": 724.284,
+        "rsi14": 43.47,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -552,7 +552,7 @@
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "UMCSENT": {
-      "status": "stale",
+      "status": "ok",
       "value": 48.1,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
