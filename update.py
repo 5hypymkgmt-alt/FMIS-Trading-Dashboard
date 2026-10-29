@@ -455,13 +455,14 @@ def macro_scores(macro_data):
 
     return results
 def us_economic_health(macro_data):
-    """Assess US economic health using four FRED indicators."""
+    """Assess US economic health using five FRED indicators."""
 
     factors = {
         "Employment": ("UNRATE", -1),
         "Inflation": ("CPIAUCSL", -1),
         "Industrial production": ("INDPRO", 1),
         "Real GDP growth": ("A191RL1Q225SBEA", 1),
+        "Retail Sales": ("RSAFS", 1),
 }
     
 
