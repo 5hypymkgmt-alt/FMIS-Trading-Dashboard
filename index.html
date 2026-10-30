@@ -89,7 +89,7 @@ return `<div class="row">
     `;
   }
 }
-}
+
   const financial = data.us_financial_conditions;
 const financialPanel = $('us-financial-conditions');
 
@@ -158,7 +158,8 @@ if (financialPanel) {
       </p>
     `;
   }
-}
+ }
+ }                 
   function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
   price_vs_ema20:'Price vs 20 EMA',
   ema20_vs_ema50:'20 EMA vs 50 EMA',
