@@ -552,7 +552,7 @@ def us_economic_health(macro_data):
             else:
                 points = 0
         
-
+print(f"ECONOMIC RESULT: {name}, points={points}, direction={direction}, change={health_change}")
         score += points
         available += 1
 
