@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T20:34:33.649129+00:00",
+  "generated_at_utc": "2026-10-30T20:40:30.574264+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -790,5 +790,46 @@
       }
     },
     "note": "Directional economic-health heuristic, not a trading signal"
+  },
+  "us_financial_conditions": {
+    "score": 1,
+    "maximum_score": 4,
+    "indicators_available": 4,
+    "bias": "Neutral",
+    "factors": {
+      "Treasury Yield Curve": {
+        "status": "ok",
+        "score": 0,
+        "series": "T10Y2Y",
+        "value": 0.37,
+        "change": 0.06,
+        "observation_date": "2026-10-29"
+      },
+      "High-Yield Credit Spread": {
+        "status": "ok",
+        "score": 1,
+        "series": "BAMLH0A0HYM2",
+        "value": 3.26,
+        "change": -0.14,
+        "observation_date": "2026-10-29"
+      },
+      "Financial Stress Index": {
+        "status": "ok",
+        "score": -1,
+        "series": "STLFSI4",
+        "value": -0.5837,
+        "change": 0.1168,
+        "observation_date": "2026-10-23"
+      },
+      "M2 Money Supply": {
+        "status": "ok",
+        "score": 1,
+        "series": "M2SL",
+        "value": 23413.9,
+        "change": 685.9,
+        "observation_date": "2026-09-01"
+      }
+    },
+    "note": "Heuristic financial conditions assessment, not a trading signal"
   }
 }
