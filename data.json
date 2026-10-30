@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T00:00:30.542539+00:00",
+  "generated_at_utc": "2026-10-30T16:34:12.873850+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -7,20 +7,20 @@
       "note": "SPY ETF proxy for S&P 500",
       "price": {
         "status": "ok",
-        "date": "2026-10-29",
-        "age_days": 1,
-        "close": 769.36,
-        "ema20": 768.999,
-        "ema50": 766.335,
-        "rsi14": 50.57,
+        "date": "2026-10-30",
+        "age_days": 0,
+        "close": 757.26,
+        "ema20": 767.881,
+        "ema50": 765.98,
+        "rsi14": 41.16,
         "factors": {
-          "price_vs_ema20": 1,
+          "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
           "weekly_trend": 1,
-          "momentum_5d": 1,
-          "rsi_14": 0
+          "momentum_5d": -1,
+          "rsi_14": -1
         },
-        "technical_score": 4,
+        "technical_score": -1,
         "technical_max": 5,
         "market_structure": {
           "trend": "Bullish",
@@ -29,14 +29,9 @@
           "swing_high_date": "2026-10-06",
           "swing_low_date": "2026-10-01",
           "bos": "None",
-          "choch": "None"
+          "choch": "Bearish CHoCH"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-02",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-05",
             "bos": "None",
@@ -131,6 +126,11 @@
             "date": "2026-10-29",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-10-30",
+            "bos": "None",
+            "choch": "Bearish CHoCH"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -143,12 +143,12 @@
       "note": "GLD ETF proxy for XAU/USD spot gold",
       "price": {
         "status": "ok",
-        "date": "2026-10-29",
-        "age_days": 1,
-        "close": 368.57,
-        "ema20": 377.135,
-        "ema50": 384.792,
-        "rsi14": 38.46,
+        "date": "2026-10-30",
+        "age_days": 0,
+        "close": 357.42,
+        "ema20": 375.257,
+        "ema50": 383.719,
+        "rsi14": 31.17,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -169,11 +169,6 @@
         },
         "recent_structure": [
           {
-            "date": "2026-10-02",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
             "date": "2026-10-05",
             "bos": "None",
             "choch": "None"
@@ -265,6 +260,11 @@
           },
           {
             "date": "2026-10-29",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-30",
             "bos": "None",
             "choch": "None"
           }
@@ -279,20 +279,20 @@
       "note": "QQQ ETF proxy for Nasdaq 100",
       "price": {
         "status": "ok",
-        "date": "2026-10-29",
-        "age_days": 1,
-        "close": 715.34,
-        "ema20": 724.35,
-        "ema50": 724.366,
-        "rsi14": 44.4,
+        "date": "2026-10-30",
+        "age_days": 0,
+        "close": 692.175,
+        "ema20": 721.286,
+        "ema50": 723.104,
+        "rsi14": 35.4,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
           "weekly_trend": -1,
-          "momentum_5d": 1,
+          "momentum_5d": -1,
           "rsi_14": -1
         },
-        "technical_score": -3,
+        "technical_score": -5,
         "technical_max": 5,
         "market_structure": {
           "trend": "Ranging / Mixed",
@@ -304,11 +304,6 @@
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-02",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-05",
             "bos": "None",
@@ -403,6 +398,11 @@
             "date": "2026-10-29",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-10-30",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -414,7 +414,11 @@
     "DGS10": {
       "status": "ok",
       "value": 5.05,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
       "previous_value": 5.13,
+      "health_previous_value": 4.99,
+      "health_change": 0.06,
       "change": -0.08,
       "direction": "falling",
       "observation_date": "2026-10-28",
@@ -426,7 +430,11 @@
     "DGS2": {
       "status": "ok",
       "value": 4.67,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
       "previous_value": 4.81,
+      "health_previous_value": 4.7,
+      "health_change": -0.03,
       "change": -0.14,
       "direction": "falling",
       "observation_date": "2026-10-28",
@@ -438,7 +446,11 @@
     "T10YIE": {
       "status": "ok",
       "value": 2.35,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
       "previous_value": 2.32,
+      "health_previous_value": 2.38,
+      "health_change": -0.03,
       "change": 0.03,
       "direction": "rising",
       "observation_date": "2026-10-29",
@@ -450,7 +462,11 @@
     "DFII10": {
       "status": "ok",
       "value": 2.67,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
       "previous_value": 2.91,
+      "health_previous_value": 2.64,
+      "health_change": 0.03,
       "change": -0.24,
       "direction": "falling",
       "observation_date": "2026-10-28",
@@ -462,7 +478,11 @@
     "DTWEXBGS": {
       "status": "ok",
       "value": 121.3202,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
       "previous_value": 120.5521,
+      "health_previous_value": 121.3531,
+      "health_change": -0.0329,
       "change": 0.7681,
       "direction": "rising",
       "observation_date": "2026-10-23",
@@ -474,7 +494,11 @@
     "UNRATE": {
       "status": "ok",
       "value": 4.2,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
       "previous_value": 4.3,
+      "health_previous_value": 4.1,
+      "health_change": 0.1,
       "change": -0.1,
       "direction": "falling",
       "observation_date": "2026-09-01",
@@ -486,7 +510,11 @@
     "CPIAUCSL": {
       "status": "ok",
       "value": 336.298,
+      "inflation_yoy": 4.023,
+      "inflation_previous_yoy": 3.713,
       "previous_value": 332.407,
+      "health_previous_value": 334.131,
+      "health_change": 2.167,
       "change": 3.891,
       "direction": "rising",
       "observation_date": "2026-09-01",
@@ -495,15 +523,83 @@
       "source": "https://fred.stlouisfed.org/series/CPIAUCSL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
+    "INDPRO": {
+      "status": "ok",
+      "value": 103.9506,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
+      "previous_value": 102.5768,
+      "health_previous_value": 103.2664,
+      "health_change": 0.6842,
+      "change": 1.3738,
+      "direction": "rising",
+      "observation_date": "2026-09-01",
+      "comparison_date": "2026-04-01",
+      "age_days": 59,
+      "source": "https://fred.stlouisfed.org/series/INDPRO",
+      "caveat": "Observation dates are not release dates; revisions possible"
+    },
+    "A191RL1Q225SBEA": {
+      "status": "ok",
+      "value": 3.4,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
+      "previous_value": 2.2,
+      "health_previous_value": 2.2,
+      "health_change": 1.2,
+      "change": 1.2,
+      "direction": "rising",
+      "observation_date": "2026-07-01",
+      "comparison_date": "2026-04-01",
+      "age_days": 121,
+      "source": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
+      "caveat": "Observation dates are not release dates; revisions possible"
+    },
+    "RSAFS": {
+      "status": "ok",
+      "value": 745021.0,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
+      "previous_value": 723921.0,
+      "health_previous_value": 739322.0,
+      "health_change": 5699.0,
+      "change": 21100.0,
+      "direction": "rising",
+      "observation_date": "2026-09-01",
+      "comparison_date": "2026-04-01",
+      "age_days": 59,
+      "source": "https://fred.stlouisfed.org/series/RSAFS",
+      "caveat": "Observation dates are not release dates; revisions possible"
+    },
+    "UMCSENT": {
+      "status": "ok",
+      "value": 48.1,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
+      "previous_value": 49.8,
+      "health_previous_value": 51.7,
+      "health_change": -3.6,
+      "change": -1.7,
+      "direction": "falling",
+      "observation_date": "2026-09-01",
+      "comparison_date": "2026-04-01",
+      "age_days": 59,
+      "source": "https://fred.stlouisfed.org/series/UMCSENT",
+      "caveat": "Observation dates are not release dates; revisions possible"
+    },
     "VIXCLS": {
       "status": "ok",
-      "value": 16.91,
-      "previous_value": 16.68,
-      "change": 0.23,
-      "direction": "rising",
-      "observation_date": "2026-10-28",
-      "comparison_date": "2026-10-21",
-      "age_days": 2,
+      "value": 17.2,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
+      "previous_value": 19.03,
+      "health_previous_value": 16.91,
+      "health_change": 0.29,
+      "change": -1.83,
+      "direction": "falling",
+      "observation_date": "2026-10-29",
+      "comparison_date": "2026-10-22",
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/VIXCLS",
       "caveat": "Observation dates are not release dates; revisions possible"
     }
@@ -551,7 +647,7 @@
       "note": "Heuristic macro score, not a trade signal"
     },
     "S&P 500": {
-      "score": 2,
+      "score": 4,
       "maximum_score": 4,
       "indicators_available": 4,
       "indicators_required": 4,
@@ -560,12 +656,12 @@
         "DGS10": 1,
         "DGS2": 1,
         "UNRATE": 1,
-        "VIXCLS": -1
+        "VIXCLS": 1
       },
       "note": "Heuristic macro score, not a trade signal"
     },
     "Nasdaq 100": {
-      "score": 2,
+      "score": 4,
       "maximum_score": 4,
       "indicators_available": 4,
       "indicators_required": 4,
@@ -574,9 +670,61 @@
         "DGS10": 1,
         "DGS2": 1,
         "UNRATE": 1,
-        "VIXCLS": -1
+        "VIXCLS": 1
       },
       "note": "Heuristic macro score, not a trade signal"
     }
+  },
+  "us_economic_health": {
+    "score": 0,
+    "maximum_score": 6,
+    "indicators_available": 6,
+    "bias": "Neutral",
+    "factors": {
+      "Employment": {
+        "status": "ok",
+        "score": -1,
+        "series": "UNRATE",
+        "value": 4.2,
+        "observation_date": "2026-09-01"
+      },
+      "Inflation": {
+        "status": "ok",
+        "score": -1,
+        "series": "CPIAUCSL",
+        "inflation_yoy": 4.023,
+        "inflation_previous_yoy": 3.713,
+        "observation_date": "2026-09-01"
+      },
+      "Industrial production": {
+        "status": "ok",
+        "score": 1,
+        "series": "INDPRO",
+        "value": 103.9506,
+        "observation_date": "2026-09-01"
+      },
+      "Real GDP growth": {
+        "status": "ok",
+        "score": 1,
+        "series": "A191RL1Q225SBEA",
+        "value": 3.4,
+        "observation_date": "2026-07-01"
+      },
+      "Retail Sales": {
+        "status": "ok",
+        "score": 1,
+        "series": "RSAFS",
+        "value": 745021.0,
+        "observation_date": "2026-09-01"
+      },
+      "Consumer Sentiment": {
+        "status": "ok",
+        "score": -1,
+        "series": "UMCSENT",
+        "value": 48.1,
+        "observation_date": "2026-09-01"
+      }
+    },
+    "note": "Directional economic-health heuristic, not a trading signal"
   }
 }

@@ -304,26 +304,51 @@ def macro(series):
 
         latest = obs[0]
         
-        previous = obs[min(20 if series in ('DFII10', 'DTWEXBGS') else 5, len(obs) - 1)]
+        previous = obs[1] if series == 'A191RL1Q225SBEA' else obs[min(20 if series in ('DFII10', 'DTWEXBGS') else 5, len(obs)-1)]
 
 
         value = float(latest['value'])
         previous_value = float(previous['value'])
         change = value - previous_value
+        health_previous_value = float(obs[1]['value'])
+        health_change = value - health_previous_value
+        # Annual CPI inflation and its change
+        inflation_yoy = None
+        inflation_previous_yoy = None
+
+        if series == 'CPIAUCSL' and len(obs) >= 14:
+            cpi_12m = float(obs[12]['value'])
+            cpi_13m = float(obs[13]['value'])
+            cpi_1m = float(obs[1]['value'])
+
+            if cpi_12m > 0 and cpi_13m > 0:
+                inflation_yoy = round(
+                (value / cpi_12m - 1) * 100, 3
+            )
+            inflation_previous_yoy = round(
+                (cpi_1m / cpi_13m - 1) * 100, 3
+            )
 
         age = (
             TODAY - datetime.date.fromisoformat(latest['date'])
         ).days
 
-        # Monthly data has a longer acceptable age.
-        max_age = 75 if series in (
-            'UNRATE', 'CPIAUCSL'
-        ) else 10
+        # Allow for different economic reporting frequencies.
+        if series == 'A191RL1Q225SBEA':
+            max_age = 150
+        elif series in ('UNRATE', 'CPIAUCSL', 'INDPRO', 'RSAFS', 'UMCSENT'):
+            max_age = 75
+        else:
+           max_age = 10
 
         return {
             'status': 'ok' if age <= max_age else 'stale',
             'value': value,
+            'inflation_yoy': inflation_yoy,
+            'inflation_previous_yoy': inflation_previous_yoy,
             'previous_value': previous_value,
+            'health_previous_value': health_previous_value,
+            'health_change': round(health_change, 4),
             'change': round(change, 4),
             'direction': (
                 'rising' if change > 0
@@ -434,6 +459,129 @@ def macro_scores(macro_data):
 
     return results
 
+def us_economic_health(macro_data):
+    """Calculate a directional US economic health score."""
+
+    factors = {
+        "Employment": ("UNRATE", -1),
+        "Inflation": ("CPIAUCSL", -1),
+        "Industrial production": ("INDPRO", 1),
+        "Real GDP growth": ("A191RL1Q225SBEA", 1),
+        "Retail Sales": ("RSAFS", 1),
+        "Consumer Sentiment": ("UMCSENT", 1),
+    }
+    thresholds = {
+        "Employment": 0.1,
+        "Inflation": 0.1,
+        "Industrial production": 0.2,
+        "Real GDP growth": 0.2,
+        "Retail Sales": 1000,
+        "Consumer Sentiment": 1.0,
+    }
+
+    score = 0
+    details = {}
+    available = 0
+
+    for name, (series, weight) in factors.items():
+        data = macro_data.get(series, {})
+        status = data.get("status")
+
+        if status != "ok":
+            details[name] = {
+                "status": status or "unavailable",
+                "score": None,
+                "series": series,
+            }
+            continue
+
+        if series == "CPIAUCSL":
+            current = data.get("inflation_yoy")
+            previous = data.get("inflation_previous_yoy")
+
+            if current is None or previous is None:
+                details[name] = {
+                    "status": "unavailable",
+                    "score": None,
+                    "series": series,
+                }
+                continue
+
+            if current < previous:
+                points = 1
+            elif current > previous:
+                points = -1
+            else:
+                points = 0
+
+            score += points
+            available += 1
+
+            details[name] = {
+                "status": "ok",
+                "score": points,
+                "series": series,
+                "inflation_yoy": current,
+                "inflation_previous_yoy": previous,
+                "observation_date": data.get("observation_date"),
+            }
+            continue
+        points = 0
+        health_change = data.get("health_change")
+        
+
+        if health_change is None:
+            direction = None
+        elif health_change > 0:
+            direction = "rising"
+        elif health_change < 0:
+            direction = "falling"
+        else:
+            direction = "unchanged"
+
+        threshold = thresholds[name]
+
+        if health_change is None:
+            points = 0
+        elif abs(health_change) < threshold - 1e-9:
+            points = 0
+        elif health_change > 0:
+            points = weight
+        elif health_change < 0:
+            points = -weight
+        else:
+            points = 0
+        
+        
+        score += points
+        available += 1
+
+        details[name] = {
+            "status": "ok",
+            "score": points,
+            "series": series,
+            "value": data.get("value"),
+            "observation_date": data.get("observation_date"),
+        }
+
+    if available < len(factors):
+        bias = "Insufficient data"
+    elif score >= 2:
+        bias = "Bullish"
+    elif score <= -2:
+        bias = "Bearish"
+    else:
+        bias = "Neutral"
+
+    return {
+        "score": score,
+        "maximum_score": len(factors),
+        "indicators_available": available,
+        "bias": bias,
+        "factors": details,
+        "note": "Directional economic-health heuristic, not a trading signal",
+    }
+
 def main():
     out={'generated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'markets':{},'macro':{},
          'positioning':{'status':'manual','source':'https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm',
@@ -479,6 +627,7 @@ def main():
             
 
     out['macro_scores'] = macro_scores(out['macro'])
+    out['us_economic_health'] = us_economic_health(out['macro'])
 
     (ROOT / 'data.json').write_text(
         json.dumps(out, indent=2)

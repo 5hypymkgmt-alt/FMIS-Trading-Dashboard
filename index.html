@@ -9,13 +9,82 @@
 </section>
 <div class="twocol"><section class="card"><h2>Daily chart</h2><label>Market</label><select id="market"></select><div id="chart"></div><p class="small">Third-party TradingView chart. Data may be delayed. Chart symbols and API scoring instruments may differ.</p></section><section class="card"><h2>Signal review</h2><div id="detail"></div><p class="note">A technical candidate is not a trade. Final approval requires current macro/positioning context, pre-marked level reaction, stop, event-risk check and planned reward/risk ≥ 2.</p><label>Entry price</label><input type="number" step="any" id="entry" placeholder="Entry"><label>Stop price</label><input type="number" step="any" id="stop" placeholder="Stop"><label>Target price</label><input type="number" step="any" id="target" placeholder="Target"><label>Account equity (£)</label><input type="number" step="any" id="equity" placeholder="Account equity"><button onclick="risk()">Check risk/reward</button><p id="risk"></p></section></div><div class="twocol"><section class="card"><h2>Economic conditions</h2>
 <a href="calendar-api-test.html" target="_blank" rel="noopener noreferrer" style="color:#72a9ff;margin-left:12px;font-size:14px;">📅 View Economic Calendar</a>
-<p class="small">Raw FRED observations. These are NOT automatically directional scores. Publication date may differ from observation date.</p><div id="macro"></div></section><section class="card"><h2>Sentiment & institutional positioning</h2><div id="sentiment"></div><h2>Source register</h2><a class="source" href="https://fred.stlouisfed.org/" target="_blank" rel="noreferrer">FRED — economic time series</a><a class="source" href="https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm" target="_blank" rel="noreferrer">CFTC — weekly positioning</a><a class="source" href="https://twelvedata.com/" target="_blank" rel="noreferrer">Twelve Data — daily OHLC feed</a><a class="source" href="https://www.tradingview.com/" target="_blank" rel="noreferrer">TradingView — chart</a></section></div><p class="small">FMIS is independent research software, not affiliated with A1 Trading or EdgeFinder. This is not investment advice. Price data and API availability depend on external providers.</p></main><script>
+<p class="small">Raw FRED observations. These are NOT automatically directional scores. Publication date may differ from observation date.</p><div id="macro"></div></section><section class="card"><section class="card">
+<h2>US Economic Health</h2>
+<div id="us-economic-health">Loading economic health...</div>
+</section>
+
+<section class="card"><h2>Sentiment & institutional positioning</h2><div id="sentiment"></div><h2>Source register</h2><a class="source" href="https://fred.stlouisfed.org/" target="_blank" rel="noreferrer">FRED — economic time series</a><a class="source" href="https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm" target="_blank" rel="noreferrer">CFTC — weekly positioning</a><a class="source" href="https://twelvedata.com/" target="_blank" rel="noreferrer">Twelve Data — daily OHLC feed</a><a class="source" href="https://www.tradingview.com/" target="_blank" rel="noreferrer">TradingView — chart</a></section></div><p class="small">FMIS is independent research software, not affiliated with A1 Trading or EdgeFinder. This is not investment advice. Price data and API availability depend on external providers.</p></main><script>
 let data=null;const $=id=>document.getElementById(id);const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function fmt(n){return typeof n==='number'?n.toLocaleString(undefined,{maximumFractionDigits:3}):'—'}
 function render(){let names=Object.keys(data.markets);$('status').textContent='Last pipeline run (UTC): '+(data.generated_at_utc||'unknown')+' • Feeds can be delayed or unavailable. No fabricated values.';
 $('markets').innerHTML=names.map(n=>{let p=data.markets[n].price || {status:'unavailable',factors:{}};return `<div class="card"><div class="metric">${safe(n)}</div><div class="big">${p.status==='ok'||p.status==='stale'?fmt(p.close):'No data'}</div><span class="badge ${p.status==='ok'?'good':'warning'}">${safe(p.status)}</span><p class="small">${safe(p.date||p.reason||'')}</p><p class="small">${safe(data.markets[n].note)}</p></div>`}).join('');$('market').innerHTML=names.map(n=>`<option>${safe(n)}</option>`).join('');$('market').onchange=showMarket;showMarket();
-$('macro').innerHTML=Object.entries(data.macro).map(([k,v])=>`<div class="row"><span><a href="${safe(v.source||'https://fred.stlouisfed.org/')}" target="_blank" rel="noreferrer">${safe(k)}</a></span><b>${v.status==='ok'||v.status==='stale'?fmt(v.value):'Unavailable'}</b></div><p class="small">${safe(v.observation_date||v.reason||'')} • ${safe(v.status)}</p>`).join('');$('sentiment').innerHTML=`<p><b>CFTC positioning:</b> ${safe(data.positioning.status)} — ${safe(data.positioning.note)}</p><p><b>Retail sentiment:</b> ${safe(data.sentiment.status)} — ${safe(data.sentiment.note)}</p><p class="small">These factors are deliberately excluded from automated conviction scores until a validated data source and market-specific mapping exist.</p>`}
-function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
+$('macro').innerHTML=Object.entries(data.macro).map(([k,v])=>`<div class="row"><span><a href="${safe(v.source||'https://fred.stlouisfed.org/')}" target="_blank" rel="noreferrer">${safe(k)}</a></span><b>${v.status==='ok'||v.status==='stale'?fmt(v.value):'Unavailable'}</b></div><p class="small">${safe(v.observation_date||v.reason||'')} • ${safe(v.status)}</p>`).join('');$('sentiment').innerHTML=`<p><b>CFTC positioning:</b> ${safe(data.positioning.status)} — ${safe(data.positioning.note)}</p><p><b>Retail sentiment:</b> ${safe(data.sentiment.status)} — ${safe(data.sentiment.note)}</p><p class="small">These factors are deliberately excluded from automated conviction scores until a validated data source and market-specific mapping exist.</p>`
+
+const health = data.us_economic_health;
+const healthPanel = $('us-economic-health');
+
+if (healthPanel) {
+  if (!health) {
+    healthPanel.textContent = 'Economic health data unavailable';
+  } else {
+    const score = health.score ?? 0;
+    const maximum = health.maximum_score ?? 0;
+    const bias = health.bias ?? 'Neutral';
+
+    const colour = bias === 'Bullish' ? '#22c55e'
+      : bias === 'Bearish' ? '#ef4444' : '#ffffff';
+
+    const factors = Object.entries(health.factors || {})
+      .map(([name, factor]) => {
+        const s = factor.score;
+        const c = s > 0 ? '#22c55e'
+          : s < 0 ? '#ef4444' : '#ffffff';
+        const label = s > 0 ? '+1 Bullish'
+          : s < 0 ? '-1 Bearish' : '0 Neutral';
+
+        
+const date = factor.observation_date || 'Date unavailable';
+
+let detail = 'Value unavailable';
+
+if (name === 'Employment' && factor.value != null) {
+  detail = `Unemployment: ${fmt(factor.value)}%`;
+} else if (name === 'Inflation' && factor.inflation_yoy != null) {
+  detail = `CPI annual change: ${Number(factor.inflation_yoy).toFixed(2)}%`;
+} else if (name === 'Industrial production' && factor.value != null) {
+  detail = `Production index: ${fmt(factor.value)}`;
+} else if (name === 'Real GDP growth' && factor.value != null) {
+    detail = `GDP growth: ${Number(factor.value).toFixed(1)}%`;
+} else if (name === 'Retail Sales' && factor.value != null) {
+  detail = `Retail sales: $${fmt(factor.value)} million`;
+} else if (factor.series === 'UMCSENT' && factor.value != null) {
+  detail = `Consumer sentiment index: ${fmt(factor.value)}`;
+}
+
+return `<div class="row">
+  <span>
+    <b>${safe(name)}</b>
+    <span class="small" style="display:block">
+      ${safe(detail)} · ${safe(date)}
+    </span>
+  </span>
+  <b style="color:${c}">${label}</b>
+</div>`;
+
+      }).join('');
+
+    healthPanel.innerHTML = `
+      <div class="big" style="color:${colour}">
+        ${score > 0 ? '+' : ''}${score} / ${maximum}
+      </div>
+      <p style="color:${colour}">${safe(bias)}</p>
+      ${factors}
+    `;
+  }
+}
+}
+  function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
   price_vs_ema20:'Price vs 20 EMA',
   ema20_vs_ema50:'20 EMA vs 50 EMA',
   weekly_trend:'Weekly trend',

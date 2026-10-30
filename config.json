@@ -25,6 +25,10 @@
     "DTWEXBGS",
     "UNRATE",
     "CPIAUCSL",
+    "INDPRO",
+    "A191RL1Q225SBEA",
+    "RSAFS",
+    "UMCSENT",
     "VIXCLS"
   ],
   "max_price_age_days": 5,
