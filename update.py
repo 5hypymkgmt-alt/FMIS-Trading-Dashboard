@@ -336,7 +336,7 @@ def macro(series):
         # Allow for different economic reporting frequencies.
         if series == 'A191RL1Q225SBEA':
             max_age = 150
-        elif series in ('UNRATE', 'CPIAUCSL', 'INDPRO', 'RSAFS', 'UMCSENT'):
+        elif series in ('UNRATE', 'CPIAUCSL', 'INDPRO', 'RSAFS', 'UMCSENT', 'M2SL'):
             max_age = 75
         else:
            max_age = 10
