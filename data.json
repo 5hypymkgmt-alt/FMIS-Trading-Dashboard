@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T20:28:16.184557+00:00",
+  "generated_at_utc": "2026-10-30T20:34:33.649129+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -556,7 +556,7 @@
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "M2SL": {
-      "status": "stale",
+      "status": "ok",
       "value": 23413.9,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
