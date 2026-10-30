@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T16:34:12.873850+00:00",
+  "generated_at_utc": "2026-10-30T20:02:33.587864+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,10 +9,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 757.26,
-        "ema20": 767.881,
-        "ema50": 765.98,
-        "rsi14": 41.16,
+        "close": 755.72,
+        "ema20": 767.734,
+        "ema50": 765.919,
+        "rsi14": 40.2,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
@@ -145,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 357.42,
-        "ema20": 375.257,
-        "ema50": 383.719,
-        "rsi14": 31.17,
+        "close": 355.79,
+        "ema20": 375.102,
+        "ema50": 383.656,
+        "rsi14": 30.33,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -281,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 692.175,
-        "ema20": 721.286,
-        "ema50": 723.104,
-        "rsi14": 35.4,
+        "close": 690.48,
+        "ema20": 721.124,
+        "ema50": 723.038,
+        "rsi14": 34.88,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -507,6 +507,22 @@
       "source": "https://fred.stlouisfed.org/series/UNRATE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
+    "T10Y2Y": {
+      "status": "ok",
+      "value": 0.37,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
+      "previous_value": 0.31,
+      "health_previous_value": 0.38,
+      "health_change": -0.01,
+      "change": 0.06,
+      "direction": "rising",
+      "observation_date": "2026-10-29",
+      "comparison_date": "2026-10-22",
+      "age_days": 1,
+      "source": "https://fred.stlouisfed.org/series/T10Y2Y",
+      "caveat": "Observation dates are not release dates; revisions possible"
+    },
     "CPIAUCSL": {
       "status": "ok",
       "value": 336.298,
@@ -623,12 +639,12 @@
   "cot": {
     "gold": {
       "status": "ok",
-      "report_date": "2026-10-20",
-      "long": 120970,
-      "short": 16764,
-      "net": 104206,
-      "previous_net": 107089,
-      "weekly_change": -2883,
+      "report_date": "2026-10-27",
+      "long": 122508,
+      "short": 16946,
+      "net": 105562,
+      "previous_net": 104206,
+      "weekly_change": 1356,
       "bias": "Net Long"
     }
   },
