@@ -11,7 +11,9 @@
 
   const FULL_CALENDAR = "calendar-api-test.html";
   let events = [];
-
+  let lastUpdated = null;
+  let feedUnavailable = false;
+  render();
   function releaseDate(event) {
     if (event.all_day === true) return null;
     const raw = event.release_at_utc;
@@ -78,6 +80,29 @@ function nextMarketEvent(market) {
 
   function render() {
     panel.replaceChildren();
+    if (feedUnavailable && lastUpdated) {
+  const warning = document.createElement("p");
+  warning.style.color = "#ffbf69";
+  warning.textContent =
+    "Calendar feed unavailable — displaying previously retrieved data.";
+  panel.appendChild(warning);
+}
+    if (lastUpdated) {
+      
+      const updated = document.createElement("p");
+  updated.className = "small";
+  updated.style.color = "#9daec4";
+  updated.textContent =
+    "Last updated: " +
+    new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/London",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    }).format(lastUpdated) + " UK";
+
+  panel.appendChild(updated);
+}
 
     const upcoming = events.filter(
       e => e.date.getTime() > Date.now()
@@ -192,9 +217,21 @@ function renderMarketEvents() {
         }))
         .filter(e => e.date && e.date.getTime() > Date.now())
         .sort((a, b) => a.date - b.date);
-
+      lastUpdated = new Date();
+      feedUnavailable = false;
       render();
-    } catch (error) {
+      } catch (error) {
+  if (lastUpdated) {
+    feedUnavailable = true;
+    render();
+            
+        
+        
+        
+        
+        console.warn("FMIS calendar:", error);
+        return;
+      }
       if (!events.length) {
         panel.textContent =
           "Economic calendar temporarily unavailable.";
