@@ -526,7 +526,7 @@ def us_economic_health(macro_data):
                 "observation_date": data.get("observation_date"),
             }
             continue
-
+        points = 0
         health_change = data.get("health_change")
 
         if health_change is None:
