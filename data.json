@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T15:00:25.926204+00:00",
+  "generated_at_utc": "2026-10-30T15:29:25.247697+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,10 +9,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 759.79,
-        "ema20": 768.122,
-        "ema50": 766.079,
-        "rsi14": 42.82,
+        "close": 758.68,
+        "ema20": 768.016,
+        "ema50": 766.035,
+        "rsi14": 42.08,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
@@ -29,7 +29,7 @@
           "swing_high_date": "2026-10-06",
           "swing_low_date": "2026-10-01",
           "bos": "None",
-          "choch": "None"
+          "choch": "Bearish CHoCH"
         },
         "recent_structure": [
           {
@@ -130,7 +130,7 @@
           {
             "date": "2026-10-30",
             "bos": "None",
-            "choch": "None"
+            "choch": "Bearish CHoCH"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -145,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 359.025,
-        "ema20": 375.41,
-        "ema50": 383.782,
-        "rsi14": 32.04,
+        "close": 358.1,
+        "ema20": 375.322,
+        "ema50": 383.746,
+        "rsi14": 31.53,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -281,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 696.635,
-        "ema20": 721.711,
-        "ema50": 723.279,
-        "rsi14": 36.84,
+        "close": 695.21,
+        "ema20": 721.575,
+        "ema50": 723.223,
+        "rsi14": 36.36,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
