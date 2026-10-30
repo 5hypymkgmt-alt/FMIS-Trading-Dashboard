@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T20:12:19.220405+00:00",
+  "generated_at_utc": "2026-10-30T20:23:44.757880+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -145,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 355.79,
-        "ema20": 375.102,
-        "ema50": 383.656,
-        "rsi14": 30.33,
+        "close": 355.78,
+        "ema20": 375.101,
+        "ema50": 383.655,
+        "rsi14": 30.32,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -413,33 +413,33 @@
   "macro": {
     "DGS10": {
       "status": "ok",
-      "value": 5.05,
+      "value": 4.98,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 5.13,
-      "health_previous_value": 4.99,
-      "health_change": 0.06,
-      "change": -0.08,
-      "direction": "falling",
-      "observation_date": "2026-10-28",
-      "comparison_date": "2026-10-21",
-      "age_days": 2,
+      "previous_value": 4.96,
+      "health_previous_value": 5.05,
+      "health_change": -0.07,
+      "change": 0.02,
+      "direction": "rising",
+      "observation_date": "2026-10-29",
+      "comparison_date": "2026-10-22",
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/DGS10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "DGS2": {
       "status": "ok",
-      "value": 4.67,
+      "value": 4.61,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 4.81,
-      "health_previous_value": 4.7,
-      "health_change": -0.03,
-      "change": -0.14,
+      "previous_value": 4.65,
+      "health_previous_value": 4.67,
+      "health_change": -0.06,
+      "change": -0.04,
       "direction": "falling",
-      "observation_date": "2026-10-28",
-      "comparison_date": "2026-10-21",
-      "age_days": 2,
+      "observation_date": "2026-10-29",
+      "comparison_date": "2026-10-22",
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/DGS2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -461,17 +461,17 @@
     },
     "DFII10": {
       "status": "ok",
-      "value": 2.67,
+      "value": 2.63,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 2.91,
-      "health_previous_value": 2.64,
-      "health_change": 0.03,
-      "change": -0.24,
+      "previous_value": 2.93,
+      "health_previous_value": 2.67,
+      "health_change": -0.04,
+      "change": -0.3,
       "direction": "falling",
-      "observation_date": "2026-10-28",
-      "comparison_date": "2026-09-29",
-      "age_days": 2,
+      "observation_date": "2026-10-29",
+      "comparison_date": "2026-09-30",
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/DFII10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -537,6 +537,22 @@
       "comparison_date": "2026-10-22",
       "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
+      "caveat": "Observation dates are not release dates; revisions possible"
+    },
+    "STLFSI4": {
+      "status": "ok",
+      "value": -0.5837,
+      "inflation_yoy": null,
+      "inflation_previous_yoy": null,
+      "previous_value": -0.7005,
+      "health_previous_value": -0.6334,
+      "health_change": 0.0497,
+      "change": 0.1168,
+      "direction": "rising",
+      "observation_date": "2026-10-23",
+      "comparison_date": "2026-09-18",
+      "age_days": 7,
+      "source": "https://fred.stlouisfed.org/series/STLFSI4",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "CPIAUCSL": {
@@ -666,26 +682,26 @@
   },
   "macro_scores": {
     "Gold": {
-      "score": 3,
+      "score": 1,
       "maximum_score": 3,
       "indicators_available": 3,
       "indicators_required": 3,
-      "bias": "Bullish macro",
+      "bias": "Mixed macro",
       "factors": {
-        "DGS10": 1,
+        "DGS10": -1,
         "DGS2": 1,
         "T10YIE": 1
       },
       "note": "Heuristic macro score, not a trade signal"
     },
     "S&P 500": {
-      "score": 4,
+      "score": 2,
       "maximum_score": 4,
       "indicators_available": 4,
       "indicators_required": 4,
       "bias": "Bullish macro",
       "factors": {
-        "DGS10": 1,
+        "DGS10": -1,
         "DGS2": 1,
         "UNRATE": 1,
         "VIXCLS": 1
@@ -693,13 +709,13 @@
       "note": "Heuristic macro score, not a trade signal"
     },
     "Nasdaq 100": {
-      "score": 4,
+      "score": 2,
       "maximum_score": 4,
       "indicators_available": 4,
       "indicators_required": 4,
       "bias": "Bullish macro",
       "factors": {
-        "DGS10": 1,
+        "DGS10": -1,
         "DGS2": 1,
         "UNRATE": 1,
         "VIXCLS": 1
