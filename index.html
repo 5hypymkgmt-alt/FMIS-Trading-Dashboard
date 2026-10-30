@@ -382,5 +382,5 @@ let sym=encodeURIComponent(m.chart);$('chart').innerHTML=`<iframe title="Daily m
 function risk(){let e=Number($('entry').value),s=Number($('stop').value),t=Number($('target').value),eq=Number($('equity').value);if(!e||!s||!t||!eq||e===s){$('risk').textContent='Enter valid nonzero values.';return}let rr=Math.abs((t-e)/(e-s));let dir=Math.sign(e-s);let valid=(dir===1&&t>e)||(dir===-1&&t<e);$('risk').textContent=`R:R = ${rr.toFixed(2)} : 1. Maximum planned risk at 1% equity = £${(eq*.01).toFixed(2)}. ${valid&&rr>=2?'R:R passes, but position size, contract value, funding and event risk remain unchecked.':'NO TRADE: direction or R:R rule failed.'}`}
 fetch('./data.json?ts='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Missing data.json');return r.json()}).then(d=>{data=d;render()}).catch(e=>{$('status').textContent='Data unavailable: '+e.message+'. Run python update.py and deploy data.json.'});
 </script>
-<script src="fmis-calendar.js" defer></script>
+<script src="fmis-calendar.js?v=20261030" defer></script>
 </body></html>
