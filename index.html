@@ -9,8 +9,18 @@
   align-items: center;
   justify-content: center;
   margin: 18px auto;
-  background: var(--panel);
-  border: 8px solid var(--line);
+  position: relative;
+  box-sizing: border-box;
+  background:
+  linear-gradient(var(--panel), var(--panel)) padding-box,
+  conic-gradient(
+    from 0deg,
+    var(--gauge-color, #9daec4) 0%,
+    var(--gauge-color, #9daec4) var(--gauge-progress, 0%),
+    #374151 var(--gauge-progress, 0%),
+    #374151 100%
+  ) border-box;
+  border: 8px solid transparent;
 }
 
 .market-gauge-value {
@@ -383,13 +393,15 @@ const gaugeColor = gaugeScore === null ? '#9daec4'
   : gaugeBias === 'Bullish' ? '#22c55e'
   : gaugeBias === 'Bearish' ? '#ef4444'
   : '#ffffff';
-
+const gaugeProgress = gaugeScore === null
+  ? 0
+  : Math.min(100, Math.abs(gaugeScore) / 75 * 100);
 const gaugeText = gaugeScore === null
   ? 'Unavailable'
   : `${gaugeScore > 0 ? '+' : ''}${gaugeScore} / 75`;
 
 const gaugeHTML = `
-  <div class="market-gauge" style="border-color:${gaugeColor}">
+  <div class="market-gauge" style="--gauge-color:${gaugeColor}; --gauge-progress:${gaugeProgress}%">
     <div class="market-gauge-value" style="color:${gaugeColor}">
       ${gaugeText}
     </div>
