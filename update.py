@@ -542,7 +542,7 @@ def us_economic_health(macro_data):
 
             if health_change is None:
                 points = 0
-            elif abs(health_change) < threshold:
+            elif round(abs(health_change), 6) < threshold:
                 points = 0
             elif direction == "rising":
                 points = weight
