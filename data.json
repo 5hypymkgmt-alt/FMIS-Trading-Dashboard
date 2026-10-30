@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T20:51:46.620321+00:00",
+  "generated_at_utc": "2026-10-30T23:59:48.360652+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -445,17 +445,17 @@
     },
     "T10YIE": {
       "status": "ok",
-      "value": 2.35,
+      "value": 2.34,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 2.32,
-      "health_previous_value": 2.38,
-      "health_change": -0.03,
-      "change": 0.03,
-      "direction": "rising",
-      "observation_date": "2026-10-29",
-      "comparison_date": "2026-10-22",
-      "age_days": 1,
+      "previous_value": 2.34,
+      "health_previous_value": 2.35,
+      "health_change": -0.01,
+      "change": 0.0,
+      "direction": "unchanged",
+      "observation_date": "2026-10-30",
+      "comparison_date": "2026-10-23",
+      "age_days": 0,
       "source": "https://fred.stlouisfed.org/series/T10YIE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -509,17 +509,17 @@
     },
     "T10Y2Y": {
       "status": "ok",
-      "value": 0.37,
+      "value": 0.38,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 0.41,
-      "health_previous_value": 0.38,
-      "health_change": -0.01,
-      "change": -0.04,
+      "previous_value": 0.46,
+      "health_previous_value": 0.37,
+      "health_change": 0.01,
+      "change": -0.08,
       "direction": "falling",
-      "observation_date": "2026-10-29",
-      "comparison_date": "2026-09-30",
-      "age_days": 1,
+      "observation_date": "2026-10-30",
+      "comparison_date": "2026-10-01",
+      "age_days": 0,
       "source": "https://fred.stlouisfed.org/series/T10Y2Y",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -698,7 +698,7 @@
   },
   "macro_scores": {
     "Gold": {
-      "score": 1,
+      "score": 0,
       "maximum_score": 3,
       "indicators_available": 3,
       "indicators_required": 3,
@@ -706,7 +706,7 @@
       "factors": {
         "DGS10": -1,
         "DGS2": 1,
-        "T10YIE": 1
+        "T10YIE": 0
       },
       "note": "Heuristic macro score, not a trade signal"
     },
@@ -801,9 +801,9 @@
         "status": "ok",
         "score": 0,
         "series": "T10Y2Y",
-        "value": 0.37,
-        "change": -0.04,
-        "observation_date": "2026-10-29"
+        "value": 0.38,
+        "change": -0.08,
+        "observation_date": "2026-10-30"
       },
       "High-Yield Credit Spread": {
         "status": "ok",
