@@ -58,7 +58,7 @@ if (name === 'Employment' && factor.value != null) {
     detail = `GDP growth: ${Number(factor.value).toFixed(1)}%`;
 } else if (name === 'Retail Sales' && factor.value != null) {
   detail = `Retail sales: $${fmt(factor.value)} million`;
-} else if (name === 'Consumer Sentiment' && factor.value != null) {
+} else if (factor.series === 'UMCSENT' && factor.value != null) {
   detail = `Consumer sentiment index: ${fmt(factor.value)}`;
 }
 
