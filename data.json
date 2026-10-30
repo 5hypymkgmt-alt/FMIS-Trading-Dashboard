@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T16:17:05.750536+00:00",
+  "generated_at_utc": "2026-10-30T16:23:24.926362+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,10 +9,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 756.9,
-        "ema20": 767.847,
-        "ema50": 765.966,
-        "rsi14": 40.93,
+        "close": 756.84,
+        "ema20": 767.841,
+        "ema50": 765.963,
+        "rsi14": 40.89,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
@@ -145,10 +145,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 356.91,
-        "ema20": 375.209,
-        "ema50": 383.699,
-        "rsi14": 30.9,
+        "close": 357.035,
+        "ema20": 375.221,
+        "ema50": 383.704,
+        "rsi14": 30.97,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -281,10 +281,10 @@
         "status": "ok",
         "date": "2026-10-30",
         "age_days": 0,
-        "close": 691.725,
-        "ema20": 721.243,
-        "ema50": 723.087,
-        "rsi14": 35.26,
+        "close": 691.78,
+        "ema20": 721.248,
+        "ema50": 723.089,
+        "rsi14": 35.28,
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -676,14 +676,14 @@
     }
   },
   "us_economic_health": {
-    "score": -1,
+    "score": 0,
     "maximum_score": 6,
     "indicators_available": 6,
     "bias": "Neutral",
     "factors": {
       "Employment": {
         "status": "ok",
-        "score": 0,
+        "score": -1,
         "series": "UNRATE",
         "value": 4.2,
         "observation_date": "2026-09-01"
@@ -698,28 +698,28 @@
       },
       "Industrial production": {
         "status": "ok",
-        "score": 0,
+        "score": 1,
         "series": "INDPRO",
         "value": 103.9506,
         "observation_date": "2026-09-01"
       },
       "Real GDP growth": {
         "status": "ok",
-        "score": 0,
+        "score": 1,
         "series": "A191RL1Q225SBEA",
         "value": 3.4,
         "observation_date": "2026-07-01"
       },
       "Retail Sales": {
         "status": "ok",
-        "score": 0,
+        "score": 1,
         "series": "RSAFS",
         "value": 745021.0,
         "observation_date": "2026-09-01"
       },
       "Consumer Sentiment": {
         "status": "ok",
-        "score": 0,
+        "score": -1,
         "series": "UMCSENT",
         "value": 48.1,
         "observation_date": "2026-09-01"
