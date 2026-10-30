@@ -539,18 +539,18 @@ def us_economic_health(macro_data):
         else:
             direction = "unchanged"
 
-            threshold = thresholds[name]
+        threshold = thresholds[name]
 
-            if health_change is None:
-                points = 0
-            elif abs(health_change) < threshold - 1e-9:
-                points = 0
-            elif direction == "rising":
-                points = weight
-            elif direction == "falling":
-                points = -weight
-            else:
-                points = 0
+        if health_change is None:
+            points = 0
+        elif abs(health_change) < threshold - 1e-9:
+            points = 0
+        elif health_change > 0:
+            points = weight
+        elif health_change < 0:
+            points = -weight
+        else:
+            points = 0
         
         print(f"ECONOMIC RESULT: {name}, points={points}, direction={direction}, change={health_change}")
         score += points
