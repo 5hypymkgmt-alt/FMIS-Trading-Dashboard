@@ -528,6 +528,7 @@ def us_economic_health(macro_data):
             continue
         points = 0
         health_change = data.get("health_change")
+        print(f"ECONOMIC DEBUG: {name}, change={health_change}, weight={weight}, threshold={thresholds[name]}")
 
         if health_change is None:
             direction = None
