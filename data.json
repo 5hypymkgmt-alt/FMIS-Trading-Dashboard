@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T20:40:30.574264+00:00",
+  "generated_at_utc": "2026-10-30T20:51:46.620321+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -512,13 +512,13 @@
       "value": 0.37,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 0.31,
+      "previous_value": 0.41,
       "health_previous_value": 0.38,
       "health_change": -0.01,
-      "change": 0.06,
-      "direction": "rising",
+      "change": -0.04,
+      "direction": "falling",
       "observation_date": "2026-10-29",
-      "comparison_date": "2026-10-22",
+      "comparison_date": "2026-09-30",
       "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/T10Y2Y",
       "caveat": "Observation dates are not release dates; revisions possible"
@@ -528,13 +528,13 @@
       "value": 3.26,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 3.4,
+      "previous_value": 3.24,
       "health_previous_value": 3.14,
       "health_change": 0.12,
-      "change": -0.14,
-      "direction": "falling",
+      "change": 0.02,
+      "direction": "rising",
       "observation_date": "2026-10-29",
-      "comparison_date": "2026-10-22",
+      "comparison_date": "2026-10-01",
       "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
       "caveat": "Observation dates are not release dates; revisions possible"
@@ -544,13 +544,13 @@
       "value": -0.5837,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": -0.7005,
+      "previous_value": -0.8066,
       "health_previous_value": -0.6334,
       "health_change": 0.0497,
-      "change": 0.1168,
+      "change": 0.2229,
       "direction": "rising",
       "observation_date": "2026-10-23",
-      "comparison_date": "2026-09-18",
+      "comparison_date": "2026-09-25",
       "age_days": 7,
       "source": "https://fred.stlouisfed.org/series/STLFSI4",
       "caveat": "Observation dates are not release dates; revisions possible"
@@ -560,13 +560,13 @@
       "value": 23413.9,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 22728.0,
+      "previous_value": 23077.7,
       "health_previous_value": 23300.9,
       "health_change": 113.0,
-      "change": 685.9,
+      "change": 336.2,
       "direction": "rising",
       "observation_date": "2026-09-01",
-      "comparison_date": "2026-04-01",
+      "comparison_date": "2026-06-01",
       "age_days": 59,
       "source": "https://fred.stlouisfed.org/series/M2SL",
       "caveat": "Observation dates are not release dates; revisions possible"
@@ -792,7 +792,7 @@
     "note": "Directional economic-health heuristic, not a trading signal"
   },
   "us_financial_conditions": {
-    "score": 1,
+    "score": 0,
     "maximum_score": 4,
     "indicators_available": 4,
     "bias": "Neutral",
@@ -802,15 +802,15 @@
         "score": 0,
         "series": "T10Y2Y",
         "value": 0.37,
-        "change": 0.06,
+        "change": -0.04,
         "observation_date": "2026-10-29"
       },
       "High-Yield Credit Spread": {
         "status": "ok",
-        "score": 1,
+        "score": 0,
         "series": "BAMLH0A0HYM2",
         "value": 3.26,
-        "change": -0.14,
+        "change": 0.02,
         "observation_date": "2026-10-29"
       },
       "Financial Stress Index": {
@@ -818,7 +818,7 @@
         "score": -1,
         "series": "STLFSI4",
         "value": -0.5837,
-        "change": 0.1168,
+        "change": 0.2229,
         "observation_date": "2026-10-23"
       },
       "M2 Money Supply": {
@@ -826,7 +826,7 @@
         "score": 1,
         "series": "M2SL",
         "value": 23413.9,
-        "change": 685.9,
+        "change": 336.2,
         "observation_date": "2026-09-01"
       }
     },
