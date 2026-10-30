@@ -304,8 +304,20 @@ def macro(series):
 
         latest = obs[0]
         
-        previous = obs[1] if series == 'A191RL1Q225SBEA' else obs[min(20 if series in ('DFII10', 'DTWEXBGS') else 5, len(obs)-1)]
+        if series == 'A191RL1Q225SBEA':
+            lookback = 1
+        elif series in ('T10Y2Y', 'BAMLH0A0HYM2'):
+            lookback = 20
+        elif series == 'STLFSI4':
+            lookback = 4
+        elif series == 'M2SL':
+            lookback = 3
+        elif series in ('DFII10', 'DTWEXBGS'):
+            lookback = 20
+        else:
+            lookback = 5
 
+        previous = obs[min(lookback, len(obs) - 1)]
 
         value = float(latest['value'])
         previous_value = float(previous['value'])
