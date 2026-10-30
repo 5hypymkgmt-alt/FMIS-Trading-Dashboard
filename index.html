@@ -376,8 +376,28 @@ let confidenceText = overallGoldScore === null
 
   `;
 }
+const gaugeScore = n === 'Gold' ? overallGoldScore : overallIndexScore;
+const gaugeBias = n === 'Gold' ? overallGoldBias : overallIndexBias;
 
-$('detail').innerHTML=`${overallGoldDisplay}
+const gaugeColor = gaugeScore === null ? '#9daec4'
+  : gaugeBias === 'Bullish' ? '#22c55e'
+  : gaugeBias === 'Bearish' ? '#ef4444'
+  : '#ffffff';
+
+const gaugeText = gaugeScore === null
+  ? 'Unavailable'
+  : `${gaugeScore > 0 ? '+' : ''}${gaugeScore} / 75`;
+
+const gaugeHTML = `
+  <div class="market-gauge" style="border-color:${gaugeColor}">
+    <div class="market-gauge-value" style="color:${gaugeColor}">
+      ${gaugeText}
+    </div>
+    <div class="market-gauge-label" style="color:${gaugeColor}">
+      ${gaugeScore === null ? 'NO DATA' : gaugeBias.toUpperCase()}
+    </div>
+  </div>
+`;$('detail').innerHTML=`${gaugeHTML}${overallGoldDisplay}
 ${overallIndexDisplay}
 <div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
 
