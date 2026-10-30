@@ -304,8 +304,20 @@ def macro(series):
 
         latest = obs[0]
         
-        previous = obs[1] if series == 'A191RL1Q225SBEA' else obs[min(20 if series in ('DFII10', 'DTWEXBGS') else 5, len(obs)-1)]
+        if series == 'A191RL1Q225SBEA':
+            lookback = 1
+        elif series in ('T10Y2Y', 'BAMLH0A0HYM2'):
+            lookback = 20
+        elif series == 'STLFSI4':
+            lookback = 4
+        elif series == 'M2SL':
+            lookback = 3
+        elif series in ('DFII10', 'DTWEXBGS'):
+            lookback = 20
+        else:
+            lookback = 5
 
+        previous = obs[min(lookback, len(obs) - 1)]
 
         value = float(latest['value'])
         previous_value = float(previous['value'])
@@ -336,7 +348,7 @@ def macro(series):
         # Allow for different economic reporting frequencies.
         if series == 'A191RL1Q225SBEA':
             max_age = 150
-        elif series in ('UNRATE', 'CPIAUCSL', 'INDPRO', 'RSAFS', 'UMCSENT'):
+        elif series in ('UNRATE', 'CPIAUCSL', 'INDPRO', 'RSAFS', 'UMCSENT', 'M2SL'):
             max_age = 75
         else:
            max_age = 10
@@ -581,7 +593,100 @@ def us_economic_health(macro_data):
         "factors": details,
         "note": "Directional economic-health heuristic, not a trading signal",
     }
+def us_financial_conditions(macro_data):
+    """Equal-weight US financial conditions and liquidity score."""
 
+    factors = {
+        "Treasury Yield Curve": ("T10Y2Y", "curve"),
+        "High-Yield Credit Spread": ("BAMLH0A0HYM2", "falling"),
+        "Financial Stress Index": ("STLFSI4", "falling"),
+        "M2 Money Supply": ("M2SL", "rising"),
+    }
+
+    # Minimum meaningful changes in each series' units.
+    thresholds = {
+        "T10Y2Y": 0.10,
+        "BAMLH0A0HYM2": 0.10,
+        "STLFSI4": 0.10,
+        "M2SL": 50.0,
+    }
+
+    score = 0
+    available = 0
+    details = {}
+
+    for name, (series, rule) in factors.items():
+        data = macro_data.get(series, {})
+        status = data.get("status")
+
+        if status != "ok":
+            details[name] = {
+                "status": status or "unavailable",
+                "score": None,
+                "series": series,
+            }
+            continue
+
+        value = data.get("value")
+        change = data.get("change")
+
+        if value is None or change is None:
+            details[name] = {
+                "status": "unavailable",
+                "score": None,
+                "series": series,
+            }
+            continue
+
+        threshold = thresholds[series]
+        points = 0
+
+        if rule == "curve":
+            if value < 0:
+                points = -1
+            elif change >= threshold:
+                points = 1
+            elif change <= -threshold:
+                points = -1
+
+        elif abs(change) >= threshold:
+            if rule == "rising":
+                points = 1 if change > 0 else -1
+            elif rule == "falling":
+                points = 1 if change < 0 else -1
+
+        score += points
+        available += 1
+
+        details[name] = {
+            "status": "ok",
+            "score": points,
+            "series": series,
+            "value": value,
+            "change": change,
+            "observation_date": data.get("observation_date"),
+        }
+
+    if available < len(factors):
+        bias = "Insufficient data"
+    elif score >= 2:
+        bias = "Bullish"
+    elif score <= -2:
+        bias = "Bearish"
+    else:
+        bias = "Neutral"
+
+    return {
+        "score": score,
+        "maximum_score": len(factors),
+        "indicators_available": available,
+        "bias": bias,
+        "factors": details,
+        "note": (
+            "Heuristic financial conditions assessment, "
+            "not a trading signal"
+        ),
+    }
 def main():
     out={'generated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'markets':{},'macro':{},
          'positioning':{'status':'manual','source':'https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm',
@@ -628,7 +733,7 @@ def main():
 
     out['macro_scores'] = macro_scores(out['macro'])
     out['us_economic_health'] = us_economic_health(out['macro'])
-
+    out['us_financial_conditions'] = us_financial_conditions(out['macro'])
     (ROOT / 'data.json').write_text(
         json.dumps(out, indent=2)
     )

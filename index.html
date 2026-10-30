@@ -13,6 +13,12 @@
 <h2>US Economic Health</h2>
 <div id="us-economic-health">Loading economic health...</div>
 </section>
+  <section class="card">
+  <h2>US Financial Conditions &amp; Liquidity</h2>
+  <div id="us-financial-conditions">
+    Loading financial conditions...
+  </div>
+</section>
 
 <section class="card"><h2>Sentiment & institutional positioning</h2><div id="sentiment"></div><h2>Source register</h2><a class="source" href="https://fred.stlouisfed.org/" target="_blank" rel="noreferrer">FRED — economic time series</a><a class="source" href="https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm" target="_blank" rel="noreferrer">CFTC — weekly positioning</a><a class="source" href="https://twelvedata.com/" target="_blank" rel="noreferrer">Twelve Data — daily OHLC feed</a><a class="source" href="https://www.tradingview.com/" target="_blank" rel="noreferrer">TradingView — chart</a></section></div><p class="small">FMIS is independent research software, not affiliated with A1 Trading or EdgeFinder. This is not investment advice. Price data and API availability depend on external providers.</p></main><script>
 let data=null;const $=id=>document.getElementById(id);const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -83,7 +89,77 @@ return `<div class="row">
     `;
   }
 }
-}
+
+  const financial = data.us_financial_conditions;
+const financialPanel = $('us-financial-conditions');
+
+if (financialPanel) {
+  if (!financial) {
+    financialPanel.textContent =
+      'Financial conditions data unavailable';
+  } else {
+    const score = financial.score ?? 0;
+    const maximum = financial.maximum_score ?? 4;
+    const bias = financial.bias ?? 'Insufficient data';
+
+    const colour = bias === 'Bullish' ? '#22c55e'
+      : bias === 'Bearish' ? '#ef4444' : '#ffffff';
+
+    const factors = Object.entries(financial.factors || {})
+      .map(([name, factor]) => {
+        const s = factor.score;
+        const c = s == null ? '#f8d58d'
+          : s > 0 ? '#22c55e'
+          : s < 0 ? '#ef4444' : '#ffffff';
+
+        const label = s == null ? 'Unavailable'
+          : s > 0 ? '+1 Bullish'
+          : s < 0 ? '-1 Bearish' : '0 Neutral';
+
+        const units = factor.series === 'M2SL' ? ' billion USD'
+          : ['T10Y2Y', 'BAMLH0A0HYM2'].includes(factor.series)
+            ? '%' : '';
+
+        const value = factor.value == null
+          ? 'Unavailable'
+          : fmt(factor.value) + units;
+
+        const change = factor.change == null
+          ? 'Unavailable'
+          : (factor.change > 0 ? '+' : '') +
+            fmt(factor.change) + units;
+
+        const date = factor.observation_date || 'Date unavailable';
+
+        return `
+          <div class="row">
+            <span>
+              <b>${safe(name)}</b>
+              <span class="small" style="display:block">
+                Value: ${safe(value)} · Change: ${safe(change)}
+              </span>
+              <span class="small" style="display:block">
+                ${safe(date)}
+              </span>
+            </span>
+            <b style="color:${c}">${label}</b>
+          </div>`;
+      }).join('');
+
+    financialPanel.innerHTML = `
+      <div class="big" style="color:${colour}">
+        ${score > 0 ? '+' : ''}${score} / ${maximum}
+      </div>
+      <p style="color:${colour}">${safe(bias)}</p>
+      ${factors}
+      <p class="small">
+        Equal-weight financial conditions assessment.
+        Not a standalone trading signal.
+      </p>
+    `;
+  }
+ }
+ }                 
   function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
   price_vs_ema20:'Price vs 20 EMA',
   ema20_vs_ema50:'20 EMA vs 50 EMA',
