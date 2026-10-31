@@ -397,7 +397,7 @@ const dialPath = (radius, from, to) => {
 const ticks = Array.from({length:31},(_,i)=>{
   // Minor tick visibility enhancement
   const angle=-90+i*6, major=i%5===0;
-  const p1=dialPoint(major?221:225,angle),p2=dialPoint(major?242:233,angle);
+  const p1=dialPoint(major?225:228,angle),p2=dialPoint(major?239:235,angle);
   return `<line x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}" stroke="${major ? '#e2e8f0' : '#ffffff'}" stroke-width="${major ? 2.4 : 1.8}" opacity="${major?1:.7}"/>`;
 }).join('');
 const labels = [-75,-50,-25,0,25,50,75].map((v,i)=>{
