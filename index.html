@@ -63,7 +63,7 @@
     width: 2px;
     height: 12px;
     background: #cbd5e1;
-    transform: translate(-50%, -50%) rotate(90deg);
+    transform: translate(-50%, -50%) rotate(var(--tick-angle, 0deg));
     border-radius: 2px;
 }
   .market-gauge-needle {
@@ -487,13 +487,15 @@ const gaugeHTML = `
   <div class="market-gauge-arc"></div>
   <div class="market-gauge-scale">
     
-<span class="market-gauge-tick" style="left:5.8%;top:100%">−75</span>
-<span class="market-gauge-tick" style="left:11.7%;top:77.9%">−50</span>
-<span class="market-gauge-tick" style="left:27.9%;top:61.7%">−25</span>
-<span class="market-gauge-tick" style="left:50%;top:55.8%">0</span>
-<span class="market-gauge-tick" style="left:72.1%;top:61.7%">+25</span>
-<span class="market-gauge-tick" style="left:88.3%;top:77.9%">+50</span>
-<span class="market-gauge-tick" style="left:94.2%;top:100%">+75</span>
+
+<span class="market-gauge-mark" style="left:5.8%;top:100%;--tick-angle:-90deg"></span>
+<span class="market-gauge-mark" style="left:11.7%;top:77.9%;--tick-angle:-60deg"></span>
+<span class="market-gauge-mark" style="left:27.9%;top:61.7%;--tick-angle:-30deg"></span>
+<span class="market-gauge-mark" style="left:50%;top:55.8%;--tick-angle:0deg"></span>
+<span class="market-gauge-mark" style="left:72.1%;top:61.7%;--tick-angle:30deg"></span>
+<span class="market-gauge-mark" style="left:88.3%;top:77.9%;--tick-angle:60deg"></span>
+<span class="market-gauge-mark" style="left:94.2%;top:100%;--tick-angle:90deg"></span>
+
 <span class="market-gauge-mark" style="left:5.8%;top:100%"></span>
 <span class="market-gauge-mark" style="left:11.7%;top:77.9%"></span>
 <span class="market-gauge-mark" style="left:27.9%;top:61.7%"></span>
