@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T20:51:46.620321+00:00",
+  "generated_at_utc": "2026-10-31T18:48:55.428940+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -8,7 +8,7 @@
       "price": {
         "status": "ok",
         "date": "2026-10-30",
-        "age_days": 0,
+        "age_days": 1,
         "close": 755.72,
         "ema20": 767.734,
         "ema50": 765.919,
@@ -144,7 +144,7 @@
       "price": {
         "status": "ok",
         "date": "2026-10-30",
-        "age_days": 0,
+        "age_days": 1,
         "close": 355.78,
         "ema20": 375.101,
         "ema50": 383.655,
@@ -280,7 +280,7 @@
       "price": {
         "status": "ok",
         "date": "2026-10-30",
-        "age_days": 0,
+        "age_days": 1,
         "close": 690.49,
         "ema20": 721.125,
         "ema50": 723.038,
@@ -423,7 +423,7 @@
       "direction": "rising",
       "observation_date": "2026-10-29",
       "comparison_date": "2026-10-22",
-      "age_days": 1,
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/DGS10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -439,22 +439,22 @@
       "direction": "falling",
       "observation_date": "2026-10-29",
       "comparison_date": "2026-10-22",
-      "age_days": 1,
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/DGS2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "T10YIE": {
       "status": "ok",
-      "value": 2.35,
+      "value": 2.34,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 2.32,
-      "health_previous_value": 2.38,
-      "health_change": -0.03,
-      "change": 0.03,
-      "direction": "rising",
-      "observation_date": "2026-10-29",
-      "comparison_date": "2026-10-22",
+      "previous_value": 2.34,
+      "health_previous_value": 2.35,
+      "health_change": -0.01,
+      "change": 0.0,
+      "direction": "unchanged",
+      "observation_date": "2026-10-30",
+      "comparison_date": "2026-10-23",
       "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/T10YIE",
       "caveat": "Observation dates are not release dates; revisions possible"
@@ -471,7 +471,7 @@
       "direction": "falling",
       "observation_date": "2026-10-29",
       "comparison_date": "2026-09-30",
-      "age_days": 1,
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/DFII10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -487,7 +487,7 @@
       "direction": "rising",
       "observation_date": "2026-10-23",
       "comparison_date": "2026-09-24",
-      "age_days": 7,
+      "age_days": 8,
       "source": "https://fred.stlouisfed.org/series/DTWEXBGS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -503,22 +503,22 @@
       "direction": "falling",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 60,
       "source": "https://fred.stlouisfed.org/series/UNRATE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "T10Y2Y": {
       "status": "ok",
-      "value": 0.37,
+      "value": 0.38,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 0.41,
-      "health_previous_value": 0.38,
-      "health_change": -0.01,
-      "change": -0.04,
+      "previous_value": 0.46,
+      "health_previous_value": 0.37,
+      "health_change": 0.01,
+      "change": -0.08,
       "direction": "falling",
-      "observation_date": "2026-10-29",
-      "comparison_date": "2026-09-30",
+      "observation_date": "2026-10-30",
+      "comparison_date": "2026-10-01",
       "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/T10Y2Y",
       "caveat": "Observation dates are not release dates; revisions possible"
@@ -535,7 +535,7 @@
       "direction": "rising",
       "observation_date": "2026-10-29",
       "comparison_date": "2026-10-01",
-      "age_days": 1,
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -551,7 +551,7 @@
       "direction": "rising",
       "observation_date": "2026-10-23",
       "comparison_date": "2026-09-25",
-      "age_days": 7,
+      "age_days": 8,
       "source": "https://fred.stlouisfed.org/series/STLFSI4",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -567,7 +567,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-06-01",
-      "age_days": 59,
+      "age_days": 60,
       "source": "https://fred.stlouisfed.org/series/M2SL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -583,7 +583,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 60,
       "source": "https://fred.stlouisfed.org/series/CPIAUCSL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -599,7 +599,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 60,
       "source": "https://fred.stlouisfed.org/series/INDPRO",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -615,7 +615,7 @@
       "direction": "rising",
       "observation_date": "2026-07-01",
       "comparison_date": "2026-04-01",
-      "age_days": 121,
+      "age_days": 122,
       "source": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -631,7 +631,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 60,
       "source": "https://fred.stlouisfed.org/series/RSAFS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -647,7 +647,7 @@
       "direction": "falling",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 60,
       "source": "https://fred.stlouisfed.org/series/UMCSENT",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -663,7 +663,7 @@
       "direction": "falling",
       "observation_date": "2026-10-29",
       "comparison_date": "2026-10-22",
-      "age_days": 1,
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/VIXCLS",
       "caveat": "Observation dates are not release dates; revisions possible"
     }
@@ -694,11 +694,55 @@
       "previous_net": 104206,
       "weekly_change": 1356,
       "bias": "Net Long"
+    },
+    "sp500": {
+      "status": "ok",
+      "report_date": "2026-10-27",
+      "asset_managers": {
+        "status": "ok",
+        "long": 1113753,
+        "short": 187606,
+        "net": 926147,
+        "previous_net": 904019,
+        "weekly_change": 22128,
+        "bias": "Net Long"
+      },
+      "leveraged_funds": {
+        "status": "ok",
+        "long": 102967,
+        "short": 502846,
+        "net": -399879,
+        "previous_net": -372869,
+        "weekly_change": -27010,
+        "bias": "Net Short"
+      }
+    },
+    "nasdaq100": {
+      "status": "ok",
+      "report_date": "2026-10-27",
+      "asset_managers": {
+        "status": "ok",
+        "long": 107246,
+        "short": 40874,
+        "net": 66372,
+        "previous_net": 78767,
+        "weekly_change": -12395,
+        "bias": "Net Long"
+      },
+      "leveraged_funds": {
+        "status": "ok",
+        "long": 48004,
+        "short": 53623,
+        "net": -5619,
+        "previous_net": -7688,
+        "weekly_change": 2069,
+        "bias": "Net Short"
+      }
     }
   },
   "macro_scores": {
     "Gold": {
-      "score": 1,
+      "score": 0,
       "maximum_score": 3,
       "indicators_available": 3,
       "indicators_required": 3,
@@ -706,7 +750,7 @@
       "factors": {
         "DGS10": -1,
         "DGS2": 1,
-        "T10YIE": 1
+        "T10YIE": 0
       },
       "note": "Heuristic macro score, not a trade signal"
     },
@@ -801,9 +845,9 @@
         "status": "ok",
         "score": 0,
         "series": "T10Y2Y",
-        "value": 0.37,
-        "change": -0.04,
-        "observation_date": "2026-10-29"
+        "value": 0.38,
+        "change": -0.08,
+        "observation_date": "2026-10-30"
       },
       "High-Yield Credit Spread": {
         "status": "ok",
