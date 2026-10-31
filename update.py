@@ -1,6 +1,6 @@
 """Daily FMIS data updater. Requires FRED_API_KEY for macro; optional PRICE_API_KEY (Twelve Data)."""
 import os, json, csv, io, math, datetime, pathlib, requests
-from cot_data import fetch_cot_data, calculate_cot_positioning
+from cot_data import fetch_cot_data, calculate_cot_positioning, calculate_financial_futures_positioning
 
 ROOT=pathlib.Path(__file__).parent
 CFG=json.loads((ROOT/'config.json').read_text())
@@ -428,7 +428,7 @@ def macro_scores(macro_data):
 
             data = macro_data.get(series, {})
 
-            if data.get('status') != 'ok':
+            if data.get('status') not in ('ok', 'stale'):
                 used[series] = None
                 continue
 
@@ -499,7 +499,7 @@ def us_economic_health(macro_data):
         data = macro_data.get(series, {})
         status = data.get("status")
 
-        if status != "ok":
+        if status not in ("ok", "stale"):
             details[name] = {
                 "status": status or "unavailable",
                 "score": None,
@@ -619,7 +619,7 @@ def us_financial_conditions(macro_data):
         data = macro_data.get(series, {})
         status = data.get("status")
 
-        if status != "ok":
+        if status not in ("ok", "stale"):
             details[name] = {
                 "status": status or "unavailable",
                 "score": None,
@@ -688,6 +688,15 @@ def us_financial_conditions(macro_data):
         ),
     }
 def main():
+    # Load previous readings for fallback when a data feed fails.
+    previous = {}
+    data_path = ROOT / 'data.json'
+    if data_path.exists():
+        try:
+            previous = json.loads(data_path.read_text())
+        except (ValueError, OSError) as e:
+            print(f'Previous data could not be loaded: {e}')
+
     out={'generated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'markets':{},'macro':{},
          'positioning':{'status':'manual','source':'https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm',
                         'note':'Weekly Tuesday positions typically published Friday. No automatic contract mapping configured.'},
@@ -712,6 +721,42 @@ def main():
         }
         print(f"Gold COT unavailable: {e}")
 
+    # Stock index COT positioning - separate from FMIS scores
+    out.setdefault("cot", {})
+
+    index_contracts = {
+        "sp500": "13874+",
+        "nasdaq100": "20974+"
+    }
+
+    for market, contract_code in index_contracts.items():
+        try:
+            reports = fetch_cot_data(
+                "financial_futures", contract_code
+            )
+            out["cot"][market] = (
+                calculate_financial_futures_positioning(reports)
+            )
+            print(f"{market} COT data retrieved successfully")
+        except Exception as e:
+            out["cot"][market] = {
+                "status": "unavailable",
+                "reason": str(e)
+            }
+            print(f"{market} COT unavailable: {e}")
+
+
+
+    # Preserve previous CFTC reports if a fresh request fails.
+    for market, latest in out.get('cot', {}).items():
+        if latest.get('status') != 'ok':
+            previous_cot = previous.get('cot', {}).get(market, {})
+            if previous_cot.get('status') == 'ok':
+                retained = dict(previous_cot)
+                retained['stale'] = True
+                retained['fallback_reason'] = 'Latest CFTC update unavailable'
+                out['cot'][market] = retained
+                print(f'{market}: retained previous CFTC report')
 
     for name, cfg in CFG['markets'].items():
         print(f"Processing market: {name}, symbol: {cfg['symbol']}")
@@ -719,6 +764,19 @@ def main():
             p = prices(cfg['symbol'])
         except Exception as e:
             p = {'status': 'unavailable', 'reason': str(e)}
+        # Preserve the previous valid price if the latest request fails.
+        if p.get('status') != 'ok':
+            previous_price = (
+                previous.get('markets', {})
+                .get(name, {})
+                .get('price', {})
+            )
+            if previous_price.get('status') in ('ok', 'stale'):
+                p = dict(previous_price)
+                p['status'] = 'stale'
+                p['fallback_reason'] = 'Latest price update unavailable'
+                print(f'{name}: retained previous price (stale)')
+
         out['markets'][name] = {**cfg, 'price': p}
     
     for series in CFG['macro_series']:
@@ -730,6 +788,17 @@ def main():
                 'reason': str(e)
             }
             
+
+    # Retain previous macroeconomic observations when FRED fails.
+    for series, latest in out['macro'].items():
+        if latest.get('status') != 'ok':
+            previous_macro = previous.get('macro', {}).get(series, {})
+            if previous_macro.get('status') in ('ok', 'stale'):
+                retained = dict(previous_macro)
+                retained['status'] = 'stale'
+                retained['fallback_reason'] = 'Latest FRED update unavailable'
+                out['macro'][series] = retained
+                print(f'{series}: retained previous observation (stale)')
 
     out['macro_scores'] = macro_scores(out['macro'])
     out['us_economic_health'] = us_economic_health(out['macro'])
