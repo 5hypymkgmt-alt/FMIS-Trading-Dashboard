@@ -1,6 +1,7 @@
 """Daily FMIS data updater. Requires FRED_API_KEY for macro; optional PRICE_API_KEY (Twelve Data)."""
 import os, json, csv, io, math, datetime, pathlib, requests
-from cot_data import fetch_cot_data, calculate_cot_positioning
+from market_regime import calculate_adx, classify_market_regime
+from cot_data import fetch_cot_data, calculate_cot_positioning, calculate_financial_futures_positioning
 
 ROOT=pathlib.Path(__file__).parent
 CFG=json.loads((ROOT/'config.json').read_text())
@@ -186,9 +187,9 @@ def prices(symbol):
             'status': 'unavailable',
             'reason': j.get('message', 'No price history returned')
         }
-        
 
-    
+
+
     vals = sorted(j['values'], key=lambda x: x['datetime'])
 
     try:
@@ -220,7 +221,7 @@ def prices(symbol):
                 })
 
 
-            
+
             groups = {}
             for d, c in zip(dates, close):
                 dt = datetime.date.fromisoformat(d)
@@ -235,6 +236,15 @@ def prices(symbol):
 
             ew = ema(w, 20)
             current_rsi = rsi(close)
+            current_adx = calculate_adx(high, low, close)
+            trend_direction = (
+                1 if last > e20 and e20 > e50
+                else -1 if last < e20 and e20 < e50
+                else 0
+            )
+            current_regime = classify_market_regime(
+                current_adx, trend_direction
+            )
 
             factors = {
             'price_vs_ema20': 1 if last > e20 else -1 if last < e20 else 0,
@@ -254,6 +264,8 @@ def prices(symbol):
             'ema20': round(e20, 3),
             'ema50': round(e50, 3),
             'rsi14': round(current_rsi, 2),
+            'adx14': current_adx,
+            'market_regime': current_regime,
             'factors': factors,
             'technical_score': sum(factors.values()),
             'technical_max': len(factors),
@@ -263,14 +275,14 @@ def prices(symbol):
             'feed': 'Twelve Data daily API; plan/exchange delays may apply'
         }
 
-    
+
     except (ValueError, KeyError, IndexError, TypeError) as e:
             return {
                 'status': 'unavailable',
                 'reason': str(e)
             }
 
-        
+
 
 
 
@@ -303,27 +315,64 @@ def macro(series):
             raise ValueError('Insufficient observations')
 
         latest = obs[0]
-        
-        previous = obs[min(20 if series in ('DFII10', 'DTWEXBGS') else 5, len(obs) - 1)]
 
+        if series == 'A191RL1Q225SBEA':
+            lookback = 1
+        elif series in ('T10Y2Y', 'BAMLH0A0HYM2'):
+            lookback = 20
+        elif series == 'STLFSI4':
+            lookback = 4
+        elif series == 'M2SL':
+            lookback = 3
+        elif series in ('DFII10', 'DTWEXBGS'):
+            lookback = 20
+        else:
+            lookback = 5
+
+        previous = obs[min(lookback, len(obs) - 1)]
 
         value = float(latest['value'])
         previous_value = float(previous['value'])
         change = value - previous_value
+        health_previous_value = float(obs[1]['value'])
+        health_change = value - health_previous_value
+        # Annual CPI inflation and its change
+        inflation_yoy = None
+        inflation_previous_yoy = None
+
+        if series == 'CPIAUCSL' and len(obs) >= 14:
+            cpi_12m = float(obs[12]['value'])
+            cpi_13m = float(obs[13]['value'])
+            cpi_1m = float(obs[1]['value'])
+
+            if cpi_12m > 0 and cpi_13m > 0:
+                inflation_yoy = round(
+                (value / cpi_12m - 1) * 100, 3
+            )
+            inflation_previous_yoy = round(
+                (cpi_1m / cpi_13m - 1) * 100, 3
+            )
 
         age = (
             TODAY - datetime.date.fromisoformat(latest['date'])
         ).days
 
-        # Monthly data has a longer acceptable age.
-        max_age = 75 if series in (
-            'UNRATE', 'CPIAUCSL'
-        ) else 10
+        # Allow for different economic reporting frequencies.
+        if series == 'A191RL1Q225SBEA':
+            max_age = 150
+        elif series in ('UNRATE', 'CPIAUCSL', 'INDPRO', 'RSAFS', 'UMCSENT', 'M2SL'):
+            max_age = 75
+        else:
+           max_age = 10
 
         return {
             'status': 'ok' if age <= max_age else 'stale',
             'value': value,
+            'inflation_yoy': inflation_yoy,
+            'inflation_previous_yoy': inflation_previous_yoy,
             'previous_value': previous_value,
+            'health_previous_value': health_previous_value,
+            'health_change': round(health_change, 4),
             'change': round(change, 4),
             'direction': (
                 'rising' if change > 0
@@ -391,7 +440,7 @@ def macro_scores(macro_data):
 
             data = macro_data.get(series, {})
 
-            if data.get('status') != 'ok':
+            if data.get('status') not in ('ok', 'stale'):
                 used[series] = None
                 continue
 
@@ -434,7 +483,232 @@ def macro_scores(macro_data):
 
     return results
 
+def us_economic_health(macro_data):
+    """Calculate a directional US economic health score."""
+
+    factors = {
+        "Employment": ("UNRATE", -1),
+        "Inflation": ("CPIAUCSL", -1),
+        "Industrial production": ("INDPRO", 1),
+        "Real GDP growth": ("A191RL1Q225SBEA", 1),
+        "Retail Sales": ("RSAFS", 1),
+        "Consumer Sentiment": ("UMCSENT", 1),
+    }
+    thresholds = {
+        "Employment": 0.1,
+        "Inflation": 0.1,
+        "Industrial production": 0.2,
+        "Real GDP growth": 0.2,
+        "Retail Sales": 1000,
+        "Consumer Sentiment": 1.0,
+    }
+
+    score = 0
+    details = {}
+    available = 0
+
+    for name, (series, weight) in factors.items():
+        data = macro_data.get(series, {})
+        status = data.get("status")
+
+        if status not in ("ok", "stale"):
+            details[name] = {
+                "status": status or "unavailable",
+                "score": None,
+                "series": series,
+            }
+            continue
+
+        if series == "CPIAUCSL":
+            current = data.get("inflation_yoy")
+            previous = data.get("inflation_previous_yoy")
+
+            if current is None or previous is None:
+                details[name] = {
+                    "status": "unavailable",
+                    "score": None,
+                    "series": series,
+                }
+                continue
+
+            if current < previous:
+                points = 1
+            elif current > previous:
+                points = -1
+            else:
+                points = 0
+
+            score += points
+            available += 1
+
+            details[name] = {
+                "status": "ok",
+                "score": points,
+                "series": series,
+                "inflation_yoy": current,
+                "inflation_previous_yoy": previous,
+                "observation_date": data.get("observation_date"),
+            }
+            continue
+        points = 0
+        health_change = data.get("health_change")
+
+
+        if health_change is None:
+            direction = None
+        elif health_change > 0:
+            direction = "rising"
+        elif health_change < 0:
+            direction = "falling"
+        else:
+            direction = "unchanged"
+
+        threshold = thresholds[name]
+
+        if health_change is None:
+            points = 0
+        elif abs(health_change) < threshold - 1e-9:
+            points = 0
+        elif health_change > 0:
+            points = weight
+        elif health_change < 0:
+            points = -weight
+        else:
+            points = 0
+
+
+        score += points
+        available += 1
+
+        details[name] = {
+            "status": "ok",
+            "score": points,
+            "series": series,
+            "value": data.get("value"),
+            "observation_date": data.get("observation_date"),
+        }
+
+    if available < len(factors):
+        bias = "Insufficient data"
+    elif score >= 2:
+        bias = "Bullish"
+    elif score <= -2:
+        bias = "Bearish"
+    else:
+        bias = "Neutral"
+
+    return {
+        "score": score,
+        "maximum_score": len(factors),
+        "indicators_available": available,
+        "bias": bias,
+        "factors": details,
+        "note": "Directional economic-health heuristic, not a trading signal",
+    }
+def us_financial_conditions(macro_data):
+    """Equal-weight US financial conditions and liquidity score."""
+
+    factors = {
+        "Treasury Yield Curve": ("T10Y2Y", "curve"),
+        "High-Yield Credit Spread": ("BAMLH0A0HYM2", "falling"),
+        "Financial Stress Index": ("STLFSI4", "falling"),
+        "M2 Money Supply": ("M2SL", "rising"),
+    }
+
+    # Minimum meaningful changes in each series' units.
+    thresholds = {
+        "T10Y2Y": 0.10,
+        "BAMLH0A0HYM2": 0.10,
+        "STLFSI4": 0.10,
+        "M2SL": 50.0,
+    }
+
+    score = 0
+    available = 0
+    details = {}
+
+    for name, (series, rule) in factors.items():
+        data = macro_data.get(series, {})
+        status = data.get("status")
+
+        if status not in ("ok", "stale"):
+            details[name] = {
+                "status": status or "unavailable",
+                "score": None,
+                "series": series,
+            }
+            continue
+
+        value = data.get("value")
+        change = data.get("change")
+
+        if value is None or change is None:
+            details[name] = {
+                "status": "unavailable",
+                "score": None,
+                "series": series,
+            }
+            continue
+
+        threshold = thresholds[series]
+        points = 0
+
+        if rule == "curve":
+            if value < 0:
+                points = -1
+            elif change >= threshold:
+                points = 1
+            elif change <= -threshold:
+                points = -1
+
+        elif abs(change) >= threshold:
+            if rule == "rising":
+                points = 1 if change > 0 else -1
+            elif rule == "falling":
+                points = 1 if change < 0 else -1
+
+        score += points
+        available += 1
+
+        details[name] = {
+            "status": "ok",
+            "score": points,
+            "series": series,
+            "value": value,
+            "change": change,
+            "observation_date": data.get("observation_date"),
+        }
+
+    if available < len(factors):
+        bias = "Insufficient data"
+    elif score >= 2:
+        bias = "Bullish"
+    elif score <= -2:
+        bias = "Bearish"
+    else:
+        bias = "Neutral"
+
+    return {
+        "score": score,
+        "maximum_score": len(factors),
+        "indicators_available": available,
+        "bias": bias,
+        "factors": details,
+        "note": (
+            "Heuristic financial conditions assessment, "
+            "not a trading signal"
+        ),
+    }
 def main():
+    # Load previous readings for fallback when a data feed fails.
+    previous = {}
+    data_path = ROOT / 'data.json'
+    if data_path.exists():
+        try:
+            previous = json.loads(data_path.read_text())
+        except (ValueError, OSError) as e:
+            print(f'Previous data could not be loaded: {e}')
+
     out={'generated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'markets':{},'macro':{},
          'positioning':{'status':'manual','source':'https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm',
                         'note':'Weekly Tuesday positions typically published Friday. No automatic contract mapping configured.'},
@@ -442,7 +716,7 @@ def main():
          'rules':{'minimum_rr':2,'max_risk_percent':1,'long_technical':'all core trend gates + technical score >= 4/5',
                   'short_technical':'all core trend gates + technical score <= -4/5',
                   'final':'NO TRADE until macro, positioning, sentiment, level reaction, stop and event risk are verified'}}
-    
+
     # Gold COT positioning - separate from existing FMIS scores
     try:
         gold_reports = fetch_cot_data("disaggregated", "088691")
@@ -459,6 +733,42 @@ def main():
         }
         print(f"Gold COT unavailable: {e}")
 
+    # Stock index COT positioning - separate from FMIS scores
+    out.setdefault("cot", {})
+
+    index_contracts = {
+        "sp500": "13874+",
+        "nasdaq100": "20974+"
+    }
+
+    for market, contract_code in index_contracts.items():
+        try:
+            reports = fetch_cot_data(
+                "financial_futures", contract_code
+            )
+            out["cot"][market] = (
+                calculate_financial_futures_positioning(reports)
+            )
+            print(f"{market} COT data retrieved successfully")
+        except Exception as e:
+            out["cot"][market] = {
+                "status": "unavailable",
+                "reason": str(e)
+            }
+            print(f"{market} COT unavailable: {e}")
+
+
+
+    # Preserve previous CFTC reports if a fresh request fails.
+    for market, latest in out.get('cot', {}).items():
+        if latest.get('status') != 'ok':
+            previous_cot = previous.get('cot', {}).get(market, {})
+            if previous_cot.get('status') == 'ok':
+                retained = dict(previous_cot)
+                retained['stale'] = True
+                retained['fallback_reason'] = 'Latest CFTC update unavailable'
+                out['cot'][market] = retained
+                print(f'{market}: retained previous CFTC report')
 
     for name, cfg in CFG['markets'].items():
         print(f"Processing market: {name}, symbol: {cfg['symbol']}")
@@ -466,8 +776,21 @@ def main():
             p = prices(cfg['symbol'])
         except Exception as e:
             p = {'status': 'unavailable', 'reason': str(e)}
+        # Preserve the previous valid price if the latest request fails.
+        if p.get('status') != 'ok':
+            previous_price = (
+                previous.get('markets', {})
+                .get(name, {})
+                .get('price', {})
+            )
+            if previous_price.get('status') in ('ok', 'stale'):
+                p = dict(previous_price)
+                p['status'] = 'stale'
+                p['fallback_reason'] = 'Latest price update unavailable'
+                print(f'{name}: retained previous price (stale)')
+
         out['markets'][name] = {**cfg, 'price': p}
-    
+
     for series in CFG['macro_series']:
         try:
             out['macro'][series] = macro(series)
@@ -476,10 +799,22 @@ def main():
                 'status': 'unavailable',
                 'reason': str(e)
             }
-            
+
+
+    # Retain previous macroeconomic observations when FRED fails.
+    for series, latest in out['macro'].items():
+        if latest.get('status') != 'ok':
+            previous_macro = previous.get('macro', {}).get(series, {})
+            if previous_macro.get('status') in ('ok', 'stale'):
+                retained = dict(previous_macro)
+                retained['status'] = 'stale'
+                retained['fallback_reason'] = 'Latest FRED update unavailable'
+                out['macro'][series] = retained
+                print(f'{series}: retained previous observation (stale)')
 
     out['macro_scores'] = macro_scores(out['macro'])
-
+    out['us_economic_health'] = us_economic_health(out['macro'])
+    out['us_financial_conditions'] = us_financial_conditions(out['macro'])
     (ROOT / 'data.json').write_text(
         json.dumps(out, indent=2)
     )
@@ -490,4 +825,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-    
+
