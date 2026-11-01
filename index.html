@@ -15,27 +15,201 @@
   @media(max-width:480px){.market-gauge{margin:6px auto 12px}}
 progress{appearance:none;-webkit-appearance:none;background:#17263b;border:1px solid #40536c;border-radius:20px;overflow:hidden}progress::-webkit-progress-bar{background:#17263b;border-radius:20px}progress::-webkit-progress-value{background:var(--bar-color,#eaf1fc);border-radius:20px}.fmis-market-card .metric{font-size:15px;font-weight:700;color:#bcd5f5;letter-spacing:.5px}.fmis-market-card .big{font-size:32px;font-weight:800;color:#f2f7ff;text-shadow:0 0 12px #72a9ff35;margin:4px 0 12px}
 .fmis-market-card .fmis-bias-label{display:inline-block;padding:3px 10px;border-radius:8px;background:color-mix(in srgb,currentColor 12%,transparent);border:1px solid currentColor;box-shadow:0 0 10px color-mix(in srgb,currentColor 15%,transparent);font-weight:800}
-#us-financial-conditions .fmis-financial-score{padding:18px 20px;margin:12px 0 18px;border:1px solid #486080;border-radius:14px;background:linear-gradient(145deg,#203754,#111d30);box-shadow:inset 0 1px 0 #ffffff18,0 8px 20px #00000025;text-align:center}#us-financial-conditions .fmis-financial-score .big{font-size:38px;font-weight:800;margin:0}#us-financial-conditions .fmis-financial-score .fmis-financial-bias{font-size:16px;font-weight:700;margin:6px 0 0}#us-economic-health .fmis-health-score{padding:18px 20px;margin:12px 0 18px;border:1px solid #486080;border-radius:14px;background:linear-gradient(145deg,#203754,#111d30);box-shadow:inset 0 1px 0 #ffffff18,0 8px 20px #00000025;text-align:center}#us-economic-health .fmis-health-score .big{font-size:38px;font-weight:800;margin:0}#us-economic-health .fmis-health-score .fmis-health-bias{font-size:16px;font-weight:700;margin:6px 0 0}</style><style>.fmis-section-heading{margin:22px 0 10px;padding:10px 14px;border-left:3px solid #64748b;border-bottom:1px solid #334155;background:rgba(30,41,59,.45);border-radius:4px;color:#e2e8f0;font-size:14px;font-weight:700;letter-spacing:.4px}</style></head><body><header><h1>FMIS <span style="color:var(--accent)">/ Market Intelligence</span></h1><p class="sub">Daily swing-trading research · transparent scoring · timestamped sources</p></header><main><p class="note" id="status">Loading data…</p><section class="grid" id="markets"></section>
-<section class="card" id="upcoming-events">
-  <h2>Upcoming High-Impact Events</h2>
+#us-financial-conditions .fmis-financial-score{padding:18px 20px;margin:12px 0 18px;border:1px solid #486080;border-radius:14px;background:linear-gradient(145deg,#203754,#111d30);box-shadow:inset 0 1px 0 #ffffff18,0 8px 20px #00000025;text-align:center}#us-financial-conditions .fmis-financial-score .big{font-size:38px;font-weight:800;margin:0}#us-financial-conditions .fmis-financial-score .fmis-financial-bias{font-size:16px;font-weight:700;margin:6px 0 0}#us-economic-health .fmis-health-score{padding:18px 20px;margin:12px 0 18px;border:1px solid #486080;border-radius:14px;background:linear-gradient(145deg,#203754,#111d30);box-shadow:inset 0 1px 0 #ffffff18,0 8px 20px #00000025;text-align:center}#us-economic-health .fmis-health-score .big{font-size:38px;font-weight:800;margin:0}#us-economic-health .fmis-health-score .fmis-health-bias{font-size:16px;font-weight:700;margin:6px 0 0}</style><style>.fmis-section-heading{margin:22px 0 10px;padding:10px 14px;border-left:3px solid #64748b;border-bottom:1px solid #334155;background:rgba(30,41,59,.45);border-radius:4px;color:#e2e8f0;font-size:14px;font-weight:700;letter-spacing:.4px}</style>
+<style>
+.fmis-economic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .fmis-economic-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<style>
+.fmis-compact-panel {
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.fmis-compact-panel > summary {
+  cursor: pointer;
+  padding: 16px 18px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #eaf1fc;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.fmis-compact-panel > summary::-webkit-details-marker {
+  display: none;
+}
+.fmis-compact-panel > summary::after {
+  content: "▾";
+  color: #72a9ff;
+  font-size: 18px;
+  transition: transform .2s ease;
+}
+.fmis-compact-panel[open] > summary::after {
+  transform: rotate(180deg);
+}
+.fmis-panel-content {
+  padding: 0 18px 18px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+</style>
+
+<style>
+.fmis-economic-grid .fmis-compact-panel[open] {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+.fmis-economic-grid .fmis-compact-panel[open] > summary {
+  flex-shrink: 0;
+}
+.fmis-economic-grid .fmis-compact-panel[open] > .fmis-panel-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+@media (max-width: 900px) {
+  .fmis-economic-grid .fmis-compact-panel[open] {
+    height: auto;
+    max-height: 500px;
+  }
+}
+</style>
+
+<style>
+#fmis-analysis-grid .fmis-compact-panel[open] {
+  height: auto;
+  max-height: 500px;
+  display: block;
+}
+#fmis-analysis-grid .fmis-panel-content {
+  max-height: 420px;
+  overflow-y: auto;
+}
+</style>
+
+<style>
+#fmis-positioning-panel .twocol {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+#fmis-positioning-panel .card {
+  min-width: 0;
+  padding: 12px;
+}
+#fmis-positioning-panel .row {
+  gap: 8px;
+}
+
+/* Compact Signal Review */
+.fmis-signal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  margin-top: 14px;
+}
+
+.fmis-signal-layout > div {
+  min-width: 0;
+}
+
+.fmis-signal-layout .market-gauge {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.fmis-signal-layout .market-gauge svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 750px) {
+  .fmis-signal-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+/* FMIS Global Market Network Theme */
+body {
+  background-color: #070e1b;
+  background-image:
+    linear-gradient(
+      rgba(7, 14, 27, 0.12),
+      rgba(7, 14, 27, 0.12)
+    ),
+    url("fmis-energy-ribbons.svg");
+  background-size: 100% 100%, 100% auto;
+  background-position: center top, center top;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, scroll;
+}
+body::before {
+  content: none;
+}
+</style>
+</head><body><header><h1>FMIS <span style="color:var(--accent)">/ Market Intelligence</span></h1><p class="sub">Daily swing-trading research · transparent scoring · timestamped sources</p></header><main><p class="note" id="status">Loading data…</p><div style="margin-top:14px"><section class="card"><h2>Signal review</h2><label for="market">Market</label><select id="market"></select><div id="detail"></div></section></div>
+
+
+<details class="card fmis-compact-panel" id="upcoming-events">
+  <summary>
+  Upcoming High-Impact Events
+  <span id="fmis-calendar-preview"
+        style="display:block;margin-top:7px;font-size:13px;font-weight:normal;line-height:1.6;color:#9daec4">
+    Loading next economic event...
+  </span>
+</summary>
+  <div class="fmis-panel-content">
   <div id="fmis-event-indicator">
     <p>Economic calendar loading...</p>
   </div>
-</section>
-<div class="twocol"><section class="card"><h2>Daily chart</h2><label>Market</label><select id="market"></select><div id="chart"></div><p class="small">Third-party TradingView chart. Data may be delayed. Chart symbols and API scoring instruments may differ.</p></section><section class="card"><h2>Signal review</h2><div id="detail"></div><p class="note">A technical candidate is not a trade. Final approval requires current macro/positioning context, pre-marked level reaction, stop, event-risk check and planned reward/risk ≥ 2.</p><label>Entry price</label><input type="number" step="any" id="entry" placeholder="Entry"><label>Stop price</label><input type="number" step="any" id="stop" placeholder="Stop"><label>Target price</label><input type="number" step="any" id="target" placeholder="Target"><label>Account equity (£)</label><input type="number" step="any" id="equity" placeholder="Account equity"><button onclick="risk()">Check risk/reward</button><p id="risk"></p></section></div><div class="twocol"><section class="card"><h2>Economic conditions</h2>
-<a href="calendar-api-test.html" target="_blank" rel="noopener noreferrer" style="color:#72a9ff;margin-left:12px;font-size:14px;">📅 View Economic Calendar</a>
-<p class="small">Raw FRED observations. These are NOT automatically directional scores. Publication date may differ from observation date.</p><div id="macro"></div></section><section class="card">
-<h2>US Economic Health</h2>
-<div id="us-economic-health">Loading economic health...</div>
-</section>
-  <section class="card">
-  <h2>US Financial Conditions &amp; Liquidity</h2>
-  <div id="us-financial-conditions">
-    Loading financial conditions...
   </div>
-</section>
+</details>
 
-<section class="card"><h2>Sentiment & institutional positioning</h2><div id="sentiment"></div><h2>Source register</h2><a class="source" href="https://fred.stlouisfed.org/" target="_blank" rel="noreferrer">FRED — economic time series</a><a class="source" href="https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm" target="_blank" rel="noreferrer">CFTC — weekly positioning</a><a class="source" href="https://twelvedata.com/" target="_blank" rel="noreferrer">Twelve Data — daily OHLC feed</a><a class="source" href="https://www.tradingview.com/" target="_blank" rel="noreferrer">TradingView — chart</a></section></div><p class="small">FMIS is independent research software, not affiliated with A1 Trading or EdgeFinder. This is not investment advice. Price data and API availability depend on external providers.</p></main><script>
+<div class="fmis-economic-grid" id="fmis-analysis-grid">
+<details class="card fmis-compact-panel">
+<summary>Market Structure (BOS / CHoCH)</summary>
+<div class="fmis-panel-content" id="fmis-structure-panel"></div>
+</details>
+<details class="card fmis-compact-panel">
+<summary>Institutional Positioning</summary>
+<div class="fmis-panel-content" id="fmis-positioning-panel"></div>
+</details>
+<details class="card fmis-compact-panel">
+<summary>Macroeconomic Analysis</summary>
+<div class="fmis-panel-content" id="fmis-macro-panel"></div>
+</details>
+</div>
+<div class="fmis-economic-grid"><details class="card fmis-compact-panel"><summary>Economic Conditions</summary><div class="fmis-panel-content">
+<a href="calendar-api-test.html" target="_blank" rel="noopener noreferrer" style="color:#72a9ff;margin-left:12px;font-size:14px;">📅 View Economic Calendar</a>
+<p class="small">Raw FRED observations. These are NOT automatically directional scores. Publication date may differ from observation date.</p><div id="macro"></div></div></details><details class="card fmis-compact-panel"><summary>US Economic Health</summary><div class="fmis-panel-content"><div id="us-economic-health">Loading economic health...</div></div></details>
+  <details class="card fmis-compact-panel"><summary>US Financial Conditions &amp; Liquidity</summary><div class="fmis-panel-content"><div id="us-financial-conditions">Loading financial conditions...</div></div></details>
+
+</div><section class="grid" id="markets" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-top:14px"></section>
+
+
+
+<p class="small">FMIS is independent research software, not affiliated with A1 Trading or EdgeFinder. This is not investment advice. Price data and API availability depend on external providers.</p></main><script>
 let data=null;const $=id=>document.getElementById(id);const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function fmt(n){return typeof n==='number'?n.toLocaleString(undefined,{maximumFractionDigits:3}):'—'}
 function calculateFMISScore(n) {
@@ -97,7 +271,7 @@ if (staleCount > 0 || unavailableCount > 0) {
         ' • All feeds reported available. Check observation dates.';
     statusBox.style.borderLeftColor = '#22c55e';
 }
-$('markets').innerHTML=names.map(n=>{let p=data.markets[n].price || {status:'unavailable',factors:{}};let fmis=calculateFMISScore(n);let fmisScore=fmis.score===null?'Unavailable':(fmis.score>0?'+':'')+fmis.score+' / 75';let fmisConfidence=fmis.confidence===null?'Unavailable':fmis.confidence.toFixed(0)+'%';return `<div class="card fmis-market-card"><div class="metric">${safe(n)}</div><div class="big">${p.status==='ok'||p.status==='stale'?fmt(p.close):'No data'}</div><div class="row"><span>Overall bias</span><b class="fmis-bias-label" style="color:${fmis.color}">${safe(fmis.bias)}</b></div><div class="row"><span>Combined score</span><b style="color:${fmis.color}">${fmisScore}</b></div><div class="row"><span>Confidence</span><b style="color:${fmis.color}">${fmisConfidence}</b></div><progress max="100" value="${fmis.confidence||0}" style="width:100%;height:9px;accent-color:${fmis.color};--bar-color:${fmis.color}"></progress><span class="badge ${p.status==='ok'?'good':'warning'}">${safe(p.status)}</span><p class="small">${safe(p.date||p.reason||'')}</p><p class="small">${safe(data.markets[n].note)}</p></div>`}).join('');$('market').innerHTML=names.map(n=>`<option>${safe(n)}</option>`).join('');$('market').onchange=showMarket;showMarket();
+$('markets').innerHTML=names.map(n=>{let p=data.markets[n].price || {status:'unavailable',factors:{}};let fmis=calculateFMISScore(n);let fmisScore=fmis.score===null?'Unavailable':(fmis.score>0?'+':'')+fmis.score+' / 75';let fmisConfidence=fmis.confidence===null?'Unavailable':fmis.confidence.toFixed(0)+'%';return `<div class="card fmis-market-card"><div class="metric">${safe(n)}</div><div class="big">${p.status==='ok'||p.status==='stale'?fmt(p.close):'No data'}</div><div class="row"><span>Overall bias</span><b class="fmis-bias-label" style="color:${fmis.color}">${safe(fmis.bias)}</b></div><div class="row"><span>Combined score</span><b style="color:${fmis.color}">${fmisScore}</b></div><div class="row"><span>ADX (14)</span><b>${Number.isFinite(p.adx14)?p.adx14.toFixed(2):"Unavailable"}</b></div><div class="row"><span>Market Regime</span><b style="color:${p.market_regime?.includes("Bullish")?"#22c55e":p.market_regime?.includes("Bearish")?"#ef4444":"#eaf1fc"}">${safe(p.market_regime||"Unavailable")}</b></div><div class="row"><span>Confidence</span><b style="color:${fmis.color}">${fmisConfidence}</b></div><progress max="100" value="${fmis.confidence||0}" style="width:100%;height:9px;accent-color:${fmis.color};--bar-color:${fmis.color}"></progress><span class="badge ${p.status==='ok'?'good':'warning'}">${safe(p.status)}</span><p class="small">${safe(p.date||p.reason||'')}</p><p class="small">${safe(data.markets[n].note)}</p></div>`}).join('');$('market').innerHTML=names.map(n=>`<option>${safe(n)}</option>`).join('');$('market').onchange=showMarket;showMarket();
 $('macro').innerHTML=Object.entries(data.macro).map(([k,v])=>`<div class="row"><span><a href="${safe(v.source||'https://fred.stlouisfed.org/')}" target="_blank" rel="noreferrer">${safe(k)}</a></span><b>${v.status==='ok'||v.status==='stale'?fmt(v.value):'Unavailable'}</b></div><p class="small">${safe(v.observation_date||v.reason||'')} • ${safe(v.status)}</p>`).join('');
 const cot = data.cot || {};
 
@@ -141,15 +315,15 @@ const cotRow = (label, v) => {
 };
 
 const cotCard = (name, item, rows) => `
-  <div class="card" style="background:#101b2c;border-color:#344760">
+  <div class="card" data-cot-market="${name.startsWith('Gold') ? 'Gold' : name.startsWith('S&P') ? 'S&P 500' : 'Nasdaq 100'}" style="background:#101b2c;border-color:#344760">
     <h3>${safe(name)}</h3>
     <p class="small">CFTC report: ${safe(item?.report_date || "Unavailable")}</p>
     ${rows}
   </div>`;
 
-$('sentiment').innerHTML = `
-  <div class="fmis-section-heading">Institutional Positioning · CFTC</div>
-  <p class="small">Weekly positioning data. Net positions are contracts, not a real-time trading signal.</p>
+$('fmis-positioning-panel').innerHTML = `
+  
+  
 
   <div class="twocol">
     ${cotCard("Gold · Managed Money", cot.gold,
@@ -165,14 +339,7 @@ $('sentiment').innerHTML = `
       cotRow("Leveraged Funds", cot.nasdaq100?.leveraged_funds))}
   </div>
 
-  <div class="fmis-section-heading">Retail Sentiment</div>
-  <p><b>Status:</b> ${safe(data.sentiment.status)}</p>
-  <p class="small">${safe(data.sentiment.note)}</p>
 
-  <p class="small">
-    COT data is published weekly and is deliberately excluded
-    from automated FMIS conviction scores.
-  </p>
 `;
 
 
@@ -309,7 +476,12 @@ if (financialPanel) {
   }
  }
  }                 
-  function showMarket(){let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
+  function showMarket(){
+  const cotMarketCards = document.querySelectorAll('#fmis-positioning-panel [data-cot-market]');
+  cotMarketCards.forEach(card => {
+    card.hidden = card.dataset.cotMarket !== $('market').value;
+  });
+  let n=$('market').value,m=data.markets[n],p=m.price || {status:'unavailable',factors:{}};let ms=data.macro_scores?.[n];let core=p.factors||{};let factorNames={
   price_vs_ema20:'Price vs 20 EMA',
   ema20_vs_ema50:'20 EMA vs 50 EMA',
   weekly_trend:'Weekly trend',
@@ -317,7 +489,7 @@ if (financialPanel) {
   rsi_14:'RSI (14)'
 };
 let technicalRows=Object.entries(core).map(([key,value])=>
-  `<div class="row"><span>${safe(factorNames[key]||key)}</span><b class="${value>0?'good':value<0?'bad':'warning'}">${value>0?'+1 Bullish':value<0?'−1 Bearish':'0 Neutral'}</b></div>`
+  `<div class="row"><span>${safe(factorNames[key]||key)}</span><b style="color:${value>0?'#22c55e':value<0?'#ef4444':'#ffffff'}">${value>0?'+1 Bullish':value<0?'−1 Bearish':'0 Neutral'}</b></div>`
 ).join('');
 
 
@@ -339,6 +511,9 @@ let structureHistory = (p.recent_structure || [])
   .join('');
 
                       
+$('fmis-structure-panel').innerHTML =
+  structureHistory || '<div class="row"><span>No recent structure events</span></div>';
+
 let alignedLong=core.price_vs_ema20===1&&core.ema20_vs_ema50===1&&core.weekly_trend===1;let alignedShort=core.price_vs_ema20===-1&&core.ema20_vs_ema50===-1&&core.weekly_trend===-1;let candidate=p.status==='ok'&&p.technical_score>=4&&alignedLong?'LONG TECHNICAL CANDIDATE':p.status==='ok'&&p.technical_score<=-4&&alignedShort?'SHORT TECHNICAL CANDIDATE':'NO TRADE';
 
  let realYield = data.macro?.DFII10 || {};
@@ -368,6 +543,13 @@ let realYieldRows = n === 'Gold' ? `
 <div class="row"><span>Yield direction</span><b>${realYield.status === 'ok' ? safe(realYield.direction) : 'Unavailable'}</b></div>
 <div class="row"><span>Gold macro implication</span><b>${realYield.status !== 'ok' ? 'Unavailable' : realYield.direction === 'falling' ? 'Supportive' : realYield.direction === 'rising' ? 'Unfavourable' : 'Neutral'}</b></div>
 ` : '';
+
+$('fmis-macro-panel').innerHTML = `
+  ${realYieldRows}
+  ${dollarRows}
+  <div class="row"><span>Macro score</span><b>${ms ? ms.score+' / '+ms.maximum_score : 'Unavailable'}</b></div>
+  <div class="row"><span>Macro outlook</span><b>${ms ? safe(ms.bias) : 'Unavailable'}</b></div>
+`;
 
 const gaugeScore = fmisResult.score;
 const gaugeBias = fmisResult.bias;
@@ -445,35 +627,15 @@ ${ticks}${labels}
 <text class="dial-confidence" x="570" y="417" text-anchor="end" fill="${gaugeColor}">${gaugeConfidence}</text>
 </svg>
 </div>
-`;$('detail').innerHTML=`${gaugeHTML}${overallGoldDisplay}
+`;$('detail').innerHTML=`<div class="fmis-signal-layout"><div>${gaugeHTML}${overallGoldDisplay}
 ${overallIndexDisplay}
-<div class="fmis-section-heading">Technical Analysis</div>
+</div><div><div class="fmis-section-heading">Technical Analysis</div>
 <div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
-<div class="row"><span>Daily close</span><b>${fmt(p.close)}</b></div><div class="row"><span>20 EMA</span><b>${fmt(p.ema20)}</b></div><div class="row"><span>50 EMA</span><b>${fmt(p.ema50)}</b></div><div class="row"><span>RSI (14) Value</span><b>${fmt(p.rsi14)}</b></div><div class="row"><span>As-of date</span><b>${safe(p.date||'Unavailable')}</b></div><p><span class="badge">${candidate}</span></p><p class="small">Technical score only; final system status: NO TRADE until independent context and risk checks are complete.</p>
+<div class="row"><span>Daily close</span><b>${fmt(p.close)}</b></div><div class="row"><span>20 EMA</span><b>${fmt(p.ema20)}</b></div><div class="row"><span>50 EMA</span><b>${fmt(p.ema50)}</b></div><div class="row"><span>200 EMA</span><b>${fmt(p.ema200)}</b></div><div class="row"><span>Weekly Pivot</span><b>${fmt(p.weekly_pivot)}</b></div><div class="row"><span>4-Indicator Confluence</span><b style="color:${typeof p.confluence_score==='number'?(p.confluence_score>0?'#29dc78':p.confluence_score<0?'#ff3447':'#f1f5f9'):'#f1f5f9'}">${typeof p.confluence_score==='number'?(p.confluence_score>0?'+':'')+p.confluence_score+' / 4':'Unavailable'}</b></div><div class="row"><span>RSI (14) Value</span><b>${fmt(p.rsi14)}</b></div><div class="row"><span>ADX (14)</span><b>${fmt(p.adx14)}</b></div><div class="row"><span>Market Regime</span><b>${safe(p.market_regime||"Unavailable")}</b></div><div class="row"><span>As-of date</span><b>${safe(p.date||'Unavailable')}</b></div><p><span class="badge">${candidate}</span></p></div></div>`;
 
-<div class="fmis-section-heading">Market Structure (BOS / CHoCH)</div>
-${structureHistory || '<div class="row"><span>No recent structure events</span></div>'}
-
-
-
-${n === 'Gold' && data.cot?.gold?.status === 'ok' ? `
-  <div class="fmis-section-heading">Institutional Positioning — Gold COT</div>
-  <div class="row"><span>Report date</span><b>${safe(data.cot.gold.report_date)}</b></div>
-  <div class="row"><span>Long positions</span><b>${Number(data.cot.gold.long).toLocaleString()}</b></div>
-  <div class="row"><span>Short positions</span><b>${Number(data.cot.gold.short).toLocaleString()}</b></div>
-  <div class="row"><span>Net positioning</span><b style="color:${data.cot.gold.net >= 0 ? '#22c55e' : '#ef4444'}">${data.cot.gold.net > 0 ? '+' : ''}${Number(data.cot.gold.net).toLocaleString()}</b></div>
-  <div class="row"><span>Weekly change</span><b style="color:${data.cot.gold.weekly_change > 0 ? '#22c55e' : data.cot.gold.weekly_change < 0 ? '#ef4444' : '#ffffff'}">${data.cot.gold.weekly_change > 0 ? '+' : ''}${Number(data.cot.gold.weekly_change).toLocaleString()}</b></div>
-  <div class="row"><span>Positioning bias</span><b style="color:${data.cot.gold.net >= 0 ? '#22c55e' : '#ef4444'}">${safe(data.cot.gold.bias)}</b></div>
-` : ''}
-
-<div class="fmis-section-heading">Macroeconomic Analysis</div>
-${realYieldRows}
-${dollarRows}
-<div class="row"><span>Macro score</span><b>${ms ? ms.score+' / '+ms.maximum_score : 'Unavailable'}</b></div><div class="row"><span>Macro outlook</span><b>${ms ? safe(ms.bias) : 'Unavailable'}</b></div>`;
-
-let sym=encodeURIComponent(m.chart);$('chart').innerHTML=`<iframe title="Daily market chart" src="https://s.tradingview.com/widgetembed/?symbol=${sym}&interval=D&theme=dark&style=1&hidesidetoolbar=1&hideideas=1&locale=en" loading="lazy"></iframe>`;}
+}
 function risk(){let e=Number($('entry').value),s=Number($('stop').value),t=Number($('target').value),eq=Number($('equity').value);if(!e||!s||!t||!eq||e===s){$('risk').textContent='Enter valid nonzero values.';return}let rr=Math.abs((t-e)/(e-s));let dir=Math.sign(e-s);let valid=(dir===1&&t>e)||(dir===-1&&t<e);$('risk').textContent=`R:R = ${rr.toFixed(2)} : 1. Maximum planned risk at 1% equity = £${(eq*.01).toFixed(2)}. ${valid&&rr>=2?'R:R passes, but position size, contract value, funding and event risk remain unchecked.':'NO TRADE: direction or R:R rule failed.'}`}
 fetch('./data.json?ts='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Missing data.json');return r.json()}).then(d=>{data=d;render()}).catch(e=>{$('status').textContent='Data unavailable: '+e.message+'. Run python update.py and deploy data.json.'});
 </script>
-<script src="fmis-calendar.js?v=20261030" defer></script>
+<script src="fmis-calendar.js?v=20261031" defer></script>
 </body></html>
