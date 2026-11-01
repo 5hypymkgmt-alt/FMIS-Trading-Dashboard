@@ -316,7 +316,17 @@ const macroCard = (code, label, item) => {
   if (!item) return '';
 
   const available = item.status === 'ok' || item.status === 'stale';
-  const value = available ? fmt(item.value) : 'Unavailable';
+  const units = {
+  DGS10: '%',
+  DFII10: '%',
+  DTWEXBGS: '',
+  T10Y2Y: ' pp',
+  BAMLH0A0HYM2: '%',
+  VIXCLS: ''
+};
+const value = available
+  ? fmt(item.value) + (units[code] || '')
+  : 'Unavailable';
   const source = item.source || 'https://fred.stlouisfed.org/';
 
   return `<div style="background:#101b2c;border:1px solid #344760;border-radius:9px;padding:10px;min-width:0">
