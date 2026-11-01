@@ -1,5 +1,6 @@
 """Daily FMIS data updater. Requires FRED_API_KEY for macro; optional PRICE_API_KEY (Twelve Data)."""
 import os, json, csv, io, math, datetime, pathlib, requests
+from market_regime import calculate_adx, classify_market_regime
 from cot_data import fetch_cot_data, calculate_cot_positioning, calculate_financial_futures_positioning
 
 ROOT=pathlib.Path(__file__).parent
@@ -204,6 +205,26 @@ def prices(symbol):
             last = close[-1]
             e20 = ema(close, 20)
             e50 = ema(close, 50)
+            e200 = ema(close, 200)
+            # Traditional weekly pivot: previous completed week
+            latest_date = datetime.date.fromisoformat(dates[-1])
+            current_week_start = latest_date - datetime.timedelta(
+                days=latest_date.weekday()
+            )
+            previous_week_start = current_week_start - datetime.timedelta(days=7)
+
+            previous_week_bars = [
+                i for i, d in enumerate(dates)
+                if previous_week_start <= datetime.date.fromisoformat(d) < current_week_start
+            ]
+
+            if not previous_week_bars:
+                raise ValueError('No previous completed weekly bars available')
+
+            pivot_high = max(high[i] for i in previous_week_bars)
+            pivot_low = min(low[i] for i in previous_week_bars)
+            pivot_close = close[previous_week_bars[-1]]
+            weekly_pivot = (pivot_high + pivot_low + pivot_close) / 3
             structure = market_structure(high, low, close, dates)
             recent_structure = []
             for i in range(max(0, len(close) - 20), len(close)):
@@ -234,7 +255,25 @@ def prices(symbol):
                 raise ValueError('At least 21 completed weekly bars required')
 
             ew = ema(w, 20)
+            # Four-indicator technical confluence
+            confluence_factors = {
+                'price_vs_ema20': 1 if last > e20 else -1 if last < e20 else 0,
+                'price_vs_ema50': 1 if last > e50 else -1 if last < e50 else 0,
+                'price_vs_ema200': 1 if last > e200 else -1 if last < e200 else 0,
+                'price_vs_weekly_pivot': 1 if last > weekly_pivot else -1 if last < weekly_pivot else 0
+            }
+
+            confluence_score = sum(confluence_factors.values())
             current_rsi = rsi(close)
+            current_adx = calculate_adx(high, low, close)
+            trend_direction = (
+                1 if last > e20 and e20 > e50
+                else -1 if last < e20 and e20 < e50
+                else 0
+            )
+            current_regime = classify_market_regime(
+                current_adx, trend_direction
+            )
 
             factors = {
             'price_vs_ema20': 1 if last > e20 else -1 if last < e20 else 0,
@@ -253,10 +292,17 @@ def prices(symbol):
             'close': round(last, 3),
             'ema20': round(e20, 3),
             'ema50': round(e50, 3),
+            'ema200': round(e200, 3),
+            'weekly_pivot': round(weekly_pivot, 3),
             'rsi14': round(current_rsi, 2),
+            'adx14': current_adx,
+            'market_regime': current_regime,
             'factors': factors,
             'technical_score': sum(factors.values()),
             'technical_max': len(factors),
+            'confluence_factors': confluence_factors,
+            'confluence_score': confluence_score,
+            'confluence_max': 4,
             'market_structure': structure,
             'recent_structure': recent_structure,
             'source': 'https://twelvedata.com/',
