@@ -68,6 +68,32 @@ progress{appearance:none;-webkit-appearance:none;background:#17263b;border:1px s
 </style>
 
 <style>
+/* Compact FRED Economic Conditions panel only */
+.fmis-economic-grid > details:first-child .row {
+  margin: 3px 0;
+  gap: 8px;
+  align-items: center;
+}
+
+.fmis-economic-grid > details:first-child .fmis-panel-content > p.small {
+  margin: 4px 0 8px;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.fmis-economic-grid > details:first-child #macro > p.small {
+  margin: 1px 0 6px;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.fmis-economic-grid > details:first-child #macro > .row {
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+</style>
+
+<style>
 .fmis-economic-grid .fmis-compact-panel[open] {
   height: 500px;
   display: flex;
@@ -272,7 +298,50 @@ if (staleCount > 0 || unavailableCount > 0) {
     statusBox.style.borderLeftColor = '#22c55e';
 }
 $('markets').innerHTML=names.map(n=>{let p=data.markets[n].price || {status:'unavailable',factors:{}};let fmis=calculateFMISScore(n);let fmisScore=fmis.score===null?'Unavailable':(fmis.score>0?'+':'')+fmis.score+' / 75';let fmisConfidence=fmis.confidence===null?'Unavailable':fmis.confidence.toFixed(0)+'%';return `<div class="card fmis-market-card"><div class="metric">${safe(n)}</div><div class="big">${p.status==='ok'||p.status==='stale'?fmt(p.close):'No data'}</div><div class="row"><span>Overall bias</span><b class="fmis-bias-label" style="color:${fmis.color}">${safe(fmis.bias)}</b></div><div class="row"><span>Combined score</span><b style="color:${fmis.color}">${fmisScore}</b></div><div class="row"><span>ADX (14)</span><b>${Number.isFinite(p.adx14)?p.adx14.toFixed(2):"Unavailable"}</b></div><div class="row"><span>Market Regime</span><b style="color:${p.market_regime?.includes("Bullish")?"#22c55e":p.market_regime?.includes("Bearish")?"#ef4444":"#eaf1fc"}">${safe(p.market_regime||"Unavailable")}</b></div><div class="row"><span>Confidence</span><b style="color:${fmis.color}">${fmisConfidence}</b></div><progress max="100" value="${fmis.confidence||0}" style="width:100%;height:9px;accent-color:${fmis.color};--bar-color:${fmis.color}"></progress><span class="badge ${p.status==='ok'?'good':'warning'}">${safe(p.status)}</span><p class="small">${safe(p.date||p.reason||'')}</p><p class="small">${safe(data.markets[n].note)}</p></div>`}).join('');$('market').innerHTML=names.map(n=>`<option>${safe(n)}</option>`).join('');$('market').onchange=showMarket;showMarket();
-$('macro').innerHTML=Object.entries(data.macro).map(([k,v])=>`<div class="row"><span><a href="${safe(v.source||'https://fred.stlouisfed.org/')}" target="_blank" rel="noreferrer">${safe(k)}</a></span><b>${v.status==='ok'||v.status==='stale'?fmt(v.value):'Unavailable'}</b></div><p class="small">${safe(v.observation_date||v.reason||'')} • ${safe(v.status)}</p>`).join('');
+
+const macroData = data.macro || {};
+
+const keyIndicators = [
+  ['DGS10', 'US 10-Year Treasury'],
+  ['DFII10', 'US 10-Year Real Yield'],
+  ['DTWEXBGS', 'US Dollar Strength'],
+  ['T10Y2Y', '10Y–2Y Yield Curve'],
+  ['BAMLH0A0HYM2', 'High-Yield Credit Spread']
+  ,['VIXCLS', 'VIX Volatility Index']
+];
+
+const keyCodes = keyIndicators.map(item => item[0]);
+
+const macroCard = (code, label, item) => {
+  if (!item) return '';
+
+  const available = item.status === 'ok' || item.status === 'stale';
+  const value = available ? fmt(item.value) : 'Unavailable';
+  const source = item.source || 'https://fred.stlouisfed.org/';
+
+  return `<div style="background:#101b2c;border:1px solid #344760;border-radius:9px;padding:10px;min-width:0">
+    <a href="${safe(source)}" target="_blank" rel="noreferrer"
+       style="font-size:12px;text-decoration:none">${safe(label)}</a>
+    <div style="font-size:21px;font-weight:700;margin:4px 0">${value}</div>
+    <div class="small">${safe(item.observation_date || 'Date unavailable')} · ${safe(item.status || 'unknown')}</div>
+  </div>`;
+};
+
+const keyHTML = keyIndicators.map(([code, label]) =>
+  macroCard(code, label, macroData[code])
+).join('');
+
+const additionalHTML = Object.entries(macroData)
+  .filter(([code]) => !keyCodes.includes(code))
+  .map(([code, item]) => macroCard(code, code, item))
+  .join('');
+
+$('macro').innerHTML = `
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px">
+    ${keyHTML}
+  </div>
+`;
+
 const cot = data.cot || {};
 
 const cotNumber = v =>
@@ -387,9 +456,7 @@ if (name === 'Employment' && factor.value != null) {
 return `<div class="row">
   <span>
     <b>${safe(name)}</b>
-    <span class="small" style="display:block">
-      ${safe(detail)} · ${safe(date)}
-    </span>
+
   </span>
   <b style="color:${c}">${label}</b>
 </div>`;
@@ -654,11 +721,126 @@ ${ticks}${labels}
     }).join('')}
   </div>
 </div>
+
+<div style="margin:0 10px 18px;padding:15px 16px;
+border:1px solid #46688f;border-radius:12px;background:#101e30">
+
+  <div style="display:flex;justify-content:space-between;
+  align-items:center;gap:10px;margin-bottom:10px">
+
+    <strong style="font-size:15px">MARKET REGIME</strong>
+
+    <strong style="
+      color:${(p.market_regime||'').includes('Bullish')?'#29dc78':
+      (p.market_regime||'').includes('Bearish')?'#ff3447':
+      (p.market_regime||'').includes('Transitional')?'#f5bd55':'#9daec4'};
+      font-size:15px">
+      ${safe(p.market_regime||'Unavailable')}
+    </strong>
+
+  </div>
+
+  <div style="display:flex;justify-content:space-between;
+  align-items:center;gap:10px">
+
+    <span style="color:#9daec4;font-size:13px">
+      Trend strength · ADX (14)
+    </span>
+
+    <strong style="font-size:16px">${fmt(p.adx14)}</strong>
+
+  </div>
+
+  <div style="margin-top:7px;font-size:12px;color:#9daec4">
+    ${typeof p.adx14!=='number'?'Trend strength unavailable':
+      p.adx14<20?'Weak trend · Ranging conditions':
+      p.adx14<25?'Developing trend':
+      p.adx14<=40?'Strong trend':
+      'Very strong trend'}
+  </div>
+
+  <div style="margin-top:13px">
+    <div style="display:flex;justify-content:space-between;
+    font-size:10px;color:#9daec4;margin-bottom:6px">
+      <span>ADX TREND STRENGTH</span>
+      <span>${typeof p.adx14==='number'?p.adx14.toFixed(2):'—'}</span>
+    </div>
+
+    <div style="position:relative;padding-top:3px">
+      <div style="display:flex;height:11px;overflow:hidden;border-radius:7px">
+        <div style="width:40%;background:#64748b"></div>
+        <div style="width:10%;background:#d69e36"></div>
+        <div style="width:50%;background:#22c55e"></div>
+      </div>
+
+      ${typeof p.adx14==='number'?`
+      <div style="position:absolute;left:${Math.min(100,Math.max(0,p.adx14/50*100))}%;
+      top:-3px;transform:translateX(-50%);width:4px;height:17px;
+      background:#ffffff;border:1px solid #0b1423;border-radius:2px;
+      box-shadow:0 0 5px #ffffff"></div>`:''}
+    </div>
+
+    <div style="display:flex;justify-content:space-between;
+    margin-top:6px;font-size:10px;color:#9daec4">
+      <span>Weak</span>
+      <span>Developing</span>
+      <span>Strong</span>
+    </div>
+  </div>
+
+</div>
+
 ${overallGoldDisplay}
 ${overallIndexDisplay}
 </div><div><div class="fmis-section-heading">Technical Analysis</div>
-<div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
-<div class="row"><span>Daily close</span><b>${fmt(p.close)}</b></div><div class="row"><span>20 EMA</span><b>${fmt(p.ema20)}</b></div><div class="row"><span>50 EMA</span><b>${fmt(p.ema50)}</b></div><div class="row"><span>200 EMA</span><b>${fmt(p.ema200)}</b></div><div class="row"><span>Weekly Pivot</span><b>${fmt(p.weekly_pivot)}</b></div><div class="row"><span>4-Indicator Confluence</span><b style="color:${typeof p.confluence_score==='number'?(p.confluence_score>0?'#29dc78':p.confluence_score<0?'#ff3447':'#f1f5f9'):'#f1f5f9'}">${typeof p.confluence_score==='number'?(p.confluence_score>0?'+':'')+p.confluence_score+' / 4':'Unavailable'}</b></div><div class="row"><span>RSI (14) Value</span><b>${fmt(p.rsi14)}</b></div><div class="row"><span>ADX (14)</span><b>${fmt(p.adx14)}</b></div><div class="row"><span>Market Regime</span><b>${safe(p.market_regime||"Unavailable")}</b></div><div class="row"><span>As-of date</span><b>${safe(p.date||'Unavailable')}</b></div><p><span class="badge">${candidate}</span></p></div></div>`;
+<div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>
+<div class="row"><span>Weekly trend</span><b style="color:${core.weekly_trend>0?'#22c55e':core.weekly_trend<0?'#ef4444':'#ffffff'}">${core.weekly_trend>0?'Bullish':core.weekly_trend<0?'Bearish':'Neutral'}</b></div>
+<p><span class="badge">${candidate}</span></p>
+
+<div style="margin-top:24px;border-top:1px solid #344760;padding-top:16px">
+  <div class="fmis-section-heading">Market Price Performance</div>
+
+  <div class="small" style="margin-bottom:6px">
+    Latest daily close · ${safe(p.date || 'Date unavailable')}
+  </div>
+
+  <div style="font-size:30px;font-weight:700;margin:8px 0">
+    ${p.close != null ? fmt(p.close) : 'Unavailable'}
+  </div>
+
+  ${[
+    ['Previous close', p.previous_close, false],
+    ['Daily change', p.daily_change, true],
+    ['Weekly change', p.weekly_change, true],
+    ['Monthly change', p.monthly_change, true]
+  ].map(([label, value, isChange]) => {
+    let display = 'Unavailable';
+    let colour = '#ffffff';
+
+    if (isChange && value && value.percent != null) {
+      const pct = Number(value.percent);
+      const amount = Number(value.change);
+      colour = pct > 0 ? '#22c55e' : pct < 0 ? '#ef4444' : '#ffffff';
+      const sign = pct > 0 ? '+' : '';
+      const amountSign = amount > 0 ? '+' : '';
+      display = amountSign + amount.toFixed(2) +
+        ' (' + sign + pct.toFixed(2) + '%)';
+    } else if (!isChange && value != null) {
+      display = fmt(value);
+    }
+
+    return `<div class="row">
+      <span>${label}</span>
+      <b style="color:${colour}">${display}</b>
+    </div>`;
+  }).join('')}
+
+  <div class="small" style="margin-top:10px">
+    ETF proxy · Daily closing prices · Not live
+  </div>
+</div>
+
+</div></div>`;
 
 }
 function risk(){let e=Number($('entry').value),s=Number($('stop').value),t=Number($('target').value),eq=Number($('equity').value);if(!e||!s||!t||!eq||e===s){$('risk').textContent='Enter valid nonzero values.';return}let rr=Math.abs((t-e)/(e-s));let dir=Math.sign(e-s);let valid=(dir===1&&t>e)||(dir===-1&&t<e);$('risk').textContent=`R:R = ${rr.toFixed(2)} : 1. Maximum planned risk at 1% equity = £${(eq*.01).toFixed(2)}. ${valid&&rr>=2?'R:R passes, but position size, contract value, funding and event risk remain unchecked.':'NO TRADE: direction or R:R rule failed.'}`}
