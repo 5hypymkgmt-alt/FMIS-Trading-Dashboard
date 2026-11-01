@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-01T14:16:23.916466+00:00",
+  "generated_at_utc": "2026-11-01T16:15:07.991859+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -10,6 +10,19 @@
         "date": "2026-10-30",
         "age_days": 2,
         "close": 755.72,
+        "previous_close": 769.36,
+        "daily_change": {
+          "change": -13.64,
+          "percent": -1.77
+        },
+        "weekly_change": {
+          "change": -4.25,
+          "percent": -0.56
+        },
+        "monthly_change": {
+          "change": -8.27,
+          "percent": -1.08
+        },
         "ema20": 767.734,
         "ema50": 765.919,
         "ema200": 737.034,
@@ -158,6 +171,19 @@
         "date": "2026-10-30",
         "age_days": 2,
         "close": 355.78,
+        "previous_close": 368.57,
+        "daily_change": {
+          "change": -12.79,
+          "percent": -3.47
+        },
+        "weekly_change": {
+          "change": -10.83,
+          "percent": -2.95
+        },
+        "monthly_change": {
+          "change": -26.98,
+          "percent": -7.05
+        },
         "ema20": 375.101,
         "ema50": 383.655,
         "ema200": 399.097,
@@ -306,6 +332,19 @@
         "date": "2026-10-30",
         "age_days": 2,
         "close": 690.49,
+        "previous_close": 715.34,
+        "daily_change": {
+          "change": -24.85,
+          "percent": -3.47
+        },
+        "weekly_change": {
+          "change": -13.91,
+          "percent": -1.97
+        },
+        "monthly_change": {
+          "change": -51.54,
+          "percent": -6.95
+        },
         "ema20": 721.125,
         "ema50": 723.038,
         "ema200": 690.208,
