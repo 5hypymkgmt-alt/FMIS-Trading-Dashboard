@@ -627,7 +627,34 @@ ${ticks}${labels}
 <text class="dial-confidence" x="570" y="417" text-anchor="end" fill="${gaugeColor}">${gaugeConfidence}</text>
 </svg>
 </div>
-`;$('detail').innerHTML=`<div class="fmis-signal-layout"><div>${gaugeHTML}${overallGoldDisplay}
+`;$('detail').innerHTML=`<div class="fmis-signal-layout"><div>${gaugeHTML}
+<div style="margin:12px 10px 20px;padding:16px;border:1px solid #46688f;border-radius:12px;background:#101e30">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <strong>Technical Confluence</strong>
+    <strong style="color:${p.confluence_score>0?'#29dc78':p.confluence_score<0?'#ff3447':'#f1f5f9'}">
+      ${typeof p.confluence_score==='number'?(p.confluence_score>0?'+':'')+p.confluence_score+' / 4':'Unavailable'}
+      ${typeof p.confluence_score==='number'
+        ? (p.confluence_score>0?' BULLISH':p.confluence_score<0?' BEARISH':' NEUTRAL')
+        : ''}
+    </strong>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px">
+    ${[
+      ['20 EMA','price_vs_ema20'],
+      ['50 EMA','price_vs_ema50'],
+      ['200 EMA','price_vs_ema200'],
+      ['Weekly Pivot','price_vs_weekly_pivot']
+    ].map(([label,key])=>{
+      const v=p.confluence_factors?.[key];
+      const color=v===1?'#166534':v===-1?'#991b1b':'#475569';
+      const symbol=v===1?'+':v===-1?'−':'—';
+      return `<div style="background:${color};border-radius:7px;padding:10px 3px;text-align:center;font-size:11px;font-weight:600">
+        <div style="font-size:19px">${symbol}</div>${label}
+      </div>`;
+    }).join('')}
+  </div>
+</div>
+${overallGoldDisplay}
 ${overallIndexDisplay}
 </div><div><div class="fmis-section-heading">Technical Analysis</div>
 <div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>${technicalRows}
