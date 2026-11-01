@@ -203,6 +203,22 @@ def prices(symbol):
                 raise ValueError('At least 210 daily bars required')
 
             last = close[-1]
+
+            # Price performance: completed trading sessions
+            previous_close = close[-2]
+
+            def price_change(previous):
+                change = last - previous
+                percentage = (change / previous * 100) if previous else None
+                return {
+                    'change': round(change, 3),
+                    'percent': round(percentage, 2) if percentage is not None else None
+                }
+
+            daily_change = price_change(close[-2])
+            weekly_change = price_change(close[-6])
+            monthly_change = price_change(close[-22])
+
             e20 = ema(close, 20)
             e50 = ema(close, 50)
             e200 = ema(close, 200)
@@ -290,6 +306,10 @@ def prices(symbol):
             'date': dates[-1],
             'age_days': age,
             'close': round(last, 3),
+            'previous_close': round(previous_close, 3),
+            'daily_change': daily_change,
+            'weekly_change': weekly_change,
+            'monthly_change': monthly_change,
             'ema20': round(e20, 3),
             'ema50': round(e50, 3),
             'ema200': round(e200, 3),
