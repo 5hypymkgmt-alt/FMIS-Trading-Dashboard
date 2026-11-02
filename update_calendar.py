@@ -20,7 +20,7 @@ def fetch_calendar():
         headers={"X-API-Key": api_key}
     )
 
-        try:
+    try:
         with urlopen(request, timeout=30) as response:
             return json.load(response)
     except HTTPError as error:
