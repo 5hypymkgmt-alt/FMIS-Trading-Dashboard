@@ -1,0 +1,30 @@
+name: Test FMIS Economic Calendar
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-calendar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+        with:
+          ref: fmis-visual-redesign
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Test FinanceCalendar API
+        env:
+          FINANCECALENDAR_API_KEY: ${{ secrets.FINANCECALENDAR_API_KEY }}
+        run: |
+          python update_calendar.py
+          python -m json.tool calendar-data.json > /dev/null
+          echo "Calendar API test passed"
