@@ -1,6 +1,7 @@
 import os
 import json
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 
 API_URL = (
     "https://www.financecalendar.com/wp-json/fc/v1/calendar"
@@ -19,8 +20,13 @@ def fetch_calendar():
         headers={"X-API-Key": api_key}
     )
 
-    with urlopen(request, timeout=30) as response:
-        return json.load(response)
+        try:
+        with urlopen(request, timeout=30) as response:
+            return json.load(response)
+    except HTTPError as error:
+        print(f"FinanceCalendar HTTP status: {error.code}")
+        print(f"FinanceCalendar error: {error.read().decode('utf-8', errors='replace')}")
+        raise RuntimeError("FinanceCalendar API request failed") from None
 
 def validate_calendar(data):
     if not isinstance(data, dict):
