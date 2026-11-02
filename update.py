@@ -1,6 +1,7 @@
 """Daily FMIS data updater. Requires FRED_API_KEY for macro; optional PRICE_API_KEY (Twelve Data)."""
 import os, json, csv, io, math, datetime, pathlib, requests
 from market_regime import calculate_adx, classify_market_regime
+from trade_confidence import trade_confidence
 from cot_data import fetch_cot_data, calculate_cot_positioning, calculate_financial_futures_positioning
 
 ROOT=pathlib.Path(__file__).parent
@@ -869,6 +870,12 @@ def main():
     out['macro_scores'] = macro_scores(out['macro'])
     out['us_economic_health'] = us_economic_health(out['macro'])
     out['us_financial_conditions'] = us_financial_conditions(out['macro'])
+    for name, market in out['markets'].items():
+        market['trade_confidence'] = {
+            direction.lower(): trade_confidence(name, market, direction, out)
+            for direction in ('Bullish', 'Bearish')
+        }
+
     (ROOT / 'data.json').write_text(
         json.dumps(out, indent=2)
     )
