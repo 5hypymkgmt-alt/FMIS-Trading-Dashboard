@@ -593,11 +593,43 @@ $('fmis-structure-panel').innerHTML =
 
 let alignedLong=core.price_vs_ema20===1&&core.ema20_vs_ema50===1&&core.weekly_trend===1;let alignedShort=core.price_vs_ema20===-1&&core.ema20_vs_ema50===-1&&core.weekly_trend===-1;let candidate=p.status==='ok'&&p.technical_score>=4&&alignedLong?'LONG TECHNICAL CANDIDATE':p.status==='ok'&&p.technical_score<=-4&&alignedShort?'SHORT TECHNICAL CANDIDATE':'NO TRADE';
 
+const tc = m.trade_confidence || {};
+const bull = tc.bullish;
+const bear = tc.bearish;
+const confidenceValid = r => r &&
+  Number.isFinite(r.confidence) &&
+  ['Complete', 'Partial Data'].includes(r.status);
+const readinessDataAvailable = p.status === 'ok' &&
+  confidenceValid(bull) && confidenceValid(bear);
+const tradeReadiness = !readinessDataAvailable ? 'UNAVAILABLE' :
+  candidate === 'LONG TECHNICAL CANDIDATE' &&
+  bull.confidence >= 60 && bull.confidence > bear.confidence ? 'LONG READY' :
+  candidate === 'SHORT TECHNICAL CANDIDATE' &&
+  bear.confidence >= 60 && bear.confidence > bull.confidence ? 'SHORT READY' : 'WAIT';
+
  let realYield = data.macro?.DFII10 || {};
  let dollarIndex = data.macro?.DTWEXBGS || {};
                       
 let treasuryYield = data.macro?.DGS10 || {};
 let vixIndex = data.macro?.VIXCLS || {};
+
+const vixValue = vixIndex.status === 'ok' && Number.isFinite(vixIndex.value)
+  ? vixIndex.value : null;
+const vixAge = Number.isFinite(vixIndex.age_days) ? vixIndex.age_days : null;
+const vixCurrent = vixValue !== null && vixAge !== null && vixAge <= 7;
+const volatilityEnvironment = !vixCurrent ? 'UNAVAILABLE' :
+  vixValue < 15 ? 'LOW VOLATILITY' :
+  vixValue < 20 ? 'MODERATE VOLATILITY' :
+  vixValue <= 30 ? 'ELEVATED VOLATILITY' : 'HIGH VOLATILITY';
+const trendEnvironment = Number.isFinite(p.adx14)
+  ? p.adx14 < 20 ? 'RANGING' :
+    p.adx14 < 25 ? 'DEVELOPING' : 'TRENDING'
+  : 'UNAVAILABLE';
+const riskEnvironment = volatilityEnvironment === 'UNAVAILABLE' || trendEnvironment === 'UNAVAILABLE'
+  ? 'UNAVAILABLE' :
+  vixValue > 30 ? 'HIGH CAUTION' :
+  vixValue >= 20 || p.adx14 < 20 ? 'CAUTION' : 'NORMAL';
+
                       
 const fmisResult = calculateFMISScore(n);
 let overallIndexDisplay = '';
@@ -802,6 +834,20 @@ border:1px solid #46688f;border-radius:12px;background:#101e30">
 
 ${overallGoldDisplay}
 ${overallIndexDisplay}
+
+<div style="margin-top:22px;border-top:1px solid #344760;padding-top:16px">
+  <div class="fmis-section-heading">FMIS · Trade Readiness</div>
+  <div style="border:1px solid #344760;border-radius:12px;padding:15px;background:rgba(12,20,36,.65)">
+    <div style="font-size:25px;font-weight:800;color:${tradeReadiness === 'LONG READY' ? '#22c55e' : tradeReadiness === 'SHORT READY' ? '#ef4444' : tradeReadiness === 'WAIT' ? '#fbbf24' : '#9daec4'}">
+      ${tradeReadiness}
+    </div>
+    <div class="row"><span>Technical alignment</span><b>${safe(candidate)}</b></div>
+    <div class="row"><span>Minimum confidence</span><b>60 / 100</b></div>
+    <div class="small" style="margin-top:9px">Screening indicator only · Not a trade entry signal</div>
+  </div>
+</div>
+
+
 </div><div><div class="fmis-section-heading">Technical Analysis</div>
 <div class="row"><span>Technical score</span><b>${p.status==='ok'?p.technical_score+' / '+p.technical_max:'Unavailable'}</b></div>
 <div class="row"><span>Weekly trend</span><b style="color:${core.weekly_trend>0?'#22c55e':core.weekly_trend<0?'#ef4444':'#ffffff'}">${core.weekly_trend>0?'Bullish':core.weekly_trend<0?'Bearish':'Neutral'}</b></div>
@@ -850,9 +896,54 @@ ${overallIndexDisplay}
   </div>
 </div>
 
+${renderTradeConfidence(m.trade_confidence)}
+<div style="margin-top:22px;border-top:1px solid #344760;padding-top:16px">
+  <div class="fmis-section-heading">FMIS · Risk Environment</div>
+  <div style="border:1px solid #344760;border-radius:12px;padding:15px;background:rgba(12,20,36,.65)">
+    <div style="font-size:25px;font-weight:800;color:${riskEnvironment === 'HIGH CAUTION' ? '#ef4444' : riskEnvironment === 'CAUTION' ? '#fbbf24' : riskEnvironment === 'NORMAL' ? '#22c55e' : '#9daec4'}">${riskEnvironment}</div>
+    <div class="row"><span>VIX</span><b>${vixCurrent ? vixValue.toFixed(2) : 'Unavailable'}</b></div>
+    <div class="row"><span>Volatility</span><b>${volatilityEnvironment}</b></div>
+    <div class="row"><span>Trend conditions</span><b>${trendEnvironment}</b></div>
+    <div class="row"><span>ADX (14)</span><b>${Number.isFinite(p.adx14) ? p.adx14.toFixed(2) : 'Unavailable'}</b></div>
+    <div class="small" style="margin-top:9px">VIX observation: ${safe(vixIndex.observation_date || 'Unavailable')} · US equity volatility proxy, not a direct measure of gold risk</div>
+    <div class="small" style="margin-top:5px">Risk screening only · Normal does not mean risk-free</div>
+  </div>
+</div>
 </div></div>`;
 
 }
+function renderTradeConfidence(tc) {
+  const card = (direction, color) => {
+    const r = tc?.[direction];
+    const valid = r && Number.isFinite(r.confidence) && ["Complete", "Partial Data"].includes(r.status);
+    const value = valid ? `${r.confidence}%` : "Unavailable";
+    const rows = [["Technical",30],["Trend",25],["Macro",25],["Structure",20]]
+      .map(([label,max]) => {
+        const points = r?.[label.toLowerCase()];
+        return `<div class="row"><span>${label}</span><b>${valid && Number.isFinite(points) ? points+" / "+max : "Unavailable"}</b></div>`;
+      }).join("");
+    const warning = valid && r.status === "Partial Data"
+      ? `<div class="small" style="color:#fbbf24;margin-top:8px">Partial Data · Excluded: ${safe((r.excluded_macro||[]).join(", ") || "Unknown")}</div>`
+      : !valid ? `<div class="small" style="color:#fbbf24;margin-top:8px">${safe(r?.reason || "Awaiting updated data")}</div>` : "";
+    return `<div style="flex:1;min-width:0;border:1px solid ${color};border-radius:12px;padding:12px;background:rgba(12,20,36,.65)">
+      <div style="font-weight:700;color:${color};font-size:15px">${direction === "bullish" ? "Bullish" : "Bearish"}</div>
+      <div style="font-size:30px;font-weight:800;color:${color};margin:9px 0">${value}</div>
+      <div style="height:7px;background:#25354b;border-radius:8px;overflow:hidden;margin-bottom:12px">
+        <div style="height:100%;width:${valid ? Math.max(0,Math.min(100,r.confidence)) : 0}%;background:${color}"></div>
+      </div>
+      ${rows}${warning}
+    </div>`;
+  };
+  return `<div style="margin-top:24px;border-top:1px solid #344760;padding-top:16px">
+    <div class="fmis-section-heading">Trade Confidence — Alignment</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      ${card("bullish","#22c55e")}
+      ${card("bearish","#ef4444")}
+    </div>
+    <div class="small" style="margin-top:10px">Signal alignment only · Not a verified trade-win probability</div>
+  </div>`;
+}
+
 function risk(){let e=Number($('entry').value),s=Number($('stop').value),t=Number($('target').value),eq=Number($('equity').value);if(!e||!s||!t||!eq||e===s){$('risk').textContent='Enter valid nonzero values.';return}let rr=Math.abs((t-e)/(e-s));let dir=Math.sign(e-s);let valid=(dir===1&&t>e)||(dir===-1&&t<e);$('risk').textContent=`R:R = ${rr.toFixed(2)} : 1. Maximum planned risk at 1% equity = £${(eq*.01).toFixed(2)}. ${valid&&rr>=2?'R:R passes, but position size, contract value, funding and event risk remain unchecked.':'NO TRADE: direction or R:R rule failed.'}`}
 fetch('./data.json?ts='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Missing data.json');return r.json()}).then(d=>{data=d;render()}).catch(e=>{$('status').textContent='Data unavailable: '+e.message+'. Run python update.py and deploy data.json.'});
 </script>
