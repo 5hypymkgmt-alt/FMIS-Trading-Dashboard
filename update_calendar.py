@@ -3,11 +3,7 @@ import json
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
-API_URL = (
-    "https://www.financecalendar.com/wp-json/fc/v1/calendar"
-    "?country=US,GB&impact=high&limit=100"
-)
-
+API_URL = "https://www.financecalendar.com/wp-json/fc/v1/calendar?country=US,GB&impact=high&limit=100"
 
 def fetch_calendar():
     api_key = os.environ.get("FINANCECALENDAR_API_KEY")
@@ -17,7 +13,7 @@ def fetch_calendar():
 
     request = Request(
         API_URL,
-        headers={"X-API-Key": api_key}
+        headers={"X-API-Key": api_key, "User-Agent": "curl/8.0"}
     )
 
     try:
