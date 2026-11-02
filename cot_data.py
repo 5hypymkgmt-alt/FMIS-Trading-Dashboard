@@ -89,3 +89,64 @@ if __name__ == "__main__":
 
     print("Gold COT positioning:")
     print(result)
+
+
+def calculate_financial_futures_positioning(reports):
+    """Calculate Asset Manager and Leveraged Fund COT positioning."""
+
+    if len(reports) < 2:
+        return {
+            "status": "unavailable",
+            "reason": "At least two weekly reports are required"
+        }
+
+    latest, previous = reports[0], reports[1]
+
+    def calculate_group(long_field, short_field):
+        required = [
+            long_field, short_field
+        ]
+
+        if any(
+            latest.get(field) is None or previous.get(field) is None
+            for field in required
+        ):
+            return {"status": "unavailable"}
+
+        latest_long = int(latest[long_field])
+        latest_short = int(latest[short_field])
+        previous_long = int(previous[long_field])
+        previous_short = int(previous[short_field])
+
+        latest_net = latest_long - latest_short
+        previous_net = previous_long - previous_short
+
+        if latest_net > 0:
+            bias = "Net Long"
+        elif latest_net < 0:
+            bias = "Net Short"
+        else:
+            bias = "Neutral"
+
+        return {
+            "status": "ok",
+            "long": latest_long,
+            "short": latest_short,
+            "net": latest_net,
+            "previous_net": previous_net,
+            "weekly_change": latest_net - previous_net,
+            "bias": bias
+        }
+
+    return {
+        "status": "ok",
+        "report_date": latest["report_date_as_yyyy_mm_dd"][:10],
+        "asset_managers": calculate_group(
+            "asset_mgr_positions_long",
+            "asset_mgr_positions_short"
+        ),
+        "leveraged_funds": calculate_group(
+            "lev_money_positions_long",
+            "lev_money_positions_short"
+        )
+    }

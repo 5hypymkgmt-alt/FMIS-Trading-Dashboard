@@ -1,6 +1,8 @@
 """Daily FMIS data updater. Requires FRED_API_KEY for macro; optional PRICE_API_KEY (Twelve Data)."""
 import os, json, csv, io, math, datetime, pathlib, requests
-from cot_data import fetch_cot_data, calculate_cot_positioning
+from market_regime import calculate_adx, classify_market_regime
+from trade_confidence import trade_confidence
+from cot_data import fetch_cot_data, calculate_cot_positioning, calculate_financial_futures_positioning
 
 ROOT=pathlib.Path(__file__).parent
 CFG=json.loads((ROOT/'config.json').read_text())
@@ -202,8 +204,44 @@ def prices(symbol):
                 raise ValueError('At least 210 daily bars required')
 
             last = close[-1]
+
+            # Price performance: completed trading sessions
+            previous_close = close[-2]
+
+            def price_change(previous):
+                change = last - previous
+                percentage = (change / previous * 100) if previous else None
+                return {
+                    'change': round(change, 3),
+                    'percent': round(percentage, 2) if percentage is not None else None
+                }
+
+            daily_change = price_change(close[-2])
+            weekly_change = price_change(close[-6])
+            monthly_change = price_change(close[-22])
+
             e20 = ema(close, 20)
             e50 = ema(close, 50)
+            e200 = ema(close, 200)
+            # Traditional weekly pivot: previous completed week
+            latest_date = datetime.date.fromisoformat(dates[-1])
+            current_week_start = latest_date - datetime.timedelta(
+                days=latest_date.weekday()
+            )
+            previous_week_start = current_week_start - datetime.timedelta(days=7)
+
+            previous_week_bars = [
+                i for i, d in enumerate(dates)
+                if previous_week_start <= datetime.date.fromisoformat(d) < current_week_start
+            ]
+
+            if not previous_week_bars:
+                raise ValueError('No previous completed weekly bars available')
+
+            pivot_high = max(high[i] for i in previous_week_bars)
+            pivot_low = min(low[i] for i in previous_week_bars)
+            pivot_close = close[previous_week_bars[-1]]
+            weekly_pivot = (pivot_high + pivot_low + pivot_close) / 3
             structure = market_structure(high, low, close, dates)
             recent_structure = []
             for i in range(max(0, len(close) - 20), len(close)):
@@ -234,7 +272,25 @@ def prices(symbol):
                 raise ValueError('At least 21 completed weekly bars required')
 
             ew = ema(w, 20)
+            # Four-indicator technical confluence
+            confluence_factors = {
+                'price_vs_ema20': 1 if last > e20 else -1 if last < e20 else 0,
+                'price_vs_ema50': 1 if last > e50 else -1 if last < e50 else 0,
+                'price_vs_ema200': 1 if last > e200 else -1 if last < e200 else 0,
+                'price_vs_weekly_pivot': 1 if last > weekly_pivot else -1 if last < weekly_pivot else 0
+            }
+
+            confluence_score = sum(confluence_factors.values())
             current_rsi = rsi(close)
+            current_adx = calculate_adx(high, low, close)
+            trend_direction = (
+                1 if last > e20 and e20 > e50
+                else -1 if last < e20 and e20 < e50
+                else 0
+            )
+            current_regime = classify_market_regime(
+                current_adx, trend_direction
+            )
 
             factors = {
             'price_vs_ema20': 1 if last > e20 else -1 if last < e20 else 0,
@@ -251,12 +307,23 @@ def prices(symbol):
             'date': dates[-1],
             'age_days': age,
             'close': round(last, 3),
+            'previous_close': round(previous_close, 3),
+            'daily_change': daily_change,
+            'weekly_change': weekly_change,
+            'monthly_change': monthly_change,
             'ema20': round(e20, 3),
             'ema50': round(e50, 3),
+            'ema200': round(e200, 3),
+            'weekly_pivot': round(weekly_pivot, 3),
             'rsi14': round(current_rsi, 2),
+            'adx14': current_adx,
+            'market_regime': current_regime,
             'factors': factors,
             'technical_score': sum(factors.values()),
             'technical_max': len(factors),
+            'confluence_factors': confluence_factors,
+            'confluence_score': confluence_score,
+            'confluence_max': 4,
             'market_structure': structure,
             'recent_structure': recent_structure,
             'source': 'https://twelvedata.com/',
@@ -428,7 +495,7 @@ def macro_scores(macro_data):
 
             data = macro_data.get(series, {})
 
-            if data.get('status') != 'ok':
+            if data.get('status') not in ('ok', 'stale'):
                 used[series] = None
                 continue
 
@@ -499,7 +566,7 @@ def us_economic_health(macro_data):
         data = macro_data.get(series, {})
         status = data.get("status")
 
-        if status != "ok":
+        if status not in ("ok", "stale"):
             details[name] = {
                 "status": status or "unavailable",
                 "score": None,
@@ -619,7 +686,7 @@ def us_financial_conditions(macro_data):
         data = macro_data.get(series, {})
         status = data.get("status")
 
-        if status != "ok":
+        if status not in ("ok", "stale"):
             details[name] = {
                 "status": status or "unavailable",
                 "score": None,
@@ -688,6 +755,15 @@ def us_financial_conditions(macro_data):
         ),
     }
 def main():
+    # Load previous readings for fallback when a data feed fails.
+    previous = {}
+    data_path = ROOT / 'data.json'
+    if data_path.exists():
+        try:
+            previous = json.loads(data_path.read_text())
+        except (ValueError, OSError) as e:
+            print(f'Previous data could not be loaded: {e}')
+
     out={'generated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'markets':{},'macro':{},
          'positioning':{'status':'manual','source':'https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm',
                         'note':'Weekly Tuesday positions typically published Friday. No automatic contract mapping configured.'},
@@ -712,6 +788,42 @@ def main():
         }
         print(f"Gold COT unavailable: {e}")
 
+    # Stock index COT positioning - separate from FMIS scores
+    out.setdefault("cot", {})
+
+    index_contracts = {
+        "sp500": "13874+",
+        "nasdaq100": "20974+"
+    }
+
+    for market, contract_code in index_contracts.items():
+        try:
+            reports = fetch_cot_data(
+                "financial_futures", contract_code
+            )
+            out["cot"][market] = (
+                calculate_financial_futures_positioning(reports)
+            )
+            print(f"{market} COT data retrieved successfully")
+        except Exception as e:
+            out["cot"][market] = {
+                "status": "unavailable",
+                "reason": str(e)
+            }
+            print(f"{market} COT unavailable: {e}")
+
+
+
+    # Preserve previous CFTC reports if a fresh request fails.
+    for market, latest in out.get('cot', {}).items():
+        if latest.get('status') != 'ok':
+            previous_cot = previous.get('cot', {}).get(market, {})
+            if previous_cot.get('status') == 'ok':
+                retained = dict(previous_cot)
+                retained['stale'] = True
+                retained['fallback_reason'] = 'Latest CFTC update unavailable'
+                out['cot'][market] = retained
+                print(f'{market}: retained previous CFTC report')
 
     for name, cfg in CFG['markets'].items():
         print(f"Processing market: {name}, symbol: {cfg['symbol']}")
@@ -719,6 +831,19 @@ def main():
             p = prices(cfg['symbol'])
         except Exception as e:
             p = {'status': 'unavailable', 'reason': str(e)}
+        # Preserve the previous valid price if the latest request fails.
+        if p.get('status') != 'ok':
+            previous_price = (
+                previous.get('markets', {})
+                .get(name, {})
+                .get('price', {})
+            )
+            if previous_price.get('status') in ('ok', 'stale'):
+                p = dict(previous_price)
+                p['status'] = 'stale'
+                p['fallback_reason'] = 'Latest price update unavailable'
+                print(f'{name}: retained previous price (stale)')
+
         out['markets'][name] = {**cfg, 'price': p}
     
     for series in CFG['macro_series']:
@@ -731,9 +856,26 @@ def main():
             }
             
 
+    # Retain previous macroeconomic observations when FRED fails.
+    for series, latest in out['macro'].items():
+        if latest.get('status') != 'ok':
+            previous_macro = previous.get('macro', {}).get(series, {})
+            if previous_macro.get('status') in ('ok', 'stale'):
+                retained = dict(previous_macro)
+                retained['status'] = 'stale'
+                retained['fallback_reason'] = 'Latest FRED update unavailable'
+                out['macro'][series] = retained
+                print(f'{series}: retained previous observation (stale)')
+
     out['macro_scores'] = macro_scores(out['macro'])
     out['us_economic_health'] = us_economic_health(out['macro'])
     out['us_financial_conditions'] = us_financial_conditions(out['macro'])
+    for name, market in out['markets'].items():
+        market['trade_confidence'] = {
+            direction.lower(): trade_confidence(name, market, direction, out)
+            for direction in ('Bullish', 'Bearish')
+        }
+
     (ROOT / 'data.json').write_text(
         json.dumps(out, indent=2)
     )

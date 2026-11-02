@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-30T23:59:48.360652+00:00",
+  "generated_at_utc": "2026-11-02T18:27:50.119798+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -7,21 +7,46 @@
       "note": "SPY ETF proxy for S&P 500",
       "price": {
         "status": "ok",
-        "date": "2026-10-30",
+        "date": "2026-11-02",
         "age_days": 0,
-        "close": 755.72,
-        "ema20": 767.734,
-        "ema50": 765.919,
-        "rsi14": 40.2,
+        "close": 758.705,
+        "previous_close": 755.72,
+        "daily_change": {
+          "change": 2.985,
+          "percent": 0.39
+        },
+        "weekly_change": {
+          "change": -6.665,
+          "percent": -0.87
+        },
+        "monthly_change": {
+          "change": -10.935,
+          "percent": -1.42
+        },
+        "ema20": 766.874,
+        "ema50": 765.636,
+        "ema200": 737.248,
+        "weekly_pivot": 759.813,
+        "rsi14": 42.96,
+        "adx14": 16.29,
+        "market_regime": "Ranging",
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": 1,
-          "weekly_trend": 1,
+          "weekly_trend": -1,
           "momentum_5d": -1,
           "rsi_14": -1
         },
-        "technical_score": -1,
+        "technical_score": -3,
         "technical_max": 5,
+        "confluence_factors": {
+          "price_vs_ema20": -1,
+          "price_vs_ema50": -1,
+          "price_vs_ema200": 1,
+          "price_vs_weekly_pivot": -1
+        },
+        "confluence_score": -2,
+        "confluence_max": 4,
         "market_structure": {
           "trend": "Bullish",
           "last_swing_high": 781.62,
@@ -29,14 +54,9 @@
           "swing_high_date": "2026-10-06",
           "swing_low_date": "2026-10-01",
           "bos": "None",
-          "choch": "Bearish CHoCH"
+          "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-05",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-06",
             "bos": "None",
@@ -131,10 +151,37 @@
             "date": "2026-10-30",
             "bos": "None",
             "choch": "Bearish CHoCH"
+          },
+          {
+            "date": "2026-11-02",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
+      },
+      "trade_confidence": {
+        "bullish": {
+          "direction": "Bullish",
+          "status": "Complete",
+          "excluded_macro": [],
+          "confidence": 38,
+          "technical": 6,
+          "trend": 0,
+          "macro": 12.5,
+          "structure": 20
+        },
+        "bearish": {
+          "direction": "Bearish",
+          "status": "Complete",
+          "excluded_macro": [],
+          "confidence": 36,
+          "technical": 24,
+          "trend": 0,
+          "macro": 12.5,
+          "structure": 0
+        }
       }
     },
     "Gold": {
@@ -143,12 +190,29 @@
       "note": "GLD ETF proxy for XAU/USD spot gold",
       "price": {
         "status": "ok",
-        "date": "2026-10-30",
+        "date": "2026-11-02",
         "age_days": 0,
-        "close": 355.78,
-        "ema20": 375.101,
-        "ema50": 383.655,
-        "rsi14": 30.32,
+        "close": 362.96,
+        "previous_close": 355.78,
+        "daily_change": {
+          "change": 7.18,
+          "percent": 2.02
+        },
+        "weekly_change": {
+          "change": -4.86,
+          "percent": -1.32
+        },
+        "monthly_change": {
+          "change": -17.18,
+          "percent": -4.52
+        },
+        "ema20": 373.945,
+        "ema50": 382.843,
+        "ema200": 396.813,
+        "weekly_pivot": 361.35,
+        "rsi14": 38.22,
+        "adx14": 22.99,
+        "market_regime": "Transitional",
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -158,6 +222,14 @@
         },
         "technical_score": -5,
         "technical_max": 5,
+        "confluence_factors": {
+          "price_vs_ema20": -1,
+          "price_vs_ema50": -1,
+          "price_vs_ema200": -1,
+          "price_vs_weekly_pivot": 1
+        },
+        "confluence_score": -2,
+        "confluence_max": 4,
         "market_structure": {
           "trend": "Ranging / Mixed",
           "last_swing_high": 429.42,
@@ -169,11 +241,6 @@
         },
         "recent_structure": [
           {
-            "date": "2026-10-05",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
             "date": "2026-10-06",
             "bos": "None",
             "choch": "None"
@@ -267,10 +334,41 @@
             "date": "2026-10-30",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-02",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
+      },
+      "trade_confidence": {
+        "bullish": {
+          "direction": "Bullish",
+          "status": "Partial Data",
+          "excluded_macro": [
+            "DTWEXBGS"
+          ],
+          "confidence": 12,
+          "technical": 0,
+          "trend": 0,
+          "macro": 12.5,
+          "structure": 0
+        },
+        "bearish": {
+          "direction": "Bearish",
+          "status": "Partial Data",
+          "excluded_macro": [
+            "DTWEXBGS"
+          ],
+          "confidence": 30,
+          "technical": 30,
+          "trend": 0,
+          "macro": 0,
+          "structure": 0
+        }
       }
     },
     "Nasdaq 100": {
@@ -279,12 +377,29 @@
       "note": "QQQ ETF proxy for Nasdaq 100",
       "price": {
         "status": "ok",
-        "date": "2026-10-30",
+        "date": "2026-11-02",
         "age_days": 0,
-        "close": 690.49,
-        "ema20": 721.125,
-        "ema50": 723.038,
-        "rsi14": 34.88,
+        "close": 691.43,
+        "previous_close": 690.49,
+        "daily_change": {
+          "change": 0.94,
+          "percent": 0.14
+        },
+        "weekly_change": {
+          "change": -20.77,
+          "percent": -2.92
+        },
+        "monthly_change": {
+          "change": -58.15,
+          "percent": -7.76
+        },
+        "ema20": 718.297,
+        "ema50": 721.799,
+        "ema200": 690.208,
+        "weekly_pivot": 700.027,
+        "rsi14": 35.45,
+        "adx14": 28.57,
+        "market_regime": "Bearish Trend",
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
@@ -294,6 +409,14 @@
         },
         "technical_score": -5,
         "technical_max": 5,
+        "confluence_factors": {
+          "price_vs_ema20": -1,
+          "price_vs_ema50": -1,
+          "price_vs_ema200": 1,
+          "price_vs_weekly_pivot": -1
+        },
+        "confluence_score": -2,
+        "confluence_max": 4,
         "market_structure": {
           "trend": "Ranging / Mixed",
           "last_swing_high": 762.86,
@@ -305,11 +428,6 @@
         },
         "recent_structure": [
           {
-            "date": "2026-10-05",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
             "date": "2026-10-06",
             "bos": "None",
             "choch": "None"
@@ -403,10 +521,37 @@
             "date": "2026-10-30",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-02",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
+      },
+      "trade_confidence": {
+        "bullish": {
+          "direction": "Bullish",
+          "status": "Complete",
+          "excluded_macro": [],
+          "confidence": 12,
+          "technical": 0,
+          "trend": 0,
+          "macro": 12.5,
+          "structure": 0
+        },
+        "bearish": {
+          "direction": "Bearish",
+          "status": "Complete",
+          "excluded_macro": [],
+          "confidence": 68,
+          "technical": 30,
+          "trend": 25,
+          "macro": 12.5,
+          "structure": 0
+        }
       }
     }
   },
@@ -423,7 +568,7 @@
       "direction": "rising",
       "observation_date": "2026-10-29",
       "comparison_date": "2026-10-22",
-      "age_days": 1,
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DGS10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -439,7 +584,7 @@
       "direction": "falling",
       "observation_date": "2026-10-29",
       "comparison_date": "2026-10-22",
-      "age_days": 1,
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DGS2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -455,7 +600,7 @@
       "direction": "unchanged",
       "observation_date": "2026-10-30",
       "comparison_date": "2026-10-23",
-      "age_days": 0,
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/T10YIE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -471,7 +616,7 @@
       "direction": "falling",
       "observation_date": "2026-10-29",
       "comparison_date": "2026-09-30",
-      "age_days": 1,
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DFII10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -487,7 +632,7 @@
       "direction": "rising",
       "observation_date": "2026-10-23",
       "comparison_date": "2026-09-24",
-      "age_days": 7,
+      "age_days": 10,
       "source": "https://fred.stlouisfed.org/series/DTWEXBGS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -503,7 +648,7 @@
       "direction": "falling",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 62,
       "source": "https://fred.stlouisfed.org/series/UNRATE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -519,23 +664,23 @@
       "direction": "falling",
       "observation_date": "2026-10-30",
       "comparison_date": "2026-10-01",
-      "age_days": 0,
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/T10Y2Y",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "BAMLH0A0HYM2": {
       "status": "ok",
-      "value": 3.26,
+      "value": 3.44,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 3.24,
-      "health_previous_value": 3.14,
-      "health_change": 0.12,
-      "change": 0.02,
+      "previous_value": 3.1,
+      "health_previous_value": 3.26,
+      "health_change": 0.18,
+      "change": 0.34,
       "direction": "rising",
-      "observation_date": "2026-10-29",
-      "comparison_date": "2026-10-01",
-      "age_days": 1,
+      "observation_date": "2026-10-30",
+      "comparison_date": "2026-10-02",
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -551,7 +696,7 @@
       "direction": "rising",
       "observation_date": "2026-10-23",
       "comparison_date": "2026-09-25",
-      "age_days": 7,
+      "age_days": 10,
       "source": "https://fred.stlouisfed.org/series/STLFSI4",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -567,7 +712,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-06-01",
-      "age_days": 59,
+      "age_days": 62,
       "source": "https://fred.stlouisfed.org/series/M2SL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -583,7 +728,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 62,
       "source": "https://fred.stlouisfed.org/series/CPIAUCSL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -599,7 +744,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 62,
       "source": "https://fred.stlouisfed.org/series/INDPRO",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -615,7 +760,7 @@
       "direction": "rising",
       "observation_date": "2026-07-01",
       "comparison_date": "2026-04-01",
-      "age_days": 121,
+      "age_days": 124,
       "source": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -631,7 +776,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 62,
       "source": "https://fred.stlouisfed.org/series/RSAFS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -647,23 +792,23 @@
       "direction": "falling",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 59,
+      "age_days": 62,
       "source": "https://fred.stlouisfed.org/series/UMCSENT",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "VIXCLS": {
       "status": "ok",
-      "value": 17.2,
+      "value": 19.42,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 19.03,
-      "health_previous_value": 16.91,
-      "health_change": 0.29,
-      "change": -1.83,
+      "previous_value": 19.45,
+      "health_previous_value": 17.2,
+      "health_change": 2.22,
+      "change": -0.03,
       "direction": "falling",
-      "observation_date": "2026-10-29",
-      "comparison_date": "2026-10-22",
-      "age_days": 1,
+      "observation_date": "2026-10-30",
+      "comparison_date": "2026-10-23",
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/VIXCLS",
       "caveat": "Observation dates are not release dates; revisions possible"
     }
@@ -694,6 +839,50 @@
       "previous_net": 104206,
       "weekly_change": 1356,
       "bias": "Net Long"
+    },
+    "sp500": {
+      "status": "ok",
+      "report_date": "2026-10-27",
+      "asset_managers": {
+        "status": "ok",
+        "long": 1113753,
+        "short": 187606,
+        "net": 926147,
+        "previous_net": 904019,
+        "weekly_change": 22128,
+        "bias": "Net Long"
+      },
+      "leveraged_funds": {
+        "status": "ok",
+        "long": 102967,
+        "short": 502846,
+        "net": -399879,
+        "previous_net": -372869,
+        "weekly_change": -27010,
+        "bias": "Net Short"
+      }
+    },
+    "nasdaq100": {
+      "status": "ok",
+      "report_date": "2026-10-27",
+      "asset_managers": {
+        "status": "ok",
+        "long": 107246,
+        "short": 40874,
+        "net": 66372,
+        "previous_net": 78767,
+        "weekly_change": -12395,
+        "bias": "Net Long"
+      },
+      "leveraged_funds": {
+        "status": "ok",
+        "long": 48004,
+        "short": 53623,
+        "net": -5619,
+        "previous_net": -7688,
+        "weekly_change": 2069,
+        "bias": "Net Short"
+      }
     }
   },
   "macro_scores": {
@@ -792,7 +981,7 @@
     "note": "Directional economic-health heuristic, not a trading signal"
   },
   "us_financial_conditions": {
-    "score": 0,
+    "score": -1,
     "maximum_score": 4,
     "indicators_available": 4,
     "bias": "Neutral",
@@ -807,11 +996,11 @@
       },
       "High-Yield Credit Spread": {
         "status": "ok",
-        "score": 0,
+        "score": -1,
         "series": "BAMLH0A0HYM2",
-        "value": 3.26,
-        "change": 0.02,
-        "observation_date": "2026-10-29"
+        "value": 3.44,
+        "change": 0.34,
+        "observation_date": "2026-10-30"
       },
       "Financial Stress Index": {
         "status": "ok",
