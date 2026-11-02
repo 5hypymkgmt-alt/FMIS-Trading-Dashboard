@@ -6,6 +6,7 @@ API_URL = (
     "https://www.financecalendar.com/wp-json/fc/v1/calendar"
     "?country=US,GB&impact=high&limit=100"
 )
+)
 
 def fetch_calendar():
     api_key = os.environ.get("FINANCECALENDAR_API_KEY")
