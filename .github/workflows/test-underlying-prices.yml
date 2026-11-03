@@ -2,6 +2,9 @@ name: Test Underlying Market Prices
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - fmis-underlying-price-feeds
 
 permissions:
   contents: read
