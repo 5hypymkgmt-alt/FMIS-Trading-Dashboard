@@ -2,6 +2,7 @@ import os
 import json
 import urllib.parse
 import urllib.request
+import urllib.error
 
 key = os.getenv("PRICE_API_KEY", "")
 if not key:
@@ -43,5 +44,7 @@ for name, symbol in [
               "| Valid candles:", valid,
               "|", str(data.get("message", ""))[:160])
 
+    except urllib.error.HTTPError as exc:
+        print(name, "| HTTP", exc.code, "|", exc.read().decode("utf-8", errors="replace")[:250])
     except Exception as exc:
         print(name, "| REQUEST FAILED |", type(exc).__name__)
