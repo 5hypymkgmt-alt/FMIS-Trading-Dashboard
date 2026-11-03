@@ -67,3 +67,8 @@ print("API timezone:", raw.get("meta", {}).get("exchange_timezone", "Not supplie
 
 for candle in raw["values"]:
     print("Candle:", candle["datetime"], "| Close:", candle["close"])
+
+# Diagnostic: inspect the full API metadata.
+import json
+print("\n--- Twelve Data metadata ---")
+print(json.dumps(raw.get("meta", {}), indent=2))
