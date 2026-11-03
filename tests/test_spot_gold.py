@@ -41,3 +41,29 @@ assert result["adx14"] >= 0
 assert -4 <= result["confluence_score"] <= 4
 
 print("PASS: XAU/USD FMIS price calculations")
+
+# Diagnostic: inspect raw Twelve Data candle dates.
+import os
+import datetime
+from update import get_json
+
+print("\n--- XAU/USD candle timestamp diagnostic ---")
+print("GitHub UTC time:", datetime.datetime.now(datetime.timezone.utc).isoformat())
+
+raw = get_json(
+    "https://api.twelvedata.com/time_series",
+    {
+        "symbol": "XAU/USD",
+        "interval": "1day",
+        "outputsize": 3,
+        "apikey": os.environ["PRICE_API_KEY"],
+        "format": "JSON",
+    },
+)
+
+assert "values" in raw, f"Timestamp diagnostic failed: {raw.get('message', raw)}"
+
+print("API timezone:", raw.get("meta", {}).get("exchange_timezone", "Not supplied"))
+
+for candle in raw["values"]:
+    print("Candle:", candle["datetime"], "| Close:", candle["close"])
