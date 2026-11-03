@@ -5,9 +5,7 @@
   const panel = document.getElementById("fmis-event-indicator");
   if (!panel) return;
 
-  const API =
-    "https://www.financecalendar.com/wp-json/fc/v1/calendar" +
-    "?country=US,GB&impact=high&limit=20";
+  const API = "calendar-data.json";
 
   const FULL_CALENDAR = "calendar-api-test.html";
   let events = [];
@@ -122,6 +120,32 @@ function nextMarketEvent(market) {
     heading.style.fontWeight = "bold";
     panel.appendChild(heading);
 
+    const preview = document.getElementById("fmis-calendar-preview");
+    if (preview) {
+      const updatedText = lastUpdated
+        ? "Last updated: " + new Intl.DateTimeFormat("en-GB", {
+            timeZone: "Europe/London",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+          }).format(lastUpdated) + " UK"
+        : "Last updated: unavailable";
+
+      preview.replaceChildren();
+
+      const updatedLine = document.createElement("span");
+      updatedLine.textContent = updatedText;
+
+      const nextLine = document.createElement("span");
+      nextLine.style.display = "block";
+      nextLine.style.color = "#73d8a4";
+      nextLine.style.fontWeight = "bold";
+      nextLine.textContent =
+        "Next: " + next.name + " — " + countdown(next.date);
+
+      preview.append(updatedLine, nextLine);
+    }
+
     upcoming.slice(0, 3).forEach(event => {
       const row = document.createElement("div");
       row.style.padding = "10px 0";
@@ -235,6 +259,13 @@ function renderMarketEvents() {
       if (!events.length) {
         panel.textContent =
           "Economic calendar temporarily unavailable.";
+
+        const preview = document.getElementById("fmis-calendar-preview");
+        if (preview) {
+          preview.textContent =
+            "Calendar feed unavailable — next event cannot be confirmed.";
+          preview.style.color = "#ffbf69";
+        }
       } else {
         render();
       }
