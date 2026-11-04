@@ -45,3 +45,8 @@ jobs:
 
       - name: Test US market session boundaries
         run: python tests/test_us_market_session.py
+
+      - name: Diagnose SPY and QQQ daily candles
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python tests/test_etf_daily_candles.py
