@@ -72,3 +72,31 @@ for candle in raw["values"]:
 import json
 print("\n--- Twelve Data metadata ---")
 print(json.dumps(raw.get("meta", {}), indent=2))
+
+# Diagnostic: test whether end_date excludes the developing candle.
+print("\n--- XAU/USD end_date diagnostic ---")
+
+utc_yesterday = (
+    datetime.datetime.now(datetime.timezone.utc).date()
+    - datetime.timedelta(days=1)
+)
+
+restricted = get_json(
+    "https://api.twelvedata.com/time_series",
+    {
+        "symbol": "XAU/USD",
+        "interval": "1day",
+        "outputsize": 3,
+        "end_date": utc_yesterday.isoformat(),
+        "apikey": os.environ["PRICE_API_KEY"],
+        "format": "JSON",
+    },
+)
+
+print("Requested end_date:", utc_yesterday.isoformat())
+assert "values" in restricted, (
+    f"Date-restricted diagnostic failed: {restricted.get('message', restricted)}"
+)
+
+for candle in restricted["values"]:
+    print("Restricted candle:", candle["datetime"], "| Close:", candle["close"])
