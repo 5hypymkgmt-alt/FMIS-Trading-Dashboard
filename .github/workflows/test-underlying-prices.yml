@@ -39,3 +39,6 @@ jobs:
 
       - name: Test Gold session boundary
         run: python tests/test_gold_session_boundary.py
+
+      - name: Test minimum completed candle history
+        run: python tests/test_candle_history.py
