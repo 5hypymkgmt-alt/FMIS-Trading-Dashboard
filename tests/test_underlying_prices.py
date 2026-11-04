@@ -11,8 +11,8 @@ if not key:
 failures = 0
 
 for name, symbol in [
-    ("S&P 500", "SPX"),
-    ("Nasdaq-100", "NDX"),
+    ("S&P 500 ETF", "SPY"),
+    ("Nasdaq-100 ETF", "QQQ"),
     ("Gold Spot", "XAU/USD"),
 ]:
     params = urllib.parse.urlencode({
@@ -28,6 +28,9 @@ for name, symbol in [
             data = json.load(response)
 
         candles = data.get("values", [])
+        meta = data.get("meta", {})
+        print(name, "| Exchange timezone:", meta.get("exchange_timezone", "Not provided"))
+        print(name, "| Latest API candle:", candles[0].get("datetime") if candles else "None")
         valid = sum(
             all(c.get(k) not in (None, "") for k in
                 ("datetime", "open", "high", "low", "close"))
