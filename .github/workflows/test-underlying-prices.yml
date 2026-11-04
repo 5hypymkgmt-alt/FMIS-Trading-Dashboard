@@ -33,3 +33,9 @@ jobs:
         env:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
         run: python tests/test_spot_gold.py
+
+      - name: Test completed daily candle filtering
+        run: python tests/test_candle_filter.py
+
+      - name: Test Gold session boundary
+        run: python tests/test_gold_session_boundary.py
