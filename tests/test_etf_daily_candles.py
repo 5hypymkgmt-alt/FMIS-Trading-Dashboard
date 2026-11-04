@@ -30,6 +30,10 @@ for name, symbol in [
     try:
         with urllib.request.urlopen(url, timeout=25) as response:
             data = json.load(response)
+        if data.get("status") == "error":
+            raise RuntimeError(f"{symbol} API error: {data.get('message', data)}")
+        if not isinstance(data.get("values"), list) or not data["values"]:
+            raise RuntimeError(f"{symbol}: no candle data returned")
 
         print("\n", name, "|", symbol)
         print("API status:", data.get("status", "unknown"))
@@ -45,3 +49,4 @@ for name, symbol in [
 
     except Exception as exc:
         print(name, "| REQUEST FAILED:", str(exc)[:200])
+        raise
