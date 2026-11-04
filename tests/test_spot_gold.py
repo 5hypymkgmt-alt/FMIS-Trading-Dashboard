@@ -100,3 +100,36 @@ assert "values" in restricted, (
 
 for candle in restricted["values"]:
     print("Restricted candle:", candle["datetime"], "| Close:", candle["close"])
+
+# Diagnostic: test an explicit UTC end_date boundary.
+print("\n--- XAU/USD explicit UTC boundary diagnostic ---")
+
+boundary_date = datetime.datetime.now(
+    datetime.timezone.utc
+).date()
+
+boundary = get_json(
+    "https://api.twelvedata.com/time_series",
+    {
+        "symbol": "XAU/USD",
+        "interval": "1day",
+        "outputsize": 5,
+        "end_date": boundary_date.isoformat() + " 00:00:00",
+        "timezone": "UTC",
+        "apikey": os.environ["PRICE_API_KEY"],
+        "format": "JSON",
+    },
+)
+
+print("Requested UTC boundary:", boundary_date.isoformat(), "00:00:00")
+
+if "values" in boundary:
+    for candle in boundary["values"]:
+        print(
+            "UTC boundary candle:",
+            candle["datetime"],
+            "| Close:",
+            candle["close"],
+        )
+else:
+    print("UTC boundary response:", boundary.get("message", boundary))
