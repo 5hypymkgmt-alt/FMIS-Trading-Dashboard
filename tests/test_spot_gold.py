@@ -14,7 +14,7 @@ print("Gold price status:", result.get("status"))
 print("Gold price date:", result.get("date"))
 print("Gold closing price:", result.get("close"))
 
-assert result.get("status") in ("ok", "stale"), (
+assert result.get("status") == "ok", (
     f"XAU/USD price processing failed: {result.get('reason', result)}"
 )
 
