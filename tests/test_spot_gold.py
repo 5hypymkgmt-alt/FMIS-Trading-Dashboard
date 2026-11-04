@@ -145,3 +145,29 @@ for candle in raw["values"]:
         "| Low:", candle["low"],
         "| Close:", candle["close"],
     )
+
+# Diagnostic: inspect hourly Gold candle timestamps.
+print("\n--- XAU/USD hourly candle diagnostic ---")
+
+hourly = get_json(
+    "https://api.twelvedata.com/time_series",
+    {
+        "symbol": "XAU/USD",
+        "interval": "1h",
+        "outputsize": 72,
+        "timezone": "UTC",
+        "apikey": os.environ["PRICE_API_KEY"],
+        "format": "JSON",
+    },
+)
+
+if "values" in hourly:
+    print("Hourly API metadata:", hourly.get("meta", {}))
+    for candle in hourly["values"]:
+        print(
+            "Hourly candle:", candle["datetime"],
+            "| Open:", candle["open"],
+            "| Close:", candle["close"],
+        )
+else:
+    print("Hourly API response:", hourly.get("message", hourly))
