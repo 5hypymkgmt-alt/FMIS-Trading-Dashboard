@@ -133,3 +133,15 @@ if "values" in boundary:
         )
 else:
     print("UTC boundary response:", boundary.get("message", boundary))
+
+# Diagnostic: inspect daily Gold OHLC values.
+print("\n--- XAU/USD daily OHLC diagnostic ---")
+
+for candle in raw["values"]:
+    print(
+        "Date:", candle["datetime"],
+        "| Open:", candle["open"],
+        "| High:", candle["high"],
+        "| Low:", candle["low"],
+        "| Close:", candle["close"],
+    )
