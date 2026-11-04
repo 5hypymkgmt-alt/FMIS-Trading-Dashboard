@@ -42,3 +42,6 @@ jobs:
 
       - name: Test minimum completed candle history
         run: python tests/test_candle_history.py
+
+      - name: Test US market session boundaries
+        run: python tests/test_us_market_session.py
