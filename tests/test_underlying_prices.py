@@ -8,6 +8,8 @@ key = os.getenv("PRICE_API_KEY", "")
 if not key:
     raise SystemExit("PRICE_API_KEY is unavailable")
 
+failures = 0
+
 for name, symbol in [
     ("S&P 500", "SPX"),
     ("Nasdaq-100", "NDX"),
@@ -40,11 +42,21 @@ for name, symbol in [
         if data.get("status") == "error":
             result = "API ERROR"
 
+        if result != "PASS":
+            failures += 1
+
         print(name, "|", symbol, "|", result,
               "| Valid candles:", valid,
               "|", str(data.get("message", ""))[:160])
 
     except urllib.error.HTTPError as exc:
+        failures += 1
         print(name, "| HTTP", exc.code, "|", exc.read().decode("utf-8", errors="replace")[:250])
     except Exception as exc:
+        failures += 1
         print(name, "| REQUEST FAILED |", type(exc).__name__)
+
+if failures:
+    raise SystemExit(f"FAIL: {failures} underlying market price check(s) failed")
+
+print("PASS: All underlying market price checks succeeded")
