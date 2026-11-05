@@ -42,3 +42,8 @@ jobs:
         env:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
         run: python tests/test_gold_end_date.py
+
+      - name: Diagnose Gold Sunday trading session
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python tests/test_gold_sunday_session.py
