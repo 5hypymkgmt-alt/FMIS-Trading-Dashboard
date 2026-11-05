@@ -94,6 +94,9 @@ function nextMarketEvent(market) {
     "Last updated: " +
     new Intl.DateTimeFormat("en-GB", {
       timeZone: "Europe/London",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
       hour12: false
@@ -125,6 +128,9 @@ function nextMarketEvent(market) {
       const updatedText = lastUpdated
         ? "Last updated: " + new Intl.DateTimeFormat("en-GB", {
             timeZone: "Europe/London",
+            day: "numeric",
+            month: "short",
+            year: "numeric",
             hour: "2-digit",
             minute: "2-digit",
             hour12: false
@@ -234,14 +240,27 @@ function renderMarketEvents() {
       events = data.events
         .filter(e => String(e.impact).toLowerCase() === "high")
         .map(e => ({
-          name: e.title || e.name || "Economic event",
+          name: (
+            e.country === "GB" &&
+            e.series_code === "gb-gdp" &&
+            typeof e.period === "string" &&
+            e.period.trim()
+          )
+            ? "UK GDP — " + e.period.trim() + " (Monthly)"
+            : (e.title || e.name || "Economic event"),
           country: e.country || "",
           date: releaseDate(e),
           markets: markets(e)
         }))
         .filter(e => e.date && e.date.getTime() > Date.now())
         .sort((a, b) => a.date - b.date);
-      lastUpdated = new Date();
+      const generatedAt = data.generated_at_utc;
+      const parsedUpdated = typeof generatedAt === "string"
+        ? new Date(generatedAt)
+        : new Date(NaN);
+      lastUpdated = Number.isFinite(parsedUpdated.getTime())
+        ? parsedUpdated
+        : null;
       feedUnavailable = false;
       render();
       } catch (error) {
