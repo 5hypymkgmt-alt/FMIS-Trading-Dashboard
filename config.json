@@ -7,9 +7,9 @@
       "note": "SPY ETF proxy for S&P 500"
     },
     "Gold": {
-      "symbol": "GLD",
+      "symbol": "XAU/USD",
       "chart": "OANDA:XAUUSD",
-      "note": "GLD ETF proxy for XAU/USD spot gold"
+      "note": "XAU/USD spot gold price from Twelve Data"
     },
     "Nasdaq 100": {
       "symbol": "QQQ",

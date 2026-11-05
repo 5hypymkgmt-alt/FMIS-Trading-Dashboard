@@ -838,7 +838,7 @@ def main():
                 .get(name, {})
                 .get('price', {})
             )
-            if previous_price.get('status') in ('ok', 'stale'):
+            if (previous.get('markets', {}).get(name, {}).get('symbol') == cfg['symbol'] and previous_price.get('status') in ('ok', 'stale')):
                 p = dict(previous_price)
                 p['status'] = 'stale'
                 p['fallback_reason'] = 'Latest price update unavailable'

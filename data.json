@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-05T00:03:56.731930+00:00",
+  "generated_at_utc": "2026-11-05T17:52:57.071075+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -185,42 +185,42 @@
       }
     },
     "Gold": {
-      "symbol": "GLD",
+      "symbol": "XAU/USD",
       "chart": "OANDA:XAUUSD",
-      "note": "GLD ETF proxy for XAU/USD spot gold",
+      "note": "XAU/USD spot gold price from Twelve Data",
       "price": {
         "status": "ok",
         "date": "2026-11-04",
         "age_days": 1,
-        "close": 372.49,
-        "previous_close": 359.26,
+        "close": 4058.018,
+        "previous_close": 3919.2,
         "daily_change": {
-          "change": 13.23,
-          "percent": 3.68
+          "change": 138.818,
+          "percent": 3.54
         },
         "weekly_change": {
-          "change": -1.02,
-          "percent": -0.27
+          "change": 174.43,
+          "percent": 4.49
         },
         "monthly_change": {
-          "change": -9.78,
-          "percent": -2.56
+          "change": -47.682,
+          "percent": -1.16
         },
-        "ema20": 372.439,
-        "ema50": 381.501,
-        "ema200": 396.304,
-        "weekly_pivot": 361.35,
-        "rsi14": 47.84,
-        "adx14": 23.24,
-        "market_regime": "Transitional",
+        "ema20": 4021.743,
+        "ema50": 4123.882,
+        "ema200": 4295.307,
+        "weekly_pivot": 3942.861,
+        "rsi14": 50.55,
+        "adx14": 28.86,
+        "market_regime": "Trend Direction Unclear",
         "factors": {
           "price_vs_ema20": 1,
           "ema20_vs_ema50": -1,
           "weekly_trend": -1,
-          "momentum_5d": -1,
+          "momentum_5d": 1,
           "rsi_14": 0
         },
-        "technical_score": -2,
+        "technical_score": 0,
         "technical_max": 5,
         "confluence_factors": {
           "price_vs_ema20": 1,
@@ -231,47 +231,27 @@
         "confluence_score": 0,
         "confluence_max": 4,
         "market_structure": {
-          "trend": "Ranging / Mixed",
-          "last_swing_high": 429.42,
-          "last_swing_low": 373.36,
-          "swing_high_date": "2026-08-24",
-          "swing_low_date": "2026-10-14",
+          "trend": "Bearish",
+          "last_swing_high": 4081.966,
+          "last_swing_low": 3975.827,
+          "swing_high_date": "2026-10-29",
+          "swing_low_date": "2026-10-23",
           "bos": "None",
           "choch": "None"
         },
         "recent_structure": [
           {
-            "date": "2026-10-08",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-09",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-12",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-13",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-14",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-15",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
             "date": "2026-10-16",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-17",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-18",
             "bos": "None",
             "choch": "None"
           },
@@ -292,11 +272,21 @@
           },
           {
             "date": "2026-10-22",
-            "bos": "None",
+            "bos": "Bearish BOS",
             "choch": "None"
           },
           {
             "date": "2026-10-23",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-24",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-25",
             "bos": "None",
             "choch": "None"
           },
@@ -322,6 +312,16 @@
           },
           {
             "date": "2026-10-30",
+            "bos": "Bearish BOS",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-31",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-11-01",
             "bos": "None",
             "choch": "None"
           },
@@ -346,28 +346,12 @@
       },
       "trade_confidence": {
         "bullish": {
-          "direction": "Bullish",
-          "status": "Partial Data",
-          "excluded_macro": [
-            "DTWEXBGS"
-          ],
-          "confidence": 18,
-          "technical": 6,
-          "trend": 0,
-          "macro": 12.5,
-          "structure": 0
+          "status": "Unavailable",
+          "reason": "Market regime missing or invalid"
         },
         "bearish": {
-          "direction": "Bearish",
-          "status": "Partial Data",
-          "excluded_macro": [
-            "DTWEXBGS"
-          ],
-          "confidence": 18,
-          "technical": 18,
-          "trend": 0,
-          "macro": 0,
-          "structure": 0
+          "status": "Unavailable",
+          "reason": "Market regime missing or invalid"
         }
       }
     },
