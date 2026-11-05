@@ -12,7 +12,7 @@ def trade_confidence(name, market, direction, data):
     adx = p.get("adx14")
     regime = p.get("market_regime")
     structure = p.get("market_structure", {})
-    valid_regimes = ("Ranging", "Transitional", "Bullish Trend", "Bearish Trend", "Strong Bullish Trend", "Strong Bearish Trend")
+    valid_regimes = ("Ranging", "Transitional", "Bullish Trend", "Bearish Trend", "Strong Bullish Trend", "Strong Bearish Trend", "Trend Direction Unclear")
     if regime not in valid_regimes:
         return {"status": "Unavailable", "reason": "Market regime missing or invalid"}
 
@@ -57,7 +57,9 @@ def trade_confidence(name, market, direction, data):
         if item.get("status") != "ok" or movement not in ("rising", "falling"):
             macro_excluded.append(key)
             continue
-        if not isinstance(age, (int, float)) or age < 0 or age > 5:
+        max_macro_age = 10 if key == "DTWEXBGS" else 5
+
+        if not isinstance(age, (int, float)) or age < 0 or age > max_macro_age:
             macro_excluded.append(key)
             continue
         supports_bullish = movement == "falling"
