@@ -37,3 +37,8 @@ jobs:
 
       - name: Test US market session boundaries
         run: python tests/test_us_market_session.py
+
+      - name: Diagnose Gold daily candle end date
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python tests/test_gold_end_date.py
