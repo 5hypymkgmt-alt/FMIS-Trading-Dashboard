@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-05T19:50:45.941623+00:00",
+  "generated_at_utc": "2026-11-05T20:23:13.183622+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -9,25 +9,25 @@
         "status": "ok",
         "date": "2026-11-05",
         "age_days": 0,
-        "close": 739.525,
+        "close": 736.02,
         "previous_close": 766.81,
         "daily_change": {
-          "change": -27.285,
-          "percent": -3.56
+          "change": -30.79,
+          "percent": -4.02
         },
         "weekly_change": {
-          "change": -29.835,
-          "percent": -3.88
+          "change": -33.34,
+          "percent": -4.33
         },
         "monthly_change": {
-          "change": -37.695,
-          "percent": -4.85
+          "change": -41.2,
+          "percent": -5.3
         },
-        "ema20": 762.822,
-        "ema50": 764.019,
-        "ema200": 738.11,
+        "ema20": 762.488,
+        "ema50": 763.881,
+        "ema200": 738.075,
         "weekly_pivot": 759.813,
-        "rsi14": 35.85,
+        "rsi14": 34.55,
         "adx14": 17.17,
         "market_regime": "Ranging",
         "factors": {
@@ -42,10 +42,10 @@
         "confluence_factors": {
           "price_vs_ema20": -1,
           "price_vs_ema50": -1,
-          "price_vs_ema200": 1,
+          "price_vs_ema200": -1,
           "price_vs_weekly_pivot": -1
         },
-        "confluence_score": -2,
+        "confluence_score": -4,
         "confluence_max": 4,
         "market_structure": {
           "trend": "Bullish",
@@ -190,37 +190,37 @@
       "note": "XAU/USD spot gold price from Twelve Data",
       "price": {
         "status": "ok",
-        "date": "2026-11-05",
-        "age_days": 0,
-        "close": 4115.374,
-        "previous_close": 4058.018,
+        "date": "2026-11-06",
+        "age_days": -1,
+        "close": 4106.252,
+        "previous_close": 4114.396,
         "daily_change": {
-          "change": 57.356,
-          "percent": 1.41
+          "change": -8.143,
+          "percent": -0.2
         },
         "weekly_change": {
-          "change": 239.935,
-          "percent": 6.19
+          "change": 230.822,
+          "percent": 5.96
         },
         "monthly_change": {
-          "change": -40.736,
-          "percent": -0.98
+          "change": -61.914,
+          "percent": -1.49
         },
-        "ema20": 4030.66,
-        "ema50": 4123.548,
-        "ema200": 4293.517,
+        "ema20": 4037.775,
+        "ema50": 4122.834,
+        "ema200": 4293.372,
         "weekly_pivot": 3942.861,
-        "rsi14": 55.11,
-        "adx14": 28.18,
+        "rsi14": 54.27,
+        "adx14": 27.54,
         "market_regime": "Trend Direction Unclear",
         "factors": {
           "price_vs_ema20": 1,
           "ema20_vs_ema50": -1,
           "weekly_trend": -1,
           "momentum_5d": 1,
-          "rsi_14": 1
+          "rsi_14": 0
         },
-        "technical_score": 1,
+        "technical_score": 0,
         "technical_max": 5,
         "confluence_factors": {
           "price_vs_ema20": 1,
@@ -237,14 +237,9 @@
           "swing_high_date": "2026-10-29",
           "swing_low_date": "2026-10-23",
           "bos": "None",
-          "choch": "Bullish CHoCH"
+          "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-17",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-18",
             "bos": "None",
@@ -339,6 +334,11 @@
             "date": "2026-11-05",
             "bos": "None",
             "choch": "Bullish CHoCH"
+          },
+          {
+            "date": "2026-11-06",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -346,24 +346,12 @@
       },
       "trade_confidence": {
         "bullish": {
-          "direction": "Bullish",
-          "status": "Complete",
-          "excluded_macro": [],
-          "confidence": 43,
-          "technical": 18,
-          "trend": 0,
-          "macro": 25.0,
-          "structure": 0
+          "status": "Unavailable",
+          "reason": "Stale price data"
         },
         "bearish": {
-          "direction": "Bearish",
-          "status": "Complete",
-          "excluded_macro": [],
-          "confidence": 22,
-          "technical": 12,
-          "trend": 0,
-          "macro": 0,
-          "structure": 10
+          "status": "Unavailable",
+          "reason": "Stale price data"
         }
       }
     },
@@ -375,25 +363,25 @@
         "status": "ok",
         "date": "2026-11-05",
         "age_days": 0,
-        "close": 656.93,
+        "close": 652.065,
         "previous_close": 691.95,
         "daily_change": {
-          "change": -35.02,
-          "percent": -5.06
+          "change": -39.885,
+          "percent": -5.76
         },
         "weekly_change": {
-          "change": -58.41,
-          "percent": -8.17
+          "change": -63.275,
+          "percent": -8.85
         },
         "monthly_change": {
-          "change": -100.8,
-          "percent": -13.3
+          "change": -105.665,
+          "percent": -13.94
         },
-        "ema20": 706.879,
-        "ema50": 716.449,
-        "ema200": 690.176,
+        "ema20": 706.416,
+        "ema50": 716.258,
+        "ema200": 690.128,
         "weekly_pivot": 700.027,
-        "rsi14": 28.78,
+        "rsi14": 27.8,
         "adx14": 31.67,
         "market_regime": "Bearish Trend",
         "factors": {
@@ -856,9 +844,7 @@
         "previous_net": -372869,
         "weekly_change": -27010,
         "bias": "Net Short"
-      },
-      "stale": true,
-      "fallback_reason": "Latest CFTC update unavailable"
+      }
     },
     "nasdaq100": {
       "status": "ok",
