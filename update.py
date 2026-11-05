@@ -162,6 +162,14 @@ def market_structure(high, low, close, dates, strength=5):
         'choch': choch
     }
 
+def filter_completed_daily_candles(candles, cutoff_date):
+    """Conservatively exclude candles dated on or after cutoff_date."""
+    return [
+        candle for candle in candles
+        if datetime.date.fromisoformat(candle["datetime"][:10]) < cutoff_date
+    ]
+
+
 def prices(symbol):
     key = os.getenv('PRICE_API_KEY', '')
     if not key:
@@ -192,6 +200,15 @@ def prices(symbol):
 
     
     vals = sorted(j['values'], key=lambda x: x['datetime'])
+    vals = filter_completed_daily_candles(
+        vals,
+        datetime.datetime.now(datetime.timezone.utc).date()
+    )
+    if len(vals) < 210:
+        return {
+            'status': 'unavailable',
+            'reason': 'Fewer than 210 completed daily candles'
+        }
 
     try:
             dates = [x['datetime'][:10] for x in vals]
@@ -303,7 +320,7 @@ def prices(symbol):
             age = (TODAY - datetime.date.fromisoformat(dates[-1])).days
 
             return {
-            'status': 'ok' if age <= CFG['max_price_age_days'] else 'stale',
+            'status': 'ok' if 0 <= age <= CFG['max_price_age_days'] else 'stale',
             'date': dates[-1],
             'age_days': age,
             'close': round(last, 3),
