@@ -566,7 +566,7 @@ def us_economic_health(macro_data):
         data = macro_data.get(series, {})
         status = data.get("status")
 
-        if status not in ("ok", "stale"):
+        if status != "ok":
             details[name] = {
                 "status": status or "unavailable",
                 "score": None,
