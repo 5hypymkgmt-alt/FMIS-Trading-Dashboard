@@ -21,6 +21,33 @@ jobs:
       - name: Install Python dependencies
         run: python -m pip install -r requirements.txt
 
+      - name: Test consolidated FMIS market prices
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python tests/test_consolidated_prices.py
+
+      - name: Test completed daily candle filtering
+        run: python tests/test_candle_filter.py
+
+      - name: Test Gold session boundary
+        run: python tests/test_gold_session_boundary.py
+
+      - name: Test minimum completed candle history
+        run: python tests/test_candle_history.py
+
+      - name: Test US market session boundaries
+        run: python tests/test_us_market_session.py
+
+      - name: Diagnose Gold daily candle end date
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python tests/test_gold_end_date.py
+
+      - name: Diagnose Gold Sunday trading session
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python tests/test_gold_sunday_session.py
+
       - name: Diagnose native weekly Gold candles
         env:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
