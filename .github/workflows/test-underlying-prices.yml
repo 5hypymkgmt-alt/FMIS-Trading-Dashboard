@@ -47,3 +47,8 @@ jobs:
         env:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
         run: python tests/test_gold_sunday_session.py
+
+      - name: Diagnose native weekly Gold candles
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python tests/test_gold_weekly_api.py
