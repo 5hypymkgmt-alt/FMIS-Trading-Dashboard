@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-02T23:59:20.832662+00:00",
+  "generated_at_utc": "2026-11-05T17:52:57.071075+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -7,45 +7,45 @@
       "note": "SPY ETF proxy for S&P 500",
       "price": {
         "status": "ok",
-        "date": "2026-11-02",
-        "age_days": 0,
-        "close": 752.1,
-        "previous_close": 755.72,
+        "date": "2026-11-04",
+        "age_days": 1,
+        "close": 766.81,
+        "previous_close": 754.35,
         "daily_change": {
-          "change": -3.62,
-          "percent": -0.48
+          "change": 12.46,
+          "percent": 1.65
         },
         "weekly_change": {
-          "change": -13.27,
-          "percent": -1.73
+          "change": -5.5,
+          "percent": -0.71
         },
         "monthly_change": {
-          "change": -17.54,
-          "percent": -2.28
+          "change": -12.28,
+          "percent": -1.58
         },
-        "ema20": 766.245,
-        "ema50": 765.377,
-        "ema200": 737.183,
+        "ema20": 765.274,
+        "ema50": 765.018,
+        "ema200": 738.096,
         "weekly_pivot": 759.813,
-        "rsi14": 37.98,
-        "adx14": 16.28,
+        "rsi14": 50.7,
+        "adx14": 16.4,
         "market_regime": "Ranging",
         "factors": {
-          "price_vs_ema20": -1,
+          "price_vs_ema20": 1,
           "ema20_vs_ema50": 1,
           "weekly_trend": -1,
           "momentum_5d": -1,
-          "rsi_14": -1
+          "rsi_14": 0
         },
-        "technical_score": -3,
+        "technical_score": 0,
         "technical_max": 5,
         "confluence_factors": {
-          "price_vs_ema20": -1,
-          "price_vs_ema50": -1,
+          "price_vs_ema20": 1,
+          "price_vs_ema50": 1,
           "price_vs_ema200": 1,
-          "price_vs_weekly_pivot": -1
+          "price_vs_weekly_pivot": 1
         },
-        "confluence_score": -2,
+        "confluence_score": 4,
         "confluence_max": 4,
         "market_structure": {
           "trend": "Bullish",
@@ -57,16 +57,6 @@
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-06",
-            "bos": "None",
-            "choch": "Bullish CHoCH"
-          },
-          {
-            "date": "2026-10-07",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-08",
             "bos": "None",
@@ -156,6 +146,16 @@
             "date": "2026-11-02",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-03",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-11-04",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -166,8 +166,8 @@
           "direction": "Bullish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 51,
-          "technical": 6,
+          "confidence": 57,
+          "technical": 12,
           "trend": 0,
           "macro": 25.0,
           "structure": 20
@@ -176,8 +176,8 @@
           "direction": "Bearish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 24,
-          "technical": 24,
+          "confidence": 12,
+          "technical": 12,
           "trend": 0,
           "macro": 0,
           "structure": 0
@@ -185,103 +185,73 @@
       }
     },
     "Gold": {
-      "symbol": "GLD",
+      "symbol": "XAU/USD",
       "chart": "OANDA:XAUUSD",
-      "note": "GLD ETF proxy for XAU/USD spot gold",
+      "note": "XAU/USD spot gold price from Twelve Data",
       "price": {
         "status": "ok",
-        "date": "2026-11-02",
-        "age_days": 0,
-        "close": 361.65,
-        "previous_close": 355.78,
+        "date": "2026-11-04",
+        "age_days": 1,
+        "close": 4058.018,
+        "previous_close": 3919.2,
         "daily_change": {
-          "change": 5.87,
-          "percent": 1.65
+          "change": 138.818,
+          "percent": 3.54
         },
         "weekly_change": {
-          "change": -6.17,
-          "percent": -1.68
+          "change": 174.43,
+          "percent": 4.49
         },
         "monthly_change": {
-          "change": -18.49,
-          "percent": -4.86
+          "change": -47.682,
+          "percent": -1.16
         },
-        "ema20": 373.82,
-        "ema50": 382.791,
-        "ema200": 396.8,
-        "weekly_pivot": 361.35,
-        "rsi14": 36.92,
-        "adx14": 22.98,
-        "market_regime": "Transitional",
+        "ema20": 4021.743,
+        "ema50": 4123.882,
+        "ema200": 4295.307,
+        "weekly_pivot": 3942.861,
+        "rsi14": 50.55,
+        "adx14": 28.86,
+        "market_regime": "Trend Direction Unclear",
         "factors": {
-          "price_vs_ema20": -1,
+          "price_vs_ema20": 1,
           "ema20_vs_ema50": -1,
           "weekly_trend": -1,
-          "momentum_5d": -1,
-          "rsi_14": -1
+          "momentum_5d": 1,
+          "rsi_14": 0
         },
-        "technical_score": -5,
+        "technical_score": 0,
         "technical_max": 5,
         "confluence_factors": {
-          "price_vs_ema20": -1,
+          "price_vs_ema20": 1,
           "price_vs_ema50": -1,
           "price_vs_ema200": -1,
           "price_vs_weekly_pivot": 1
         },
-        "confluence_score": -2,
+        "confluence_score": 0,
         "confluence_max": 4,
         "market_structure": {
-          "trend": "Ranging / Mixed",
-          "last_swing_high": 429.42,
-          "last_swing_low": 373.36,
-          "swing_high_date": "2026-08-24",
-          "swing_low_date": "2026-10-14",
+          "trend": "Bearish",
+          "last_swing_high": 4081.966,
+          "last_swing_low": 3975.827,
+          "swing_high_date": "2026-10-29",
+          "swing_low_date": "2026-10-23",
           "bos": "None",
           "choch": "None"
         },
         "recent_structure": [
           {
-            "date": "2026-10-06",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-07",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-08",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-09",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-12",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-13",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-14",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-15",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
             "date": "2026-10-16",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-17",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-18",
             "bos": "None",
             "choch": "None"
           },
@@ -302,11 +272,21 @@
           },
           {
             "date": "2026-10-22",
-            "bos": "None",
+            "bos": "Bearish BOS",
             "choch": "None"
           },
           {
             "date": "2026-10-23",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-24",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-25",
             "bos": "None",
             "choch": "None"
           },
@@ -332,11 +312,31 @@
           },
           {
             "date": "2026-10-30",
+            "bos": "Bearish BOS",
+            "choch": "None"
+          },
+          {
+            "date": "2026-10-31",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-11-01",
             "bos": "None",
             "choch": "None"
           },
           {
             "date": "2026-11-02",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-11-03",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-11-04",
             "bos": "None",
             "choch": "None"
           }
@@ -346,24 +346,12 @@
       },
       "trade_confidence": {
         "bullish": {
-          "direction": "Bullish",
-          "status": "Complete",
-          "excluded_macro": [],
-          "confidence": 25,
-          "technical": 0,
-          "trend": 0,
-          "macro": 25.0,
-          "structure": 0
+          "status": "Unavailable",
+          "reason": "Market regime missing or invalid"
         },
         "bearish": {
-          "direction": "Bearish",
-          "status": "Complete",
-          "excluded_macro": [],
-          "confidence": 30,
-          "technical": 30,
-          "trend": 0,
-          "macro": 0,
-          "structure": 0
+          "status": "Unavailable",
+          "reason": "Market regime missing or invalid"
         }
       }
     },
@@ -373,28 +361,28 @@
       "note": "QQQ ETF proxy for Nasdaq 100",
       "price": {
         "status": "ok",
-        "date": "2026-11-02",
-        "age_days": 0,
-        "close": 681.09,
-        "previous_close": 690.49,
+        "date": "2026-11-04",
+        "age_days": 1,
+        "close": 691.95,
+        "previous_close": 685.28,
         "daily_change": {
-          "change": -9.4,
-          "percent": -1.36
+          "change": 6.67,
+          "percent": 0.97
         },
         "weekly_change": {
-          "change": -31.11,
-          "percent": -4.37
+          "change": -33.66,
+          "percent": -4.64
         },
         "monthly_change": {
-          "change": -68.49,
-          "percent": -9.14
+          "change": -67.71,
+          "percent": -8.91
         },
-        "ema20": 717.313,
-        "ema50": 721.393,
-        "ema200": 690.105,
+        "ema20": 712.137,
+        "ema50": 718.878,
+        "ema200": 690.51,
         "weekly_pivot": 700.027,
-        "rsi14": 32.08,
-        "adx14": 28.76,
+        "rsi14": 38.52,
+        "adx14": 30.19,
         "market_regime": "Bearish Trend",
         "factors": {
           "price_vs_ema20": -1,
@@ -408,10 +396,10 @@
         "confluence_factors": {
           "price_vs_ema20": -1,
           "price_vs_ema50": -1,
-          "price_vs_ema200": -1,
+          "price_vs_ema200": 1,
           "price_vs_weekly_pivot": -1
         },
-        "confluence_score": -4,
+        "confluence_score": -2,
         "confluence_max": 4,
         "market_structure": {
           "trend": "Ranging / Mixed",
@@ -423,16 +411,6 @@
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-06",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-07",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-08",
             "bos": "None",
@@ -520,6 +498,16 @@
           },
           {
             "date": "2026-11-02",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-11-03",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-11-04",
             "bos": "None",
             "choch": "None"
           }
