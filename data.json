@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-05T17:52:57.071075+00:00",
+  "generated_at_utc": "2026-11-05T19:07:33.294272+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -7,45 +7,45 @@
       "note": "SPY ETF proxy for S&P 500",
       "price": {
         "status": "ok",
-        "date": "2026-11-04",
-        "age_days": 1,
-        "close": 766.81,
-        "previous_close": 754.35,
+        "date": "2026-11-05",
+        "age_days": 0,
+        "close": 734.495,
+        "previous_close": 766.81,
         "daily_change": {
-          "change": 12.46,
-          "percent": 1.65
+          "change": -32.315,
+          "percent": -4.21
         },
         "weekly_change": {
-          "change": -5.5,
-          "percent": -0.71
+          "change": -34.865,
+          "percent": -4.53
         },
         "monthly_change": {
-          "change": -12.28,
-          "percent": -1.58
+          "change": -42.725,
+          "percent": -5.5
         },
-        "ema20": 765.274,
-        "ema50": 765.018,
-        "ema200": 737.684,
+        "ema20": 762.343,
+        "ema50": 763.821,
+        "ema200": 738.06,
         "weekly_pivot": 759.813,
-        "rsi14": 50.7,
-        "adx14": 16.27,
+        "rsi14": 34.01,
+        "adx14": 17.17,
         "market_regime": "Ranging",
         "factors": {
-          "price_vs_ema20": 1,
-          "ema20_vs_ema50": 1,
+          "price_vs_ema20": -1,
+          "ema20_vs_ema50": -1,
           "weekly_trend": -1,
           "momentum_5d": -1,
-          "rsi_14": 0
+          "rsi_14": -1
         },
-        "technical_score": 0,
+        "technical_score": -5,
         "technical_max": 5,
         "confluence_factors": {
-          "price_vs_ema20": 1,
-          "price_vs_ema50": 1,
-          "price_vs_ema200": 1,
-          "price_vs_weekly_pivot": 1
+          "price_vs_ema20": -1,
+          "price_vs_ema50": -1,
+          "price_vs_ema200": -1,
+          "price_vs_weekly_pivot": -1
         },
-        "confluence_score": 4,
+        "confluence_score": -4,
         "confluence_max": 4,
         "market_structure": {
           "trend": "Bullish",
@@ -54,14 +54,9 @@
           "swing_high_date": "2026-10-06",
           "swing_low_date": "2026-10-01",
           "bos": "None",
-          "choch": "None"
+          "choch": "Bearish CHoCH"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-08",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-09",
             "bos": "None",
@@ -156,6 +151,11 @@
             "date": "2026-11-04",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-05",
+            "bos": "None",
+            "choch": "Bearish CHoCH"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -166,20 +166,20 @@
           "direction": "Bullish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 44,
-          "technical": 12,
+          "confidence": 35,
+          "technical": 0,
           "trend": 0,
-          "macro": 12.5,
-          "structure": 20
+          "macro": 25.0,
+          "structure": 10
         },
         "bearish": {
           "direction": "Bearish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 24,
-          "technical": 12,
+          "confidence": 30,
+          "technical": 30,
           "trend": 0,
-          "macro": 12.5,
+          "macro": 0,
           "structure": 0
         }
       }
@@ -190,28 +190,28 @@
       "note": "XAU/USD spot gold price from Twelve Data",
       "price": {
         "status": "ok",
-        "date": "2026-11-04",
-        "age_days": 1,
-        "close": 4058.018,
-        "previous_close": 3919.2,
+        "date": "2026-11-05",
+        "age_days": 0,
+        "close": 4099.967,
+        "previous_close": 4058.018,
         "daily_change": {
-          "change": 138.818,
-          "percent": 3.54
+          "change": 41.949,
+          "percent": 1.03
         },
         "weekly_change": {
-          "change": 174.43,
-          "percent": 4.49
+          "change": 224.528,
+          "percent": 5.79
         },
         "monthly_change": {
-          "change": -47.682,
-          "percent": -1.16
+          "change": -56.143,
+          "percent": -1.35
         },
-        "ema20": 4021.743,
-        "ema50": 4123.882,
-        "ema200": 4295.307,
+        "ema20": 4029.193,
+        "ema50": 4122.944,
+        "ema200": 4293.363,
         "weekly_pivot": 3942.861,
-        "rsi14": 50.55,
-        "adx14": 28.86,
+        "rsi14": 53.97,
+        "adx14": 28.18,
         "market_regime": "Trend Direction Unclear",
         "factors": {
           "price_vs_ema20": 1,
@@ -237,14 +237,9 @@
           "swing_high_date": "2026-10-29",
           "swing_low_date": "2026-10-23",
           "bos": "None",
-          "choch": "None"
+          "choch": "Bullish CHoCH"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-16",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-17",
             "bos": "None",
@@ -339,6 +334,11 @@
             "date": "2026-11-04",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-05",
+            "bos": "None",
+            "choch": "Bullish CHoCH"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -361,28 +361,28 @@
       "note": "QQQ ETF proxy for Nasdaq 100",
       "price": {
         "status": "ok",
-        "date": "2026-11-04",
-        "age_days": 1,
-        "close": 691.82,
-        "previous_close": 685.28,
+        "date": "2026-11-05",
+        "age_days": 0,
+        "close": 650.655,
+        "previous_close": 691.95,
         "daily_change": {
-          "change": 6.54,
-          "percent": 0.95
+          "change": -41.295,
+          "percent": -5.97
         },
         "weekly_change": {
-          "change": -33.79,
-          "percent": -4.66
+          "change": -64.685,
+          "percent": -9.04
         },
         "monthly_change": {
-          "change": -67.84,
-          "percent": -8.93
+          "change": -107.075,
+          "percent": -14.13
         },
-        "ema20": 712.125,
-        "ema50": 718.873,
-        "ema200": 690.02,
+        "ema20": 706.281,
+        "ema50": 716.203,
+        "ema200": 690.113,
         "weekly_pivot": 700.027,
-        "rsi14": 38.44,
-        "adx14": 30.19,
+        "rsi14": 27.53,
+        "adx14": 31.67,
         "market_regime": "Bearish Trend",
         "factors": {
           "price_vs_ema20": -1,
@@ -396,10 +396,10 @@
         "confluence_factors": {
           "price_vs_ema20": -1,
           "price_vs_ema50": -1,
-          "price_vs_ema200": 1,
+          "price_vs_ema200": -1,
           "price_vs_weekly_pivot": -1
         },
-        "confluence_score": -2,
+        "confluence_score": -4,
         "confluence_max": 4,
         "market_structure": {
           "trend": "Ranging / Mixed",
@@ -411,11 +411,6 @@
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-08",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-09",
             "bos": "None",
@@ -510,6 +505,11 @@
             "date": "2026-11-04",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-05",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -520,20 +520,20 @@
           "direction": "Bullish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 12,
+          "confidence": 25,
           "technical": 0,
           "trend": 0,
-          "macro": 12.5,
+          "macro": 25.0,
           "structure": 0
         },
         "bearish": {
           "direction": "Bearish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 68,
+          "confidence": 55,
           "technical": 30,
           "trend": 25,
-          "macro": 12.5,
+          "macro": 0,
           "structure": 0
         }
       }
@@ -654,17 +654,17 @@
     },
     "BAMLH0A0HYM2": {
       "status": "ok",
-      "value": 3.4,
+      "value": 3.32,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 3.03,
-      "health_previous_value": 3.43,
-      "health_change": -0.03,
-      "change": 0.37,
+      "previous_value": 3.09,
+      "health_previous_value": 3.4,
+      "health_change": -0.08,
+      "change": 0.23,
       "direction": "rising",
-      "observation_date": "2026-11-03",
-      "comparison_date": "2026-10-06",
-      "age_days": 2,
+      "observation_date": "2026-11-04",
+      "comparison_date": "2026-10-07",
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -782,17 +782,17 @@
     },
     "VIXCLS": {
       "status": "ok",
-      "value": 20.83,
+      "value": 16.61,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 17.52,
-      "health_previous_value": 21.15,
-      "health_change": -0.32,
-      "change": 3.31,
-      "direction": "rising",
-      "observation_date": "2026-11-03",
-      "comparison_date": "2026-10-27",
-      "age_days": 2,
+      "previous_value": 16.91,
+      "health_previous_value": 20.83,
+      "health_change": -4.22,
+      "change": -0.3,
+      "direction": "falling",
+      "observation_date": "2026-11-04",
+      "comparison_date": "2026-10-28",
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/VIXCLS",
       "caveat": "Observation dates are not release dates; revisions possible"
     }
@@ -884,7 +884,7 @@
       "note": "Heuristic macro score, not a trade signal"
     },
     "S&P 500": {
-      "score": 2,
+      "score": 4,
       "maximum_score": 4,
       "indicators_available": 4,
       "indicators_required": 4,
@@ -893,12 +893,12 @@
         "DGS10": 1,
         "DGS2": 1,
         "UNRATE": 1,
-        "VIXCLS": -1
+        "VIXCLS": 1
       },
       "note": "Heuristic macro score, not a trade signal"
     },
     "Nasdaq 100": {
-      "score": 2,
+      "score": 4,
       "maximum_score": 4,
       "indicators_available": 4,
       "indicators_required": 4,
@@ -907,7 +907,7 @@
         "DGS10": 1,
         "DGS2": 1,
         "UNRATE": 1,
-        "VIXCLS": -1
+        "VIXCLS": 1
       },
       "note": "Heuristic macro score, not a trade signal"
     }
@@ -982,9 +982,9 @@
         "status": "ok",
         "score": -1,
         "series": "BAMLH0A0HYM2",
-        "value": 3.4,
-        "change": 0.37,
-        "observation_date": "2026-11-03"
+        "value": 3.32,
+        "change": 0.23,
+        "observation_date": "2026-11-04"
       },
       "Financial Stress Index": {
         "status": "ok",
