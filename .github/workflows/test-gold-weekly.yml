@@ -1,0 +1,28 @@
+name: Test Gold Weekly Candles
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-gold-weekly:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install requests
+        run: python -m pip install requests
+
+      - name: Diagnose native weekly Gold candles
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python tests/test_gold_weekly_api.py
