@@ -1,0 +1,44 @@
+name: Test FMIS Candle Reliability
+
+on:
+  push:
+    branches:
+      - fmis-candle-reliability-fix
+    paths:
+      - 'update.py'
+      - 'tests/test_completed_candles.py'
+      - '.github/workflows/test-candle-reliability.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'update.py'
+      - 'tests/test_completed_candles.py'
+      - '.github/workflows/test-candle-reliability.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  candle-reliability:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Validate Python syntax
+        run: |
+          python -c "import ast; ast.parse(open('update.py').read()); ast.parse(open('tests/test_completed_candles.py').read()); print('PASS: Python syntax')"
+
+      - name: Test completed daily candles
+        run: python tests/test_completed_candles.py
