@@ -42,6 +42,8 @@ jobs:
 
       - name: Test completed daily candles
         run: python tests/test_completed_candles.py
+      - name: Test NYSE session boundaries
+        run: python -W ignore::FutureWarning tests/test_us_market_sessions.py
 
       - name: Diagnose Gold daily candle cutoff
         env:
