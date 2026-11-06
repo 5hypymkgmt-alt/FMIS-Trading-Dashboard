@@ -3,6 +3,8 @@
 import datetime
 import exchange_calendars as xc
 
+from update import filter_completed_session_candles
+
 UTC = datetime.timezone.utc
 calendar = xc.get_calendar("XNYS")
 
@@ -41,20 +43,6 @@ def test_holiday_and_weekend():
 
     assert not session_complete("2026-11-26", now)
     assert not session_complete("2026-11-28", now)
-
-
-def filter_completed_session_candles(
-    candles, now_utc, delay_minutes=15
-):
-    """Keep only candles from completed US trading sessions."""
-    return [
-        candle for candle in candles
-        if session_complete(
-            candle["datetime"][:10],
-            now_utc,
-            delay_minutes
-        )
-    ]
 
 
 def test_candle_selection_before_and_after_close():

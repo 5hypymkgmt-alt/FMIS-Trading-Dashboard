@@ -1,5 +1,6 @@
 """Daily FMIS data updater. Requires FRED_API_KEY for macro; optional PRICE_API_KEY (Twelve Data)."""
 import os, json, csv, io, math, datetime, pathlib, requests
+import exchange_calendars as xc
 from market_regime import calculate_adx, classify_market_regime
 from trade_confidence import trade_confidence
 from cot_data import fetch_cot_data, calculate_cot_positioning, calculate_financial_futures_positioning
@@ -169,6 +170,37 @@ def filter_completed_daily_candles(candles, cutoff_date):
         if datetime.date.fromisoformat(candle["datetime"][:10]) < cutoff_date
     ]
 
+NYSE_CALENDAR = xc.get_calendar("XNYS")
+
+
+def filter_completed_session_candles(
+    candles, now_utc, delay_minutes=15
+):
+    """Keep only candles from completed NYSE trading sessions."""
+
+    completed = []
+
+    for candle in candles:
+        session_date = candle["datetime"][:10]
+
+        if not NYSE_CALENDAR.is_session(session_date):
+            continue
+
+        session_close = (
+            NYSE_CALENDAR
+            .session_close(session_date)
+            .to_pydatetime()
+        )
+
+        ready_at = session_close + datetime.timedelta(
+            minutes=delay_minutes
+        )
+
+        if now_utc >= ready_at:
+            completed.append(candle)
+
+    return completed
+
 
 def prices(symbol):
     key = os.getenv('PRICE_API_KEY', '')
@@ -200,10 +232,19 @@ def prices(symbol):
 
     
     vals = sorted(j['values'], key=lambda x: x['datetime'])
-    vals = filter_completed_daily_candles(
-        vals,
-        datetime.datetime.now(datetime.timezone.utc).date()
-    )
+
+    if symbol in ('SPY', 'QQQ'):
+        now_utc = datetime.datetime.now(datetime.timezone.utc)
+
+        vals = filter_completed_session_candles(
+            vals,
+            now_utc
+        )
+    else:
+        vals = filter_completed_daily_candles(
+            vals,
+            datetime.datetime.now(datetime.timezone.utc).date()
+        )
     if len(vals) < 210:
         return {
             'status': 'unavailable',
