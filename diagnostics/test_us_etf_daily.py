@@ -31,6 +31,15 @@ for symbol in ("SPY", "QQQ"):
             f"{symbol}: {data.get('message', 'No candle data')}"
         )
 
+    print("\n", symbol, "API metadata:")
+    metadata = data.get("meta", {})
+    for field in (
+        "symbol", "name", "exchange",
+        "mic_code", "type", "timezone",
+        "currency", "interval"
+    ):
+        print(field + ":", metadata.get(field, "Not supplied"))
+
     print("\n", symbol, "daily candles:")
 
     for candle in data["values"]:
