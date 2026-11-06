@@ -54,3 +54,39 @@ def aggregate_ohlc(daily_candles, timeframe, as_of=None):
         })
 
     return result
+
+
+def detect_confirmed_swings(candles, strength=2):
+    """Find confirmed swing highs and lows in completed OHLC candles."""
+    if not isinstance(strength, int) or isinstance(strength, bool) or strength < 1:
+        raise ValueError("Strength must be a positive integer")
+
+    ordered = sorted(candles, key=lambda c: c["datetime"])
+    swings = []
+
+    for i in range(strength, len(ordered) - strength):
+        candidate = ordered[i]
+        before = ordered[i - strength:i]
+        after = ordered[i + 1:i + strength + 1]
+        confirmation_date = ordered[i + strength]["datetime"]
+
+        high = float(candidate["high"])
+        low = float(candidate["low"])
+
+        if all(high > float(c["high"]) for c in before + after):
+            swings.append({
+                "type": "high",
+                "date": candidate["datetime"],
+                "price": high,
+                "confirmed_at": confirmation_date,
+            })
+
+        if all(low < float(c["low"]) for c in before + after):
+            swings.append({
+                "type": "low",
+                "date": candidate["datetime"],
+                "price": low,
+                "confirmed_at": confirmation_date,
+            })
+
+    return swings
