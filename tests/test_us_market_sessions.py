@@ -43,9 +43,74 @@ def test_holiday_and_weekend():
     assert not session_complete("2026-11-28", now)
 
 
+def filter_completed_session_candles(
+    candles, now_utc, delay_minutes=15
+):
+    """Keep only candles from completed US trading sessions."""
+    return [
+        candle for candle in candles
+        if session_complete(
+            candle["datetime"][:10],
+            now_utc,
+            delay_minutes
+        )
+    ]
+
+
+def test_candle_selection_before_and_after_close():
+    before = datetime.datetime(
+        2026, 11, 2, 21, 10, tzinfo=UTC
+    )
+    after = datetime.datetime(
+        2026, 11, 2, 21, 16, tzinfo=UTC
+    )
+
+    candles = [
+        {"datetime": "2026-11-02", "close": "4100"},
+        {"datetime": "2026-11-03", "close": "4150"},
+    ]
+
+    assert len(filter_completed_session_candles(
+        candles, before
+    )) == 0
+
+    result = filter_completed_session_candles(
+        candles, after
+    )
+
+    assert [c["datetime"] for c in result] == [
+        "2026-11-02"
+    ]
+
+    print("PASS: Session-aware candle selection")
+def test_candle_selection_on_early_close():
+    before = datetime.datetime(
+        2026, 11, 27, 18, 10, tzinfo=UTC
+    )
+    after = datetime.datetime(
+        2026, 11, 27, 18, 16, tzinfo=UTC
+    )
+
+    candles = [
+        {"datetime": "2026-11-27", "close": "4100"},
+    ]
+
+    assert len(filter_completed_session_candles(
+        candles, before
+    )) == 0
+
+    result = filter_completed_session_candles(
+        candles, after
+    )
+
+    assert len(result) == 1
+
+    print("PASS: Early-close candle selection")
 if __name__ == "__main__":
     test_winter_session()
     test_summer_session()
     test_early_close()
     test_holiday_and_weekend()
+    test_candle_selection_before_and_after_close()
+    test_candle_selection_on_early_close()
     print("PASS: All NYSE session tests")
