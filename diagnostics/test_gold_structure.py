@@ -12,6 +12,7 @@ from gold_market_structure import (
     aggregate_ohlc,
     detect_confirmed_swings,
     classify_structural_swings,
+    label_primary_structure,
 )
 
 API = "https://api.twelvedata.com/time_series"
@@ -126,3 +127,20 @@ for timeframe, candles in (
     print("Latest classified swings:")
     for swing in classified[-5:]:
         print(swing)
+
+    labelled = label_primary_structure(classified)
+
+    print(f"\n{timeframe} PRIMARY STRUCTURE LABELS")
+    major_labelled = [
+        swing for swing in labelled
+        if swing["classification"] == "major"
+    ]
+
+    for swing in major_labelled[-10:]:
+        print(
+            swing["date"],
+            swing["type"],
+            round(swing["price"], 2),
+            swing["structure_label"] or "INITIAL",
+            "confirmed:", swing["confirmed_at"],
+        )
