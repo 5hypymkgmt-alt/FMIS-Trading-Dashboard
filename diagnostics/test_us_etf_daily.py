@@ -4,6 +4,8 @@ import datetime
 import os
 import requests
 
+from update import filter_completed_session_candles
+
 API = 'https://api.twelvedata.com/time_series'
 KEY = os.environ["PRICE_API_KEY"]
 
@@ -37,4 +39,37 @@ for symbol in ("SPY", "QQQ"):
             "| Close:", candle["close"]
         )
 
-print("\nNOTE: Candle dates do not prove final settlement.")
+    accepted = filter_completed_session_candles(data["values"], now)
+    accepted_dates = {c["datetime"] for c in accepted}
+    rejected = [
+        c for c in data["values"]
+        if c["datetime"] not in accepted_dates
+    ]
+
+    print("Accepted completed sessions:")
+    for candle in accepted:
+        print(candle["datetime"], "| Close:", candle["close"])
+
+    print("Rejected sessions:")
+    for candle in rejected:
+        print(candle["datetime"], "| Close:", candle["close"])
+
+    pre_close = datetime.datetime(
+        2026, 11, 6, 20, 59,
+        tzinfo=datetime.timezone.utc
+    )
+    pre_close_result = filter_completed_session_candles(
+        data["values"], pre_close
+    )
+    assert all(
+        c["datetime"][:10] != "2026-11-06"
+        for c in pre_close_result
+    ), f"{symbol}: unfinished session was accepted"
+
+    print("PASS: Pre-close session excluded")
+    if accepted:
+        latest = max(accepted, key=lambda c: c["datetime"])
+        print("Latest accepted:", latest["datetime"],
+              "| Close:", latest["close"])
+
+print("\nNOTE: Session completion does not prove provider settlement.")

@@ -53,4 +53,4 @@ jobs:
       - name: Diagnose SPY and QQQ daily candles
         env:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
-        run: python diagnostics/test_us_etf_daily.py
+        run: PYTHONPATH=. python diagnostics/test_us_etf_daily.py
