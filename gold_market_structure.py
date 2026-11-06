@@ -90,3 +90,57 @@ def detect_confirmed_swings(candles, strength=2):
             })
 
     return swings
+
+
+def calculate_atr(candles, period=14):
+    """Calculate Wilder ATR from chronological completed OHLC candles."""
+    if not isinstance(period, int) or isinstance(period, bool) or period < 1:
+        raise ValueError("ATR period must be a positive integer")
+
+    ordered = sorted(candles, key=lambda c: c["datetime"])
+
+    if len(ordered) < period + 1:
+        raise ValueError("Insufficient candles for ATR calculation")
+
+    true_ranges = []
+
+    for i in range(1, len(ordered)):
+        high = float(ordered[i]["high"])
+        low = float(ordered[i]["low"])
+        previous_close = float(ordered[i - 1]["close"])
+
+        tr = max(
+            high - low,
+            abs(high - previous_close),
+            abs(low - previous_close),
+        )
+        true_ranges.append(tr)
+
+    atr = sum(true_ranges[:period]) / period
+
+    for tr in true_ranges[period:]:
+        atr = ((atr * (period - 1)) + tr) / period
+
+    return atr
+
+
+def calculate_atr_series(candles, period=14):
+    """Return Wilder ATR values aligned with completed candles."""
+    if not isinstance(period, int) or isinstance(period, bool) or period < 1:
+        raise ValueError("ATR period must be a positive integer")
+
+    ordered = sorted(candles, key=lambda c: c["datetime"])
+    result = []
+
+    for i, candle in enumerate(ordered):
+        if i < period:
+            atr = None
+        else:
+            atr = calculate_atr(ordered[:i + 1], period)
+
+        result.append({
+            "datetime": candle["datetime"],
+            "atr": atr,
+        })
+
+    return result
