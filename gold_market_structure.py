@@ -229,3 +229,47 @@ def classify_structural_swings(candles, strength=2, atr_period=14,
             previous_opposite[swing["type"]] = swing
 
     return classified
+
+
+def label_primary_structure(classified_swings):
+    """Label major swings HH, HL, LH or LL without using future swings."""
+    previous_major = {"high": None, "low": None}
+    labelled = []
+
+    ordered = sorted(
+        classified_swings,
+        key=lambda swing: (
+            swing["confirmed_at"],
+            swing["date"],
+            swing["type"],
+        ),
+    )
+
+    for swing in ordered:
+        item = swing.copy()
+        item["structure_label"] = None
+
+        if (
+            item["classification"] == "major"
+            and item["structural_status"] == "confirmed"
+        ):
+            swing_type = item["type"]
+            previous = previous_major[swing_type]
+
+            if previous is not None:
+                if item["price"] > previous["price"]:
+                    item["structure_label"] = (
+                        "HH" if swing_type == "high" else "HL"
+                    )
+                elif item["price"] < previous["price"]:
+                    item["structure_label"] = (
+                        "LH" if swing_type == "high" else "LL"
+                    )
+                else:
+                    item["structure_label"] = "EQH" if swing_type == "high" else "EQL"
+
+            previous_major[swing_type] = item
+
+        labelled.append(item)
+
+    return labelled
