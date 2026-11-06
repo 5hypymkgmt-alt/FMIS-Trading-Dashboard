@@ -40,6 +40,35 @@ if not daily:
         data.get("message", "No historical Gold candles returned")
     )
 
+# Validate historical candle integrity before aggregation.
+from datetime import date
+from math import isfinite
+
+seen_dates = set()
+
+for candle in daily:
+    candle_date = date.fromisoformat(str(candle["datetime"])[:10])
+
+    if candle_date in seen_dates:
+        raise ValueError(f"Duplicate Gold candle date: {candle_date}")
+
+    seen_dates.add(candle_date)
+
+    o, h, l, c = (
+        float(candle[field])
+        for field in ("open", "high", "low", "close")
+    )
+
+    if not all(isfinite(value) and value > 0 for value in (o, h, l, c)):
+        raise ValueError(f"Invalid Gold OHLC prices: {candle_date}")
+
+    if h < max(o, c, l) or l > min(o, c, h):
+        raise ValueError(f"Inconsistent Gold OHLC: {candle_date}")
+
+daily.sort(key=lambda candle: candle["datetime"])
+
+print("PASS: Historical Gold candle integrity validated")
+
 weekly = aggregate_ohlc(daily, "weekly")
 monthly = aggregate_ohlc(daily, "monthly")
 
