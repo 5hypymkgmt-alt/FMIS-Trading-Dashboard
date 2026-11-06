@@ -42,3 +42,8 @@ jobs:
 
       - name: Test completed daily candles
         run: python tests/test_completed_candles.py
+
+      - name: Diagnose Gold daily candle cutoff
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python diagnostics/test_gold_end_date.py
