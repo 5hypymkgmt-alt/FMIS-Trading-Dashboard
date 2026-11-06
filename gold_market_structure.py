@@ -273,3 +273,103 @@ def label_primary_structure(classified_swings):
         labelled.append(item)
 
     return labelled
+
+
+def select_alternating_major_swings(classified_swings):
+    """Select alternating major pivots using confirmation-time ordering.
+
+    The returned sequence is a current structural snapshot, not an
+    immutable history of previously published signals.
+    """
+    ordered = sorted(
+        (
+            swing.copy()
+            for swing in classified_swings
+            if swing["classification"] == "major"
+            and swing["structural_status"] == "confirmed"
+        ),
+        key=lambda swing: (
+            swing["confirmed_at"],
+            swing["date"],
+            swing["type"],
+        ),
+    )
+
+    selected = []
+
+    for swing in ordered:
+        if not selected or swing["type"] != selected[-1]["type"]:
+            selected.append(swing)
+            continue
+
+        previous = selected[-1]
+
+        more_extreme = (
+            swing["price"] > previous["price"]
+            if swing["type"] == "high"
+            else swing["price"] < previous["price"]
+        )
+
+        if more_extreme:
+            selected[-1] = swing
+
+    return selected
+
+
+def track_major_swing_events(classified_swings):
+    """Record confirmed major pivots and later supersession events.
+
+    Events are ordered by confirmation time. Historical events are
+    preserved even when a more extreme same-type pivot replaces one.
+    """
+    ordered = sorted(
+        (
+            swing.copy()
+            for swing in classified_swings
+            if swing["classification"] == "major"
+            and swing["structural_status"] == "confirmed"
+        ),
+        key=lambda swing: (
+            swing["confirmed_at"],
+            swing["date"],
+            swing["type"],
+        ),
+    )
+
+    events = []
+    active = []
+
+    for swing in ordered:
+        if not active or swing["type"] != active[-1]["type"]:
+            active.append(swing)
+            events.append({
+                "event": "confirmed",
+                "recorded_at": swing["confirmed_at"],
+                "swing": swing.copy(),
+            })
+            continue
+
+        previous = active[-1]
+
+        more_extreme = (
+            swing["price"] > previous["price"]
+            if swing["type"] == "high"
+            else swing["price"] < previous["price"]
+        )
+
+        events.append({
+            "event": "confirmed",
+            "recorded_at": swing["confirmed_at"],
+            "swing": swing.copy(),
+        })
+
+        if more_extreme:
+            events.append({
+                "event": "superseded",
+                "recorded_at": swing["confirmed_at"],
+                "swing": previous.copy(),
+                "replaced_by": swing.copy(),
+            })
+            active[-1] = swing
+
+    return events
