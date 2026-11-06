@@ -373,3 +373,142 @@ def track_major_swing_events(classified_swings):
             active[-1] = swing
 
     return events
+
+
+def detect_structural_breaks(candles, classified_swings):
+    """Detect first weekly closing break of each confirmed major swing level."""
+
+    ordered = sorted(candles, key=lambda c: c["datetime"])
+    levels = sorted(
+        (
+            s for s in classified_swings
+            if s["classification"] == "major"
+            and s["structural_status"] == "confirmed"
+        ),
+        key=lambda s: (s["confirmed_at"], s["date"], s["type"]),
+    )
+
+    events = []
+    broken = set()
+
+    for candle in ordered:
+        candle_date = candle["datetime"]
+        close = float(candle["close"])
+
+        for swing in levels:
+            identity = (swing["type"], swing["date"], swing["price"])
+
+            if identity in broken or candle_date <= swing["confirmed_at"]:
+                continue
+
+            price = float(swing["price"])
+            direction = (
+                "bullish" if swing["type"] == "high" else "bearish"
+            )
+
+            if (
+                (direction == "bullish" and close > price)
+                or (direction == "bearish" and close < price)
+            ):
+                events.append({
+                    "date": candle_date,
+                    "direction": direction,
+                    "level_date": swing["date"],
+                    "level_price": price,
+                    "close": close,
+                })
+                broken.add(identity)
+
+    return events
+
+
+def consolidate_structural_breaks(events, classified_swings):
+    """Group same-week, same-direction breaks into one primary signal."""
+
+    confirmation_dates = {
+        (s["type"], s["date"], float(s["price"])): s["confirmed_at"]
+        for s in classified_swings
+        if s["classification"] == "major"
+        and s["structural_status"] == "confirmed"
+    }
+
+    grouped = {}
+
+    for event in events:
+        key = (event["date"], event["direction"])
+        grouped.setdefault(key, []).append(event)
+
+    signals = []
+
+    for (event_date, direction), group in sorted(grouped.items()):
+        swing_type = "high" if direction == "bullish" else "low"
+
+        primary = max(
+            group,
+            key=lambda e: (
+                confirmation_dates[
+                    (swing_type, e["level_date"], float(e["level_price"]))
+                ],
+                e["level_date"],
+            ),
+        )
+
+        signals.append({
+            "date": event_date,
+            "direction": direction,
+            "primary_level": primary["level_price"],
+            "primary_level_date": primary["level_date"],
+            "close": primary["close"],
+            "levels_broken": len(group),
+            "broken_levels": sorted(
+                e["level_price"] for e in group
+            ),
+        })
+
+    return signals
+
+
+def classify_weekly_market_bias(alternating_swings, bos_signals):
+    """Classify weekly bias from confirmed major structure and BOS."""
+
+    highs = [
+        s for s in alternating_swings
+        if s["type"] == "high"
+    ]
+    lows = [
+        s for s in alternating_swings
+        if s["type"] == "low"
+    ]
+
+    if len(highs) < 2 or len(lows) < 2 or not bos_signals:
+        return {
+            "bias": "Neutral",
+            "reason": "Insufficient confirmed structural evidence",
+        }
+
+    higher_high = highs[-1]["price"] > highs[-2]["price"]
+    higher_low = lows[-1]["price"] > lows[-2]["price"]
+
+    lower_high = highs[-1]["price"] < highs[-2]["price"]
+    lower_low = lows[-1]["price"] < lows[-2]["price"]
+
+    latest_bos = bos_signals[-1]["direction"]
+
+    if higher_high and higher_low and latest_bos == "bullish":
+        bias = "Bullish"
+    elif lower_high and lower_low and latest_bos == "bearish":
+        bias = "Bearish"
+    else:
+        bias = "Neutral"
+
+    return {
+        "bias": bias,
+        "higher_high": higher_high,
+        "higher_low": higher_low,
+        "lower_high": lower_high,
+        "lower_low": lower_low,
+        "latest_bos": latest_bos,
+        "latest_bos_date": bos_signals[-1]["date"],
+        "latest_swing_high": highs[-1]["price"],
+        "latest_swing_low": lows[-1]["price"],
+    }
