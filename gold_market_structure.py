@@ -144,3 +144,88 @@ def calculate_atr_series(candles, period=14):
         })
 
     return result
+
+
+def classify_structural_swings(candles, strength=2, atr_period=14,
+                               major_threshold=2.0):
+    """Classify immutable confirmed swings, excluding ambiguous pivots."""
+    if major_threshold <= 0:
+        raise ValueError("Major threshold must be positive")
+
+    swings = detect_confirmed_swings(candles, strength)
+    atr_series = calculate_atr_series(candles, atr_period)
+
+    atr_by_date = {
+        item["datetime"]: item["atr"]
+        for item in atr_series
+    }
+
+    ordered = sorted(
+        swings,
+        key=lambda item: (
+            item["confirmed_at"],
+            item["date"],
+            item["type"],
+        ),
+    )
+
+    classified = []
+    previous_opposite = {"high": None, "low": None}
+
+    by_swing_date = {}
+
+    for swing in ordered:
+        by_swing_date.setdefault(swing["date"], []).append(swing)
+
+    for swing_date in sorted(
+        by_swing_date,
+        key=lambda day: (
+            by_swing_date[day][0]["confirmed_at"],
+            day,
+        ),
+    ):
+        group = by_swing_date[swing_date]
+        types = {item["type"] for item in group}
+
+        if types == {"high", "low"}:
+            for swing in group:
+                item = swing.copy()
+                item["atr_at_confirmation"] = atr_by_date.get(
+                    swing["confirmed_at"]
+                )
+                item["distance_atr"] = None
+                item["classification"] = "ambiguous"
+                item["structural_status"] = "ambiguous_same_candle"
+                classified.append(item)
+
+            previous_opposite = {"high": None, "low": None}
+            continue
+
+        for swing in group:
+            item = swing.copy()
+            atr = atr_by_date.get(swing["confirmed_at"])
+
+            opposite_type = (
+                "low" if swing["type"] == "high" else "high"
+            )
+            opposite = previous_opposite[opposite_type]
+
+            item["atr_at_confirmation"] = atr
+            item["distance_atr"] = None
+            item["classification"] = "unclassified"
+            item["structural_status"] = "confirmed"
+
+            if atr is not None and atr > 0 and opposite is not None:
+                distance = abs(swing["price"] - opposite["price"])
+                item["distance_atr"] = distance / atr
+
+                item["classification"] = (
+                    "major"
+                    if item["distance_atr"] >= major_threshold
+                    else "minor"
+                )
+
+            classified.append(item)
+            previous_opposite[swing["type"]] = swing
+
+    return classified
