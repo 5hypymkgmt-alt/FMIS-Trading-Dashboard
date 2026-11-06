@@ -29,3 +29,8 @@ jobs:
         env:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
         run: python diagnostics/test_gold_end_date.py
+
+      - name: Test historical Gold market structure
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python diagnostics/test_gold_structure.py
