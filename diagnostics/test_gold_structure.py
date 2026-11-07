@@ -828,3 +828,44 @@ assert unified["monthly"]["zones"] == reference_monthly_zones, (
 print("PASS: Unified weekly BOS matches reference")
 print("PASS: Unified weekly market bias matches reference")
 print("PASS: Unified monthly zones match reference")
+
+# Validate unified daily retests against independent calculations.
+print("\nUNIFIED GOLD DAILY RETEST VALIDATION")
+
+reference_daily_retests = detect_daily_structural_retests(
+    validation_daily,
+    reference_weekly_bos,
+    atr_period=14,
+    tolerance_atr=0.25,
+)
+
+assert unified["daily"]["retests"] == reference_daily_retests, (
+    "Unified daily retests differ from reference"
+)
+
+assert unified["daily"]["retest_count"] == len(reference_daily_retests)
+
+for status, field in (
+    ("confirmed", "confirmed_count"),
+    ("failed", "failed_count"),
+):
+    expected = sum(
+        retest["status"] == status
+        for retest in reference_daily_retests
+    )
+    assert unified["daily"][field] == expected, (
+        f"Unified {status} count differs from reference"
+    )
+
+expected_invalidated = sum(
+    retest["subsequently_invalidated"]
+    for retest in reference_daily_retests
+)
+
+assert unified["daily"]["invalidated_count"] == expected_invalidated, (
+    "Unified daily invalidation count differs from reference"
+)
+
+print("PASS: Unified daily retest records match reference")
+print("PASS: Unified daily confirmation and failure counts match")
+print("PASS: Unified daily invalidation count matches")
