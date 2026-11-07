@@ -279,3 +279,83 @@ for retest in daily_retests[-10:]:
         "| Resolved:", retest["resolved_date"],
         "| Invalidated:", retest["subsequently_invalidated"],
     )
+
+# Historical snapshot stability for Gold daily structural retests.
+print("\nGOLD DAILY RETEST HISTORICAL STABILITY TEST")
+
+full_retests = {
+    (r["bos_date"], r["direction"], r["level"]): r
+    for r in daily_retests
+}
+
+daily_cutoffs = [
+    len(daily) // 2,
+    len(daily) * 3 // 4,
+    len(daily) - 5,
+]
+
+for cutoff in daily_cutoffs:
+    historical_daily = daily[:cutoff]
+    last_date = historical_daily[-1]["datetime"]
+
+    # Only use weekly BOS signals already confirmed by this date.
+    historical_bos = [
+        b for b in weekly_bos
+        if (
+            date.fromisoformat(b["date"])
+            + timedelta(days=7)
+        ).isoformat() <= last_date
+    ]
+
+    historical_retests = detect_daily_structural_retests(
+        historical_daily,
+        historical_bos,
+        atr_period=14,
+        tolerance_atr=0.25,
+    )
+
+    for earlier in historical_retests:
+        key = (
+            earlier["bos_date"],
+            earlier["direction"],
+            earlier["level"],
+        )
+        assert key in full_retests, (
+            f"Historical retest disappeared: {key}"
+        )
+
+        later = full_retests[key]
+
+        if earlier["detected_date"] is not None:
+            assert earlier["detected_date"] == later["detected_date"], (
+                f"Retest detection date changed: {key}"
+            )
+            assert earlier["retest_type"] == later["retest_type"], (
+                f"Retest type changed: {key}"
+            )
+
+        if earlier["resolved_date"] is not None:
+            assert earlier["resolved_date"] == later["resolved_date"], (
+                f"Retest resolution date changed: {key}"
+            )
+            assert earlier["status"] == later["status"], (
+                f"Retest resolution status changed: {key}"
+            )
+
+        if earlier["subsequently_invalidated"]:
+            assert later["subsequently_invalidated"], (
+                f"Historical invalidation disappeared: {key}"
+            )
+            assert earlier["invalidation_date"] == later["invalidation_date"], (
+                f"Historical invalidation date changed: {key}"
+            )
+
+    print(
+        "PASS:",
+        cutoff,
+        "daily candles,",
+        len(historical_retests),
+        "historical retests stable",
+    )
+
+print("PASS: Historical Gold daily retest stability validation")
