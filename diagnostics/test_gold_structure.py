@@ -869,3 +869,34 @@ assert unified["daily"]["invalidated_count"] == expected_invalidated, (
 print("PASS: Unified daily retest records match reference")
 print("PASS: Unified daily confirmation and failure counts match")
 print("PASS: Unified daily invalidation count matches")
+
+# Validate unified weekly retests against independent calculations.
+from gold_market_structure import detect_structural_retests
+
+print("\nUNIFIED GOLD WEEKLY RETEST VALIDATION")
+
+reference_weekly_retests = detect_structural_retests(
+    reference_weekly,
+    reference_weekly_bos,
+    atr_period=14,
+    tolerance_atr=0.25,
+)
+
+assert unified["weekly"]["retests"] == reference_weekly_retests, (
+    "Unified weekly retests differ from reference"
+)
+
+assert unified["weekly"]["retest_count"] == len(
+    reference_weekly_retests
+), "Unified weekly retest count differs from reference"
+
+print(
+    "PASS: Unified weekly retest records match reference"
+)
+print(
+    "PASS: Unified weekly retest count matches reference"
+)
+print(
+    "Weekly retest records:",
+    len(reference_weekly_retests),
+)
