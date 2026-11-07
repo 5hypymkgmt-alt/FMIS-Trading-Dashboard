@@ -21,6 +21,11 @@ from gold_market_structure import (
 
 from gold_daily_retests import detect_daily_structural_retests
 
+from gold_monthly_zones import (
+    build_monthly_zones,
+    track_monthly_zone_breaks,
+)
+
 API = "https://api.twelvedata.com/time_series"
 KEY = os.environ.get("PRICE_API_KEY")
 
@@ -584,3 +589,107 @@ for cutoff in daily_cutoffs:
     )
 
 print("PASS: End-to-end historical Gold replay validation")
+
+# Historical monthly-zone replay using only completed monthly candles.
+
+print("\nGOLD MONTHLY ZONE HISTORICAL STABILITY TEST")
+
+full_monthly_classified = classify_structural_swings(
+    monthly,
+    strength=2,
+    atr_period=14,
+    major_threshold=2.0,
+)
+
+full_monthly_zones = track_monthly_zone_breaks(
+    monthly,
+    build_monthly_zones(full_monthly_classified),
+)
+
+def monthly_zone_key(zone):
+    return (
+        zone["type"],
+        zone["swing_date"],
+        zone["confirmed_at"],
+    )
+
+full_zone_lookup = {
+    monthly_zone_key(zone): zone
+    for zone in full_monthly_zones
+}
+
+for cutoff in daily_cutoffs:
+    historical_daily = daily[:cutoff]
+    snapshot_date = date.fromisoformat(
+        historical_daily[-1]["datetime"]
+    )
+
+    # A monthly candle becomes available only after month-end.
+    as_of = snapshot_date + timedelta(days=1)
+
+    snapshot_monthly = aggregate_ohlc(
+        historical_daily,
+        "monthly",
+        as_of=as_of,
+    )
+
+    snapshot_classified = classify_structural_swings(
+        snapshot_monthly,
+        strength=2,
+        atr_period=14,
+        major_threshold=2.0,
+    )
+
+    snapshot_zones = track_monthly_zone_breaks(
+        snapshot_monthly,
+        build_monthly_zones(snapshot_classified),
+        as_of=as_of,
+    )
+
+    for zone in snapshot_zones:
+        key = monthly_zone_key(zone)
+
+        if key not in full_zone_lookup:
+            raise AssertionError(
+                f"Historical monthly zone missing from full history: {key}"
+            )
+
+        full_zone = full_zone_lookup[key]
+
+        for field in (
+            "level",
+            "lower",
+            "upper",
+            "atr_at_confirmation",
+        ):
+            if abs(zone[field] - full_zone[field]) > 1e-8:
+                raise AssertionError(
+                    f"Monthly zone {key} changed {field}"
+                )
+
+        if zone["status"] == "broken":
+            for field in (
+                "broken_at",
+                "break_close",
+                "break_confirmed_at",
+            ):
+                if zone[field] != full_zone[field]:
+                    raise AssertionError(
+                        f"Monthly zone {key} changed {field}"
+                    )
+
+        if (
+            zone["break_confirmed_at"] is not None
+            and zone["break_confirmed_at"] > as_of.isoformat()
+        ):
+            raise AssertionError(
+                f"Future monthly break leaked into snapshot: {key}"
+            )
+
+    print(
+        "PASS:", cutoff, "daily candles,",
+        len(snapshot_monthly), "completed months,",
+        len(snapshot_zones), "monthly zones stable",
+    )
+
+print("PASS: Historical Gold monthly-zone replay validation")
