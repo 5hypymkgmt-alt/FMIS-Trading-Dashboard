@@ -1,6 +1,16 @@
 // FMIS Gold Market Structure Intelligence
 // Display only — does not modify trading calculations.
 
+function goldSafe(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[char]));
+}
+
 function renderGoldIntelligence(structure) {
   const weekly = structure?.weekly || {};
   const biasData = weekly.bias || {};
@@ -55,19 +65,19 @@ function renderGoldIntelligence(structure) {
     return `
       <div style="padding:12px 0;border-bottom:1px solid #344761">
         <div style="display:flex;justify-content:space-between;gap:8px">
-          <strong>${direction} · ${level}</strong>
-          <strong style="color:${statusColor}">${status}</strong>
+          <strong>${goldSafe(direction)} · ${level}</strong>
+          <strong style="color:${statusColor}">${goldSafe(status)}</strong>
         </div>
         <div style="font-size:12px;color:#9daec4;margin-top:7px">
-          Retest: ${type}
+          Retest: ${goldSafe(type)}
         </div>
         <div style="font-size:12px;color:#9daec4;margin-top:4px">
-          Detected: ${retest.detected_date || 'Unavailable'}
-          · Resolved: ${retest.resolved_date || 'Unavailable'}
+          Detected: ${goldSafe(retest.detected_date || 'Unavailable')}
+          · Resolved: ${goldSafe(retest.resolved_date || 'Unavailable')}
         </div>
         ${invalidated ? `
           <div style="font-size:12px;color:#ff3447;margin-top:4px">
-            Invalidated: ${retest.invalidation_date || 'Unavailable'}
+            Invalidated: ${goldSafe(retest.invalidation_date || 'Unavailable')}
           </div>` : ''}
       </div>`;
   }).join('');
@@ -100,10 +110,13 @@ function renderGoldIntelligence(structure) {
           <span style="color:#eaf1fc">${status}</span>
         </div>
         <div style="margin-top:6px;font-size:13px">
-          ${price(zone.lower)} – ${price(zone.upper)}
+          Structural level: <strong>${price(zone.level)}</strong>
+        </div>
+        <div style="margin-top:4px;font-size:12px;color:#9daec4">
+          Zone: ${price(zone.lower)} – ${price(zone.upper)}
         </div>
         <div style="color:#9daec4;font-size:12px;margin-top:4px">
-          Confirmed: ${zone.confirmed_at || 'Unavailable'}
+          Confirmed: ${goldSafe(zone.confirmed_at || 'Unavailable')}
         </div>
       </div>`;
   }).join('');
@@ -126,7 +139,7 @@ function renderGoldIntelligence(structure) {
 
         <div style="color:${color};font-size:28px;
                     font-weight:800;margin-top:8px">
-          ${bias}
+          ${goldSafe(bias)}
         </div>
 
       </div>
@@ -140,7 +153,7 @@ function renderGoldIntelligence(structure) {
 
         <div style="color:${bosColor};font-size:22px;
                     font-weight:800;margin:8px 0">
-          ${bosDirection.toUpperCase()}
+          ${goldSafe(bosDirection.toUpperCase())}
         </div>
 
         <div class="row">
@@ -148,7 +161,7 @@ function renderGoldIntelligence(structure) {
         </div>
 
         <div class="row">
-          <span>BOS date</span><b>${bosDate}</b>
+          <span>BOS date</span><b>${goldSafe(bosDate)}</b>
         </div>
 
       </div>
