@@ -194,7 +194,7 @@ body::before {
   content: none;
 }
 </style>
-</head><body><header><h1>FMIS <span style="color:var(--accent)">/ Market Intelligence</span></h1><p class="sub">Daily swing-trading research · transparent scoring · timestamped sources</p></header><main><p class="note" id="status">Loading data…</p><div style="margin-top:14px"><section class="card"><h2>Signal review</h2><label for="market">Market</label><select id="market"></select><div id="detail"></div></section></div>
+</head><body><header><h1>FMIS <span style="color:var(--accent)">/ Market Intelligence</span></h1><p class="sub">Daily swing-trading research · transparent scoring · timestamped sources</p></header><main><p class="note" id="status">Loading data…</p><div style="margin-top:14px"><section class="card"><h2>Signal review</h2><label for="market">Market</label><select id="market"></select><div id="detail"></div></section><section id="fmis-gold-structure-container" style="display:none;margin-top:14px"></section></div>
 
 
 <details class="card fmis-compact-panel" id="upcoming-events">
@@ -911,6 +911,36 @@ ${renderTradeConfidence(m.trade_confidence)}
 </div>
 </div></div>`;
 
+
+  // Gold Market Structure Intelligence — display only.
+  const goldPanel = $('fmis-gold-structure-container');
+
+  if (goldPanel) {
+    goldPanel.style.display = n === 'Gold' ? 'block' : 'none';
+
+    if (n === 'Gold') {
+      const structure = m.market_structure;
+      const status = structure?.status;
+
+      if (status === 'ok' || status === 'stale') {
+        const warning = status === 'stale'
+          ? '<p class="note">WARNING: Gold structure data is stale. Do not treat it as current.</p>'
+          : '';
+
+        goldPanel.innerHTML = warning +
+          (typeof renderGoldIntelligence === 'function'
+            ? renderGoldIntelligence(m.market_structure)
+            : '<p class="note">Gold Intelligence renderer unavailable.</p>');
+      } else {
+        goldPanel.innerHTML =
+          '<section class="card"><h2>Gold Market Structure Intelligence</h2>' +
+          '<p class="note">Structure data unavailable. No current structural signals can be displayed.</p></section>';
+      }
+    } else {
+      goldPanel.innerHTML = '';
+    }
+  }
+
 }
 function renderTradeConfidence(tc) {
   const card = (direction, color) => {
@@ -947,5 +977,6 @@ function renderTradeConfidence(tc) {
 function risk(){let e=Number($('entry').value),s=Number($('stop').value),t=Number($('target').value),eq=Number($('equity').value);if(!e||!s||!t||!eq||e===s){$('risk').textContent='Enter valid nonzero values.';return}let rr=Math.abs((t-e)/(e-s));let dir=Math.sign(e-s);let valid=(dir===1&&t>e)||(dir===-1&&t<e);$('risk').textContent=`R:R = ${rr.toFixed(2)} : 1. Maximum planned risk at 1% equity = £${(eq*.01).toFixed(2)}. ${valid&&rr>=2?'R:R passes, but position size, contract value, funding and event risk remain unchecked.':'NO TRADE: direction or R:R rule failed.'}`}
 fetch('./data.json?ts='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Missing data.json');return r.json()}).then(d=>{data=d;render()}).catch(e=>{$('status').textContent='Data unavailable: '+e.message+'. Run python update.py and deploy data.json.'});
 </script>
+<script src="fmis-gold-intelligence.js" defer></script>
 <script src="fmis-calendar.js?v=20261103" defer></script>
 </body></html>
