@@ -606,6 +606,22 @@ full_monthly_zones = track_monthly_zone_breaks(
     build_monthly_zones(full_monthly_classified),
 )
 
+print("\nGOLD MONTHLY ZONE BREAK DETAILS")
+
+for zone in full_monthly_zones:
+    print(
+        zone["type"].upper(),
+        "| Level:", round(zone["level"], 2),
+        "| Zone:", round(zone["lower"], 2),
+        "-", round(zone["upper"], 2),
+        "| Status:", zone["status"].upper(),
+        "| Swing:", zone["swing_date"],
+        "| Confirmed:", zone["confirmed_at"],
+        "| Broken:", zone["broken_at"],
+        "| Break close:", zone["break_close"],
+        "| Break confirmed:", zone["break_confirmed_at"],
+    )
+
 def monthly_zone_key(zone):
     return (
         zone["type"],
