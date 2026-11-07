@@ -180,7 +180,7 @@ function renderGoldIntelligence(structure) {
         </div>
         <div style="font-size:12px;color:#9daec4;margin-bottom:10px">
           Total: ${retestCount} · Confirmed: ${confirmedCount}
-          · Failed: ${failedCount} · Later invalidated: ${invalidatedCount}
+          (${invalidatedCount} subsequently invalidated) · Failed: ${failedCount}
         </div>
         ${retestRows || '<div style="color:#9daec4">No daily retests available</div>'}
       </div>
