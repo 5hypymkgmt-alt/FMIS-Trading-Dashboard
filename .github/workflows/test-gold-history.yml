@@ -71,4 +71,11 @@ jobs:
           print("PASS: Gold dashboard adapter")
           print("Latest candle:", result["latest_daily_candle"])
           print("Daily candles:", result["daily_candle_count"])
+          print("Weekly bias:", result["weekly"]["bias"])
+          print("Weekly BOS count:", result["weekly"]["bos_count"])
+          print("Latest weekly BOS:", result["weekly"]["bos"][-1] if result["weekly"]["bos"] else "None")
+          print("Monthly support zones:", result["monthly"]["support"])
+          print("Monthly resistance zones:", result["monthly"]["resistance"])
+          print("Daily retest count:", result["daily"]["retest_count"])
+          print("Latest daily retest:", result["daily"]["retests"][-1] if result["daily"]["retests"] else "None")
           PYTEST
