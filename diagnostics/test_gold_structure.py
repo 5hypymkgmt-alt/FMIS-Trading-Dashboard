@@ -15,6 +15,8 @@ from gold_market_structure import (
     label_primary_structure,
     detect_structural_breaks,
     consolidate_structural_breaks,
+    select_alternating_major_swings,
+    classify_weekly_market_bias,
 )
 
 from gold_daily_retests import detect_daily_structural_retests
@@ -180,6 +182,20 @@ weekly_bos = consolidate_structural_breaks(
     weekly_break_events, weekly_classified
 )
 
+full_alternating_swings = select_alternating_major_swings(
+    weekly_classified
+)
+
+full_weekly_bias = classify_weekly_market_bias(
+    full_alternating_swings,
+    weekly_bos,
+)
+
+print("\nFULL-HISTORY WEEKLY MARKET BIAS")
+print("Bias:", full_weekly_bias["bias"])
+print("Latest BOS:", full_weekly_bias.get("latest_bos"))
+print("Latest BOS date:", full_weekly_bias.get("latest_bos_date"))
+
 print("\nWEEKLY BREAK OF STRUCTURE (BOS)")
 print("Individual structural breaks:", len(weekly_break_events))
 print("Consolidated weekly BOS signals:", len(weekly_bos))
@@ -225,6 +241,41 @@ for cutoff in cutoffs:
         raise AssertionError("No historical weekly candles")
 
     latest_week = historical_weekly[-1]["datetime"]
+
+    # Reconstruct bias using only information available at this cutoff.
+    reconstructed_bias = classify_weekly_market_bias(
+        select_alternating_major_swings(historical_swings),
+        historical_bos,
+    )
+
+    # Independently filter the full-history results to the same cutoff.
+    available_full_swings = [
+        s for s in weekly_classified
+        if s["confirmed_at"] <= latest_week
+    ]
+
+    available_full_bos = [
+        b for b in weekly_bos
+        if b["date"] <= latest_week
+    ]
+
+    expected_bias = classify_weekly_market_bias(
+        select_alternating_major_swings(available_full_swings),
+        available_full_bos,
+    )
+
+    assert reconstructed_bias == expected_bias, (
+        f"Historical weekly bias mismatch at {latest_week}: "
+        f"reconstructed={reconstructed_bias}, "
+        f"expected={expected_bias}"
+    )
+
+    print(
+        "PASS: Weekly bias stable at",
+        latest_week,
+        "| Bias:",
+        reconstructed_bias["bias"],
+    )
 
     expected_keys = {
         (b["date"], b["direction"])

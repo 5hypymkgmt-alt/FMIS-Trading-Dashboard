@@ -11,6 +11,7 @@ from gold_market_structure import (
     label_primary_structure,
     detect_structural_breaks,
     consolidate_structural_breaks,
+    classify_weekly_market_bias,
 )
 
 
@@ -471,3 +472,78 @@ class GoldBOSConsolidationTests(unittest.TestCase):
             {s["direction"] for s in signals},
             {"bullish", "bearish"},
         )
+
+
+class GoldWeeklyMarketBiasTests(unittest.TestCase):
+
+    def make_swings(self, highs, lows):
+        swings = []
+
+        for i, price in enumerate(highs):
+            swings.append({
+                "type": "high",
+                "price": price,
+            })
+
+        for i, price in enumerate(lows):
+            swings.append({
+                "type": "low",
+                "price": price,
+            })
+
+        return swings
+
+    def test_bullish_structure_and_bos(self):
+        swings = self.make_swings(
+            [100, 110],
+            [80, 90],
+        )
+        bos = [{"direction": "bullish", "date": "2026-06-01"}]
+
+        result = classify_weekly_market_bias(swings, bos)
+
+        self.assertEqual(result["bias"], "Bullish")
+
+    def test_bearish_structure_and_bos(self):
+        swings = self.make_swings(
+            [110, 100],
+            [90, 80],
+        )
+        bos = [{"direction": "bearish", "date": "2026-06-01"}]
+
+        result = classify_weekly_market_bias(swings, bos)
+
+        self.assertEqual(result["bias"], "Bearish")
+
+    def test_conflicting_bullish_structure_and_bearish_bos(self):
+        swings = self.make_swings(
+            [100, 110],
+            [80, 90],
+        )
+        bos = [{"direction": "bearish", "date": "2026-06-01"}]
+
+        result = classify_weekly_market_bias(swings, bos)
+
+        self.assertEqual(result["bias"], "Neutral")
+
+    def test_conflicting_bearish_structure_and_bullish_bos(self):
+        swings = self.make_swings(
+            [110, 100],
+            [90, 80],
+        )
+        bos = [{"direction": "bullish", "date": "2026-06-01"}]
+
+        result = classify_weekly_market_bias(swings, bos)
+
+        self.assertEqual(result["bias"], "Neutral")
+
+    def test_insufficient_structure_returns_neutral(self):
+        swings = self.make_swings(
+            [100],
+            [80],
+        )
+        bos = [{"direction": "bullish", "date": "2026-06-01"}]
+
+        result = classify_weekly_market_bias(swings, bos)
+
+        self.assertEqual(result["bias"], "Neutral")
