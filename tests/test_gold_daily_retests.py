@@ -496,3 +496,86 @@ class GoldBOSTimingTests(unittest.TestCase):
         self.assertEqual(result["status"], "awaiting_retest")
         self.assertIsNone(result["detected_date"])
         self.assertIsNone(result["resolved_date"])
+
+
+class GoldDailyRetestHistoricalStabilityTests(unittest.TestCase):
+
+    def test_confirmed_retest_stable_across_historical_snapshots(self):
+        start = date(2026, 6, 1)
+        candles = []
+
+        for i in range(40):
+            day = start + timedelta(days=i)
+            candles.append({
+                "datetime": day.isoformat(),
+                "open": 102,
+                "high": 103,
+                "low": 101.5,
+                "close": 102,
+            })
+
+        # First eligible retest: confirmed on 30 June.
+        candles[29].update({
+            "open": 101,
+            "high": 102,
+            "low": 99.8,
+            "close": 101,
+        })
+
+        # Subsequent invalidation on 5 July.
+        candles[34].update({
+            "open": 101,
+            "high": 102,
+            "low": 98,
+            "close": 99,
+        })
+
+        bos = [{
+            "date": "2026-06-22",
+            "direction": "bullish",
+            "primary_level": 100,
+        }]
+
+        snapshots = {}
+
+        for cutoff in (
+            "2026-06-29",
+            "2026-06-30",
+            "2026-07-04",
+            "2026-07-05",
+            "2026-07-10",
+        ):
+            historical = [
+                c for c in candles
+                if c["datetime"] <= cutoff
+            ]
+            snapshots[cutoff] = detect_daily_structural_retests(
+                historical, bos
+            )[0]
+
+        self.assertEqual(
+            snapshots["2026-06-29"]["status"],
+            "awaiting_retest",
+        )
+
+        for cutoff in (
+            "2026-06-30",
+            "2026-07-04",
+            "2026-07-05",
+            "2026-07-10",
+        ):
+            result = snapshots[cutoff]
+            self.assertEqual(result["status"], "confirmed")
+            self.assertEqual(result["detected_date"], "2026-06-30")
+            self.assertEqual(result["resolved_date"], "2026-06-30")
+
+        self.assertFalse(
+            snapshots["2026-07-04"]["subsequently_invalidated"]
+        )
+        self.assertTrue(
+            snapshots["2026-07-05"]["subsequently_invalidated"]
+        )
+        self.assertEqual(
+            snapshots["2026-07-10"]["invalidation_date"],
+            "2026-07-05",
+        )
