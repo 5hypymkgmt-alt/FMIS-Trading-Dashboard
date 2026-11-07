@@ -18,7 +18,7 @@ response = requests.get(
     params={
         "symbol": "XAU/USD",
         "interval": "1day",
-        "outputsize": 1000,
+        "outputsize": 5000,
         "timezone": "UTC",
         "apikey": key,
         "format": "JSON",
