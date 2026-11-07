@@ -281,6 +281,7 @@ for retest in daily_retests[-10:]:
     )
 
 # Historical snapshot stability for Gold daily structural retests.
+from datetime import timedelta
 print("\nGOLD DAILY RETEST HISTORICAL STABILITY TEST")
 
 full_retests = {
