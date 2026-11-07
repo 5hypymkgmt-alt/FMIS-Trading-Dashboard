@@ -1,6 +1,7 @@
 """Tests for unified Gold Market Structure Intelligence."""
 
 import unittest
+from unittest.mock import patch
 from datetime import date, timedelta
 
 from gold_structure_intelligence import build_gold_structure_intelligence
@@ -70,6 +71,54 @@ class TestGoldStructureIntelligence(unittest.TestCase):
         )
 
         self.assertEqual(full, replay)
+
+
+    def test_daily_retest_outcomes_never_reverse_weekly_bias(self):
+
+        expected_bias = {
+            "bias": "Bullish",
+            "latest_bos": "2025-01-01",
+        }
+
+        daily_outcomes = [
+            {
+                "status": "confirmed",
+                "subsequently_invalidated": False,
+            },
+            {
+                "status": "failed",
+                "subsequently_invalidated": False,
+            },
+            {
+                "status": "confirmed",
+                "subsequently_invalidated": True,
+            },
+        ]
+
+        with patch(
+            "gold_structure_intelligence.classify_weekly_market_bias",
+            return_value=expected_bias,
+        ):
+
+            for outcome in daily_outcomes:
+
+                with self.subTest(outcome=outcome):
+
+                    with patch(
+                        "gold_structure_intelligence.detect_daily_structural_retests",
+                        return_value=[outcome],
+                    ):
+
+                        result = build_gold_structure_intelligence(
+                            self.daily,
+                            as_of="2026-03-01",
+                        )
+
+                    self.assertEqual(
+                        result["weekly"]["bias"],
+                        expected_bias,
+                    )
+
 
 
 if __name__ == "__main__":
