@@ -48,6 +48,38 @@ jobs:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
         run: python diagnostics/test_gold_history.py
 
+      - name: Check earliest Gold historical availability
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: |
+          python - <<'PYTEST'
+          import os
+          import requests
+
+          response = requests.get(
+              "https://api.twelvedata.com/earliest_timestamp",
+              params={
+                  "symbol": "XAU/USD",
+                  "interval": "1day",
+                  "apikey": os.environ["PRICE_API_KEY"],
+              },
+              timeout=30,
+          )
+          response.raise_for_status()
+          result = response.json()
+
+          print("=== XAU/USD EARLIEST HISTORY ===")
+          print(result)
+
+          if not isinstance(result.get("datetime"), str):
+              raise RuntimeError("Provider did not return an earliest datetime")
+
+          if not isinstance(result.get("unix_time"), int):
+              raise RuntimeError("Provider did not return a valid Unix timestamp")
+
+          print("PASS: Earliest Gold history validated:", result["datetime"])
+          PYTEST
+
       - name: Test Gold market structure
         env:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
