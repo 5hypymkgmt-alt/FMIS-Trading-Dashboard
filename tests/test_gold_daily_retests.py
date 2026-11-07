@@ -454,3 +454,45 @@ class GoldDailyRetestTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GoldBOSTimingTests(unittest.TestCase):
+
+    def test_retest_during_bos_week_is_ignored(self):
+        start = date(2026, 6, 1)
+        candles = []
+
+        for i in range(35):
+            day = start + timedelta(days=i)
+            candles.append({
+                "datetime": day.isoformat(),
+                "open": 101,
+                "high": 103,
+                "low": 101.5,
+                "close": 102,
+            })
+
+        # Qualifying retest during the BOS week: must be ignored.
+        candles[23].update({
+            "open": 101,
+            "high": 102,
+            "low": 99.8,
+            "close": 101,
+        })
+
+        bos = [{
+            "date": "2026-06-22",
+            "direction": "bullish",
+            "primary_level": 100,
+        }]
+
+        result = detect_daily_structural_retests(
+            candles, bos
+        )[0]
+
+        self.assertEqual(
+            result["first_eligible_date"], "2026-06-29"
+        )
+        self.assertEqual(result["status"], "awaiting_retest")
+        self.assertIsNone(result["detected_date"])
+        self.assertIsNone(result["resolved_date"])
