@@ -10,6 +10,7 @@ on:
       - 'gold_monthly_zones.py'
       - 'gold_structure_intelligence.py'
       - 'gold_structure_adapter.py'
+      - 'fmis-gold-intelligence.js'
       - 'tests/**'
       - 'diagnostics/test_gold_structure.py'
       - '.github/workflows/test-gold-history.yml'
