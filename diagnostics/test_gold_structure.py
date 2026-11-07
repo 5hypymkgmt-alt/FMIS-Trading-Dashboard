@@ -221,6 +221,28 @@ for cutoff in cutoffs:
         historical_events, historical_swings
     )
 
+    if not historical_weekly:
+        raise AssertionError("No historical weekly candles")
+
+    latest_week = historical_weekly[-1]["datetime"]
+
+    expected_keys = {
+        (b["date"], b["direction"])
+        for b in weekly_bos
+        if b["date"] <= latest_week
+    }
+
+    reconstructed_keys = {
+        (b["date"], b["direction"])
+        for b in historical_bos
+    }
+
+    assert reconstructed_keys == expected_keys, (
+        f"Historical BOS mismatch at {latest_week}: "
+        f"missing={expected_keys - reconstructed_keys}, "
+        f"unexpected={reconstructed_keys - expected_keys}"
+    )
+
     for signal in historical_bos:
         key = (signal["date"], signal["direction"])
         assert key in full_signals, (
@@ -360,3 +382,154 @@ for cutoff in daily_cutoffs:
     )
 
 print("PASS: Historical Gold daily retest stability validation")
+
+# End-to-end historical replay using only data available at each cutoff.
+print("\nGOLD END-TO-END HISTORICAL REPLAY TEST")
+
+for cutoff in daily_cutoffs:
+    historical_daily = daily[:cutoff]
+    snapshot_date = date.fromisoformat(historical_daily[-1]["datetime"])
+    if snapshot_date.weekday() == 4:
+        # Friday close: the trading week is complete.
+        as_of = snapshot_date + timedelta(days=3)
+    else:
+        # Monday-Thursday: exclude the unfinished current week.
+        as_of = snapshot_date - timedelta(
+            days=snapshot_date.weekday()
+        )
+
+    snapshot_weekly = aggregate_ohlc(
+        historical_daily, "weekly", as_of=as_of
+    )
+
+    snapshot_swings = classify_structural_swings(
+        snapshot_weekly,
+        strength=2,
+        atr_period=14,
+        major_threshold=2.0,
+    )
+
+    snapshot_breaks = detect_structural_breaks(
+        snapshot_weekly, snapshot_swings
+    )
+
+    snapshot_bos = consolidate_structural_breaks(
+        snapshot_breaks, snapshot_swings
+    )
+
+    snapshot_retests = detect_daily_structural_retests(
+        historical_daily,
+        snapshot_bos,
+        atr_period=14,
+        tolerance_atr=0.25,
+    )
+
+    # Compare all BOS signals available by this historical cutoff.
+    if not snapshot_weekly:
+        raise AssertionError("No completed historical weekly candles")
+
+    latest_completed_week = snapshot_weekly[-1]["datetime"]
+
+    expected_bos_keys = {
+        (b["date"], b["direction"])
+        for b in weekly_bos
+        if b["date"] <= latest_completed_week
+    }
+
+    reconstructed_bos_keys = {
+        (b["date"], b["direction"])
+        for b in snapshot_bos
+    }
+
+    assert reconstructed_bos_keys == expected_bos_keys, (
+        f"Historical BOS set mismatch at {latest_completed_week}: "
+        f"missing={expected_bos_keys - reconstructed_bos_keys}, "
+        f"unexpected={reconstructed_bos_keys - expected_bos_keys}"
+    )
+
+    # Every historically available BOS must have a matching retest record.
+    expected_retest_keys = {
+        key for key in full_retests
+        if (key[0], key[1]) in expected_bos_keys
+    }
+
+    reconstructed_retest_keys = {
+        (r["bos_date"], r["direction"], r["level"])
+        for r in snapshot_retests
+    }
+
+    assert reconstructed_retest_keys == expected_retest_keys, (
+        f"Historical retest set mismatch at {latest_completed_week}: "
+        f"missing={expected_retest_keys - reconstructed_retest_keys}, "
+        f"unexpected={reconstructed_retest_keys - expected_retest_keys}"
+    )
+
+
+    for signal in snapshot_bos:
+        key = (signal["date"], signal["direction"])
+        assert key in full_signals, (
+            f"Historical BOS disappeared: {key}"
+        )
+
+        for field in (
+            "primary_level",
+            "primary_level_date",
+            "close",
+            "levels_broken",
+            "broken_levels",
+        ):
+            assert signal[field] == full_signals[key][field], (
+                f"Historical BOS changed: {key}, field={field}"
+            )
+
+    for earlier in snapshot_retests:
+        key = (
+            earlier["bos_date"],
+            earlier["direction"],
+            earlier["level"],
+        )
+
+        assert key in full_retests, (
+            f"Historical retest disappeared: {key}"
+        )
+
+        later = full_retests[key]
+
+        for field in (
+            "detected_date",
+            "retest_type",
+            "resolved_date",
+            "status",
+            "subsequently_invalidated",
+            "invalidation_date",
+        ):
+            if field in ("status", "subsequently_invalidated",
+                         "invalidation_date"):
+                continue
+
+            if earlier[field] is not None:
+                assert earlier[field] == later[field], (
+                    f"Historical retest changed: {key}, field={field}"
+                )
+
+        if earlier["resolved_date"] is not None:
+            assert earlier["status"] == later["status"], (
+                f"Historical resolution changed: {key}"
+            )
+
+        if earlier["subsequently_invalidated"]:
+            assert later["subsequently_invalidated"], (
+                f"Historical invalidation disappeared: {key}"
+            )
+            assert earlier["invalidation_date"] == later["invalidation_date"], (
+                f"Historical invalidation date changed: {key}"
+            )
+
+    print(
+        "PASS:", cutoff, "daily candles,",
+        len(snapshot_weekly), "completed weeks,",
+        len(snapshot_bos), "BOS signals,",
+        len(snapshot_retests), "daily retests stable",
+    )
+
+print("PASS: End-to-end historical Gold replay validation")
