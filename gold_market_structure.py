@@ -512,3 +512,122 @@ def classify_weekly_market_bias(alternating_swings, bos_signals):
         "latest_swing_high": highs[-1]["price"],
         "latest_swing_low": lows[-1]["price"],
     }
+
+
+def detect_structural_retests(
+    candles,
+    bos_signals,
+    atr_period=14,
+    tolerance_atr=0.25,
+):
+    """Track retests of confirmed structural breakout levels."""
+
+    if tolerance_atr <= 0:
+        raise ValueError("Retest tolerance must be positive")
+
+    ordered = sorted(candles, key=lambda c: c["datetime"])
+
+    atr_series = calculate_atr_series(ordered, atr_period)
+
+    atr_by_date = {
+        item["datetime"]: item["atr"]
+        for item in atr_series
+    }
+
+    results = []
+
+    for bos in sorted(
+        bos_signals,
+        key=lambda event: (event["date"], event["direction"]),
+    ):
+        direction = bos["direction"]
+
+        if direction not in ("bullish", "bearish"):
+            raise ValueError("Invalid BOS direction")
+
+        level = float(bos["primary_level"])
+
+        result = {
+            "bos_date": bos["date"],
+            "direction": direction,
+            "level": level,
+            "level_date": bos["primary_level_date"],
+            "status": "awaiting_retest",
+            "detected_date": None,
+            "resolved_date": None,
+            "atr_at_retest": None,
+            "tolerance": None,
+            "latest_close": None,
+        }
+
+        detected = False
+
+        for candle in ordered:
+
+            candle_date = candle["datetime"]
+
+            if candle_date <= bos["date"]:
+                continue
+
+            atr = atr_by_date.get(candle_date)
+
+            if atr is None or atr <= 0:
+                continue
+
+            high = float(candle["high"])
+            low = float(candle["low"])
+            close = float(candle["close"])
+
+            tolerance = atr * tolerance_atr
+
+            if not detected:
+
+                zone_low = level - tolerance
+                zone_high = level + tolerance
+
+                touched = (
+                    low <= zone_high
+                    and high >= zone_low
+                )
+
+                if not touched:
+                    continue
+
+                detected = True
+
+                result.update({
+                    "status": "detected",
+                    "detected_date": candle_date,
+                    "atr_at_retest": atr,
+                    "tolerance": tolerance,
+                })
+
+            result["latest_close"] = close
+
+            if direction == "bullish":
+
+                if close > level:
+                    result["status"] = "confirmed"
+                    result["resolved_date"] = candle_date
+                    break
+
+                if close < level:
+                    result["status"] = "failed"
+                    result["resolved_date"] = candle_date
+                    break
+
+            else:
+
+                if close < level:
+                    result["status"] = "confirmed"
+                    result["resolved_date"] = candle_date
+                    break
+
+                if close > level:
+                    result["status"] = "failed"
+                    result["resolved_date"] = candle_date
+                    break
+
+        results.append(result)
+
+    return results
