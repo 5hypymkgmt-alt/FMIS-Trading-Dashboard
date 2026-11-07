@@ -145,10 +145,6 @@ jobs:
           print("Daily retest count:", result["daily"]["retest_count"])
           print("Latest daily retest:", result["daily"]["retests"][-1] if result["daily"]["retests"] else "None")
           PYTEST
-      - name: Export completed Gold historical candles
-        env:
-          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
-        run: python export_gold_history.py
 
       - name: Preserve raw Gold history for independent validation
         uses: actions/upload-artifact@v4
