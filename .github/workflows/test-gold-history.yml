@@ -51,6 +51,38 @@ jobs:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
         run: python diagnostics/test_gold_structure.py
 
+      - name: Validate full FMIS Gold JSON integration
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: |
+          python update.py
+          python - <<'PYTEST'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("data.json").read_text())
+          gold = data["markets"]["Gold"]["market_structure"]
+
+          assert gold["status"] == "ok", gold.get("reason")
+          assert gold["market"] == "XAU/USD"
+          assert gold["daily_candle_count"] > 200
+          assert gold["weekly_candle_count"] > 0
+          assert gold["monthly_candle_count"] > 0
+
+          assert "bias" in gold["weekly"]
+          assert "bos" in gold["weekly"]
+          assert "zones" in gold["monthly"]
+          assert "retests" in gold["daily"]
+
+          print("PASS: Full FMIS Gold JSON integration")
+          print("Latest completed candle:", gold["latest_daily_candle"])
+          print("Weekly bias:", gold["weekly"]["bias"])
+          print("Weekly BOS count:", gold["weekly"]["bos_count"])
+          print("Monthly zones:", len(gold["monthly"]["zones"]))
+          print("Daily retests:", gold["daily"]["retest_count"])
+          PYTEST
+
       - name: Test Gold dashboard adapter
         env:
           PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
