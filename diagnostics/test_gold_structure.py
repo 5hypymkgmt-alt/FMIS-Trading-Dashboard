@@ -17,6 +17,8 @@ from gold_market_structure import (
     consolidate_structural_breaks,
 )
 
+from gold_daily_retests import detect_daily_structural_retests
+
 API = "https://api.twelvedata.com/time_series"
 KEY = os.environ.get("PRICE_API_KEY")
 
@@ -67,6 +69,21 @@ for candle in daily:
 
     if h < max(o, c, l) or l > min(o, c, h):
         raise ValueError(f"Inconsistent Gold OHLC: {candle_date}")
+
+# Exclude today's potentially unfinished daily candle.
+from datetime import datetime, timezone
+
+utc_today = datetime.now(timezone.utc).date()
+
+daily = [
+    candle for candle in daily
+    if date.fromisoformat(str(candle["datetime"])[:10]) < utc_today
+]
+
+if not daily:
+    raise RuntimeError("No completed Gold daily candles available")
+
+print("PASS: Unfinished daily candles excluded")
 
 daily.sort(key=lambda candle: candle["datetime"])
 
@@ -232,3 +249,33 @@ for cutoff in cutoffs:
     )
 
 print("PASS: Historical weekly BOS stability validation")
+
+# Historical daily retests following confirmed weekly BOS signals.
+print("\nGOLD WEEKLY BOS → DAILY RETEST ANALYSIS")
+
+daily_retests = detect_daily_structural_retests(
+    daily,
+    weekly_bos,
+    atr_period=14,
+    tolerance_atr=0.25,
+)
+
+print("Weekly BOS signals analysed:", len(weekly_bos))
+print("Daily retest records:", len(daily_retests))
+
+for status in ("awaiting_retest", "detected", "confirmed", "failed"):
+    count = sum(r["status"] == status for r in daily_retests)
+    print(status.upper() + ":", count)
+
+print("\nLATEST DAILY RETEST RESULTS")
+
+for retest in daily_retests[-10:]:
+    print(
+        "BOS:", retest["bos_date"],
+        "| Direction:", retest["direction"].upper(),
+        "| Level:", round(retest["level"], 2),
+        "| Status:", retest["status"].upper(),
+        "| Detected:", retest["detected_date"],
+        "| Resolved:", retest["resolved_date"],
+        "| Invalidated:", retest["subsequently_invalidated"],
+    )
