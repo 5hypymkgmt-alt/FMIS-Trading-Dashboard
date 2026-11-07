@@ -646,6 +646,25 @@ for cutoff in daily_cutoffs:
         as_of=as_of,
     )
 
+    snapshot_zone_keys = {
+        monthly_zone_key(zone) for zone in snapshot_zones
+    }
+
+    expected_zone_keys = {
+        monthly_zone_key(zone)
+        for zone in full_monthly_zones
+        if date.fromisoformat(zone["confirmed_at"][:10]).replace(
+            day=1
+        ) < as_of.replace(day=1)
+    }
+
+    if snapshot_zone_keys != expected_zone_keys:
+        raise AssertionError(
+            "Historical monthly-zone completeness mismatch: "
+            f"missing={expected_zone_keys - snapshot_zone_keys}, "
+            f"unexpected={snapshot_zone_keys - expected_zone_keys}"
+        )
+
     for zone in snapshot_zones:
         key = monthly_zone_key(zone)
 
@@ -690,6 +709,10 @@ for cutoff in daily_cutoffs:
         "PASS:", cutoff, "daily candles,",
         len(snapshot_monthly), "completed months,",
         len(snapshot_zones), "monthly zones stable",
+        "| Support:", sum(z["type"] == "support" for z in snapshot_zones),
+        "| Resistance:", sum(z["type"] == "resistance" for z in snapshot_zones),
+        "| Broken:", sum(z["status"] == "broken" for z in snapshot_zones),
+        "| Unbroken:", sum(z["status"] == "unbroken" for z in snapshot_zones),
     )
 
 print("PASS: Historical Gold monthly-zone replay validation")
