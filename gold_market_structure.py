@@ -29,6 +29,11 @@ def aggregate_ohlc(daily_candles, timeframe, as_of=None):
             current_period = as_of - __import__("datetime").timedelta(
                 days=as_of.weekday()
             )
+
+            # A trading week is complete after Friday.
+            # Saturday and Sunday must include the previous Friday close.
+            if as_of.weekday() >= 5:
+                current_period += __import__("datetime").timedelta(days=7)
         else:
             period = day.replace(day=1)
             current_period = as_of.replace(day=1)
