@@ -606,6 +606,38 @@ full_monthly_zones = track_monthly_zone_breaks(
     build_monthly_zones(full_monthly_classified),
 )
 
+# Verify monthly breaks against their structural boundaries.
+
+for zone in full_monthly_zones:
+    if zone["status"] != "broken":
+        continue
+
+    close = float(zone["break_close"])
+
+    if zone["type"] == "resistance":
+        assert close > float(zone["upper"]), (
+            f"Invalid resistance break: {zone}"
+        )
+    elif zone["type"] == "support":
+        assert close < float(zone["lower"]), (
+            f"Invalid support break: {zone}"
+        )
+    else:
+        raise AssertionError(f"Unknown zone type: {zone}")
+
+    break_month = date.fromisoformat(zone["broken_at"])
+    expected_confirmation = (
+        date(break_month.year + 1, 1, 1)
+        if break_month.month == 12
+        else date(break_month.year, break_month.month + 1, 1)
+    )
+
+    assert zone["break_confirmed_at"] == expected_confirmation.isoformat(), (
+        f"Incorrect monthly break confirmation: {zone}"
+    )
+
+print("PASS: Monthly break boundaries and confirmation dates validated")
+
 print("\nGOLD MONTHLY ZONE BREAK DETAILS")
 
 for zone in full_monthly_zones:
