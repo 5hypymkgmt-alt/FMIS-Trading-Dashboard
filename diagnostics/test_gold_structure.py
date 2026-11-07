@@ -13,6 +13,8 @@ from gold_market_structure import (
     detect_confirmed_swings,
     classify_structural_swings,
     label_primary_structure,
+    detect_structural_breaks,
+    consolidate_structural_breaks,
 )
 
 API = "https://api.twelvedata.com/time_series"
@@ -144,3 +146,32 @@ for timeframe, candles in (
             swing["structure_label"] or "INITIAL",
             "confirmed:", swing["confirmed_at"],
         )
+
+# Historical weekly Break of Structure (BOS) analysis.
+weekly_classified = classify_structural_swings(
+    weekly,
+    strength=2,
+    atr_period=14,
+    major_threshold=2.0,
+)
+
+weekly_break_events = detect_structural_breaks(
+    weekly, weekly_classified
+)
+
+weekly_bos = consolidate_structural_breaks(
+    weekly_break_events, weekly_classified
+)
+
+print("\nWEEKLY BREAK OF STRUCTURE (BOS)")
+print("Individual structural breaks:", len(weekly_break_events))
+print("Consolidated weekly BOS signals:", len(weekly_bos))
+
+for bos in weekly_bos[-10:]:
+    print(
+        bos["date"],
+        bos["direction"].upper(),
+        "Level:", round(bos["primary_level"], 2),
+        "Close:", round(bos["close"], 2),
+        "Levels broken:", bos["levels_broken"],
+    )
