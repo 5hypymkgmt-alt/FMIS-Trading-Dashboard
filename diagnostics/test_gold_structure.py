@@ -900,3 +900,51 @@ print(
     "Weekly retest records:",
     len(reference_weekly_retests),
 )
+
+# Unified historical snapshot reproducibility validation.
+print("\nUNIFIED GOLD HISTORICAL SNAPSHOT REPRODUCIBILITY")
+
+for cutoff in daily_cutoffs:
+    historical_daily = daily[:cutoff]
+
+    snapshot_date = date.fromisoformat(
+        str(historical_daily[-1]["datetime"])[:10]
+    )
+
+    # The next calendar day is the first date not included
+    # in this historical snapshot.
+    snapshot_as_of = snapshot_date + timedelta(days=1)
+
+    historical_snapshot = build_gold_structure_intelligence(
+        historical_daily,
+        as_of=snapshot_as_of,
+    )
+
+    full_history_snapshot = build_gold_structure_intelligence(
+        daily,
+        as_of=snapshot_as_of,
+    )
+
+    assert historical_snapshot == full_history_snapshot, (
+        f"Unified historical snapshot changed at "
+        f"{snapshot_as_of}"
+    )
+
+    assert historical_snapshot["daily_candle_count"] == cutoff, (
+        f"Historical daily candle count mismatch at "
+        f"{snapshot_as_of}"
+    )
+
+    print(
+        "PASS: Unified snapshot reproducible:",
+        snapshot_as_of,
+        "| Daily candles:", cutoff,
+        "| Weekly BOS:",
+        historical_snapshot["weekly"]["bos_count"],
+        "| Daily retests:",
+        historical_snapshot["daily"]["retest_count"],
+        "| Monthly zones:",
+        len(historical_snapshot["monthly"]["zones"]),
+    )
+
+print("PASS: Unified Gold historical snapshot reproducibility")
