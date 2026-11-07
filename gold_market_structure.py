@@ -525,15 +525,13 @@ def detect_structural_retests(
     atr_period=14,
     tolerance_atr=0.25,
 ):
-    """Track retests of confirmed structural breakout levels."""
+    """Track retests, confirmation and subsequent invalidation."""
 
     if tolerance_atr <= 0:
         raise ValueError("Retest tolerance must be positive")
 
     ordered = sorted(candles, key=lambda c: c["datetime"])
-
     atr_series = calculate_atr_series(ordered, atr_period)
-
     atr_by_date = {
         item["datetime"]: item["atr"]
         for item in atr_series
@@ -563,12 +561,14 @@ def detect_structural_retests(
             "atr_at_retest": None,
             "tolerance": None,
             "latest_close": None,
+            "subsequently_invalidated": False,
+            "invalidation_date": None,
         }
 
         detected = False
+        confirmed = False
 
         for candle in ordered:
-
             candle_date = candle["datetime"]
 
             if candle_date <= bos["date"]:
@@ -583,10 +583,8 @@ def detect_structural_retests(
             low = float(candle["low"])
             close = float(candle["close"])
 
-            tolerance = atr * tolerance_atr
-
             if not detected:
-
+                tolerance = atr * tolerance_atr
                 zone_low = level - tolerance
                 zone_high = level + tolerance
 
@@ -609,28 +607,36 @@ def detect_structural_retests(
 
             result["latest_close"] = close
 
-            if direction == "bullish":
-
-                if close > level:
-                    result["status"] = "confirmed"
-                    result["resolved_date"] = candle_date
-                    break
-
-                if close < level:
-                    result["status"] = "failed"
-                    result["resolved_date"] = candle_date
-                    break
+            if not confirmed:
+                if direction == "bullish":
+                    if close > level:
+                        result["status"] = "confirmed"
+                        result["resolved_date"] = candle_date
+                        confirmed = True
+                    elif close < level:
+                        result["status"] = "failed"
+                        result["resolved_date"] = candle_date
+                        break
+                else:
+                    if close < level:
+                        result["status"] = "confirmed"
+                        result["resolved_date"] = candle_date
+                        confirmed = True
+                    elif close > level:
+                        result["status"] = "failed"
+                        result["resolved_date"] = candle_date
+                        break
 
             else:
+                invalidated = (
+                    close < level
+                    if direction == "bullish"
+                    else close > level
+                )
 
-                if close < level:
-                    result["status"] = "confirmed"
-                    result["resolved_date"] = candle_date
-                    break
-
-                if close > level:
-                    result["status"] = "failed"
-                    result["resolved_date"] = candle_date
+                if invalidated:
+                    result["subsequently_invalidated"] = True
+                    result["invalidation_date"] = candle_date
                     break
 
         results.append(result)

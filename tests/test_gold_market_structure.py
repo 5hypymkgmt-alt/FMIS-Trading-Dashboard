@@ -12,6 +12,7 @@ from gold_market_structure import (
     detect_structural_breaks,
     consolidate_structural_breaks,
     classify_weekly_market_bias,
+    detect_structural_retests,
 )
 
 
@@ -547,3 +548,110 @@ class GoldWeeklyMarketBiasTests(unittest.TestCase):
         result = classify_weekly_market_bias(swings, bos)
 
         self.assertEqual(result["bias"], "Neutral")
+
+
+class GoldWeeklyRetestTests(unittest.TestCase):
+
+    def make_candles(self, direction, outcome="confirmed"):
+        start = date(2026, 6, 1)
+        candles = []
+
+        for i in range(18):
+            day = start + timedelta(days=i)
+
+            if direction == "bullish":
+                candle = {
+                    "datetime": day.isoformat(),
+                    "open": 102, "high": 103,
+                    "low": 101, "close": 102,
+                }
+            else:
+                candle = {
+                    "datetime": day.isoformat(),
+                    "open": 98, "high": 99,
+                    "low": 97, "close": 98,
+                }
+
+            candles.append(candle)
+
+        if direction == "bullish":
+            candles[15].update({
+                "open": 101, "high": 102,
+                "low": 99.8,
+                "close": 99 if outcome == "failed" else 101,
+            })
+
+            if outcome == "invalidated":
+                candles[17].update({
+                    "open": 101, "high": 102,
+                    "low": 98, "close": 99,
+                })
+        else:
+            candles[15].update({
+                "open": 99, "high": 100.2,
+                "low": 98,
+                "close": 101 if outcome == "failed" else 99,
+            })
+
+            if outcome == "invalidated":
+                candles[17].update({
+                    "open": 99, "high": 102,
+                    "low": 98.5, "close": 101,
+                })
+
+        return candles
+
+    def make_bos(self, direction):
+        return [{
+            "date": "2026-06-15",
+            "direction": direction,
+            "primary_level": 100,
+            "primary_level_date": "2026-06-01",
+        }]
+
+    def test_bullish_retest_confirmation(self):
+        result = detect_structural_retests(
+            self.make_candles("bullish"),
+            self.make_bos("bullish"),
+        )[0]
+
+        self.assertEqual(result["status"], "confirmed")
+        self.assertEqual(result["resolved_date"], "2026-06-16")
+
+    def test_bearish_retest_confirmation(self):
+        result = detect_structural_retests(
+            self.make_candles("bearish"),
+            self.make_bos("bearish"),
+        )[0]
+
+        self.assertEqual(result["status"], "confirmed")
+        self.assertEqual(result["resolved_date"], "2026-06-16")
+
+    def test_failed_weekly_retest(self):
+        for direction in ("bullish", "bearish"):
+            with self.subTest(direction=direction):
+                result = detect_structural_retests(
+                    self.make_candles(direction, "failed"),
+                    self.make_bos(direction),
+                )[0]
+
+                self.assertEqual(result["status"], "failed")
+
+    def test_confirmed_weekly_retest_invalidation(self):
+        for direction in ("bullish", "bearish"):
+            with self.subTest(direction=direction):
+                result = detect_structural_retests(
+                    self.make_candles(direction, "invalidated"),
+                    self.make_bos(direction),
+                )[0]
+
+                self.assertEqual(result["status"], "confirmed")
+                self.assertEqual(
+                    result["resolved_date"], "2026-06-16"
+                )
+                self.assertTrue(
+                    result["subsequently_invalidated"]
+                )
+                self.assertEqual(
+                    result["invalidation_date"], "2026-06-18"
+                )
