@@ -948,3 +948,131 @@ for cutoff in daily_cutoffs:
     )
 
 print("PASS: Unified Gold historical snapshot reproducibility")
+
+# Historical weekly retest non-repainting validation.
+print("\nGOLD WEEKLY RETEST HISTORICAL STABILITY TEST")
+
+full_weekly_retests = {
+    (r["bos_date"], r["direction"], r["level"]): r
+    for r in detect_structural_retests(
+        weekly,
+        weekly_bos,
+        atr_period=14,
+        tolerance_atr=0.25,
+    )
+}
+
+for cutoff in daily_cutoffs:
+    historical_daily = daily[:cutoff]
+
+    snapshot_date = date.fromisoformat(
+        str(historical_daily[-1]["datetime"])[:10]
+    )
+
+    if snapshot_date.weekday() == 4:
+        as_of = snapshot_date + timedelta(days=3)
+    else:
+        as_of = snapshot_date - timedelta(
+            days=snapshot_date.weekday()
+        )
+
+    snapshot_weekly = aggregate_ohlc(
+        historical_daily,
+        "weekly",
+        as_of=as_of,
+    )
+
+    if not snapshot_weekly:
+        raise AssertionError(
+            "No completed historical weekly candles"
+        )
+
+    snapshot_swings = classify_structural_swings(
+        snapshot_weekly,
+        strength=2,
+        atr_period=14,
+        major_threshold=2.0,
+    )
+
+    snapshot_breaks = detect_structural_breaks(
+        snapshot_weekly,
+        snapshot_swings,
+    )
+
+    snapshot_bos = consolidate_structural_breaks(
+        snapshot_breaks,
+        snapshot_swings,
+    )
+
+    snapshot_retests = detect_structural_retests(
+        snapshot_weekly,
+        snapshot_bos,
+        atr_period=14,
+        tolerance_atr=0.25,
+    )
+
+    latest_week = snapshot_weekly[-1]["datetime"]
+
+    available_bos_keys = {
+        (
+            b["date"],
+            b["direction"],
+            float(b["primary_level"]),
+        )
+        for b in weekly_bos
+        if b["date"] <= latest_week
+    }
+
+    expected_keys = {
+        key for key in full_weekly_retests
+        if key in available_bos_keys
+    }
+
+    historical_keys = {
+        (r["bos_date"], r["direction"], r["level"])
+        for r in snapshot_retests
+    }
+
+    assert historical_keys == expected_keys, (
+        f"Historical weekly retest mismatch at {latest_week}: "
+        f"missing={expected_keys - historical_keys}, "
+        f"unexpected={historical_keys - expected_keys}"
+    )
+
+    for earlier in snapshot_retests:
+        key = (
+            earlier["bos_date"],
+            earlier["direction"],
+            earlier["level"],
+        )
+
+        later = full_weekly_retests[key]
+
+        for field in (
+            "level_date",
+            "detected_date",
+            "atr_at_retest",
+            "tolerance",
+        ):
+            if earlier[field] is not None:
+                assert earlier[field] == later[field], (
+                    f"Historical weekly retest changed: "
+                    f"{key}, field={field}"
+                )
+
+        if earlier["resolved_date"] is not None:
+            assert earlier["resolved_date"] == later["resolved_date"], (
+                f"Weekly retest resolution date changed: {key}"
+            )
+
+            assert earlier["status"] == later["status"], (
+                f"Weekly retest resolution status changed: {key}"
+            )
+
+    print(
+        "PASS: Weekly retests stable at",
+        latest_week,
+        "| Records:", len(snapshot_retests),
+    )
+
+print("PASS: Historical Gold weekly retest stability validation")
