@@ -175,3 +175,60 @@ for bos in weekly_bos[-10:]:
         "Close:", round(bos["close"], 2),
         "Levels broken:", bos["levels_broken"],
     )
+
+# Historical non-repainting validation for weekly BOS signals.
+print("\nWEEKLY BOS HISTORICAL STABILITY TEST")
+
+full_signals = {
+    (b["date"], b["direction"]): b
+    for b in weekly_bos
+}
+
+cutoffs = [len(weekly) // 2, len(weekly) * 3 // 4, len(weekly) - 5]
+
+for cutoff in cutoffs:
+    historical_weekly = weekly[:cutoff]
+
+    historical_swings = classify_structural_swings(
+        historical_weekly,
+        strength=2,
+        atr_period=14,
+        major_threshold=2.0,
+    )
+
+    historical_events = detect_structural_breaks(
+        historical_weekly, historical_swings
+    )
+
+    historical_bos = consolidate_structural_breaks(
+        historical_events, historical_swings
+    )
+
+    for signal in historical_bos:
+        key = (signal["date"], signal["direction"])
+        assert key in full_signals, (
+            f"Historical BOS disappeared: {key}"
+        )
+
+        original = full_signals[key]
+
+        for field in (
+            "primary_level",
+            "primary_level_date",
+            "close",
+            "levels_broken",
+            "broken_levels",
+        ):
+            assert signal[field] == original[field], (
+                f"Historical BOS changed: {key}, field={field}"
+            )
+
+    print(
+        "PASS:",
+        cutoff,
+        "weekly candles,",
+        len(historical_bos),
+        "BOS signals stable",
+    )
+
+print("PASS: Historical weekly BOS stability validation")
