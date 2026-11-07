@@ -1,0 +1,74 @@
+name: Test FMIS Gold History
+
+on:
+  push:
+    branches:
+      - fmis-gold-structure-dashboard
+    paths:
+      - 'gold_market_structure.py'
+      - 'gold_daily_retests.py'
+      - 'gold_monthly_zones.py'
+      - 'gold_structure_intelligence.py'
+      - 'gold_structure_adapter.py'
+      - 'tests/**'
+      - 'diagnostics/test_gold_structure.py'
+      - '.github/workflows/test-gold-history.yml'
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gold-history:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Validate Python syntax
+        run: python -m compileall -q gold_market_structure.py gold_daily_retests.py gold_monthly_zones.py gold_structure_intelligence.py gold_structure_adapter.py tests
+
+      - name: Run full regression suite
+        run: python -m unittest discover -s tests -v
+
+      - name: Test historical Gold data
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python diagnostics/test_gold_history.py
+
+      - name: Test Gold market structure
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python diagnostics/test_gold_structure.py
+
+      - name: Test Gold dashboard adapter
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: |
+          python - <<'PYTEST'
+          from gold_structure_adapter import fetch_gold_structure
+
+          result = fetch_gold_structure()
+
+          assert result["status"] == "ok"
+          assert result["daily_candle_count"] > 200
+          assert result["weekly_candle_count"] > 0
+          assert result["monthly_candle_count"] > 0
+          assert "bias" in result["weekly"]
+          assert "retests" in result["daily"]
+          assert "zones" in result["monthly"]
+
+          print("PASS: Gold dashboard adapter")
+          print("Latest candle:", result["latest_daily_candle"])
+          print("Daily candles:", result["daily_candle_count"])
+          PYTEST
