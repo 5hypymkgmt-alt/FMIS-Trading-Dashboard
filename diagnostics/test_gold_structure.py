@@ -764,3 +764,67 @@ for cutoff in daily_cutoffs:
     )
 
 print("PASS: Historical Gold monthly-zone replay validation")
+
+# Unified Gold Market Structure Intelligence integration validation.
+from gold_structure_intelligence import build_gold_structure_intelligence
+
+print("\nUNIFIED GOLD MARKET STRUCTURE INTELLIGENCE VALIDATION")
+
+# Use the first day of the current UTC month so both aggregations
+# exclude incomplete weekly and monthly periods consistently.
+from datetime import datetime, timezone
+
+validation_as_of = datetime.now(timezone.utc).date()
+validation_as_of = validation_as_of.replace(day=1)
+
+validation_daily = [
+    candle for candle in daily
+    if date.fromisoformat(str(candle["datetime"])[:10]) < validation_as_of
+]
+
+unified = build_gold_structure_intelligence(
+    validation_daily,
+    as_of=validation_as_of,
+)
+
+reference_weekly = aggregate_ohlc(
+    validation_daily, "weekly", as_of=validation_as_of
+)
+reference_monthly = aggregate_ohlc(
+    validation_daily, "monthly", as_of=validation_as_of
+)
+
+reference_weekly_swings = classify_structural_swings(
+    reference_weekly, strength=2, atr_period=14, major_threshold=2.0
+)
+reference_weekly_bos = consolidate_structural_breaks(
+    detect_structural_breaks(reference_weekly, reference_weekly_swings),
+    reference_weekly_swings,
+)
+reference_weekly_bias = classify_weekly_market_bias(
+    select_alternating_major_swings(reference_weekly_swings),
+    reference_weekly_bos,
+)
+
+reference_monthly_swings = classify_structural_swings(
+    reference_monthly, strength=2, atr_period=14, major_threshold=2.0
+)
+reference_monthly_zones = track_monthly_zone_breaks(
+    reference_monthly,
+    build_monthly_zones(reference_monthly_swings, atr_fraction=0.25),
+    as_of=validation_as_of,
+)
+
+assert unified["weekly"]["bos"] == reference_weekly_bos, (
+    "Unified weekly BOS differs from reference"
+)
+assert unified["weekly"]["bias"] == reference_weekly_bias, (
+    "Unified weekly bias differs from reference"
+)
+assert unified["monthly"]["zones"] == reference_monthly_zones, (
+    "Unified monthly zones differ from reference"
+)
+
+print("PASS: Unified weekly BOS matches reference")
+print("PASS: Unified weekly market bias matches reference")
+print("PASS: Unified monthly zones match reference")
