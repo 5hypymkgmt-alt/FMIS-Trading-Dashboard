@@ -11,6 +11,32 @@ function goldSafe(value) {
   }[char]));
 }
 
+function goldRetestDate(value) {
+  if (!value) return 'Unavailable';
+
+  const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return goldSafe(value);
+
+  const [, year, month, day] = match;
+  const n = Number(day);
+  const m = Number(month);
+
+  if (m < 1 || m > 12 || n < 1 || n > 31)
+    return 'Unavailable';
+
+  const suffix = n % 100 >= 11 && n % 100 <= 13
+    ? 'th' : n % 10 === 1 ? 'st'
+    : n % 10 === 2 ? 'nd'
+    : n % 10 === 3 ? 'rd' : 'th';
+
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  return `${n}${suffix} ${months[m - 1]} ${year}`;
+}
+
 function renderGoldIntelligence(structure) {
   const weekly = structure?.weekly || {};
   const biasData = weekly.bias || {};
@@ -48,7 +74,9 @@ function renderGoldIntelligence(structure) {
     .map(retest => {
       const invalidated = retest.subsequently_invalidated === true;
 
-      const status = invalidated ? 'INVALIDATED'
+      const status = invalidated ? 'REVERSED'
+        : retest.status === 'confirmed' ? 'HELD'
+        : retest.status === 'failed' ? 'NOT HELD'
         : String(retest.status || 'unavailable')
             .replace(/_/g, ' ').toUpperCase();
 
@@ -72,13 +100,29 @@ function renderGoldIntelligence(structure) {
           <span style="color:${statusColor};font-weight:700">
             ${goldSafe(status)}
           </span>
+        </div>
+        <div style="font-size:11px;color:#9daec4;margin:2px 0 6px">
+          ${invalidated ? 'Initially held'
+            : status === 'HELD' ? 'Held'
+            : status === 'NOT HELD' ? 'Not held'
+            : 'Eligible from'}:
+          ${goldRetestDate(
+            status === 'HELD' || status === 'NOT HELD' || invalidated
+              ? retest.resolved_date || retest.detected_date
+              : retest.first_eligible_date
+          )}
+          ${invalidated
+            ? ` · Reversed: ${goldRetestDate(retest.invalidation_date)}`
+            : ''}
         </div>`;
     }).join('');
 
   const retestRows = dailyRetests.slice(-5).reverse().map(retest => {
     const invalidated = retest.subsequently_invalidated === true;
     const status = invalidated
-      ? 'CONFIRMED — LATER INVALIDATED'
+      ? 'REVERSED'
+      : retest.status === 'confirmed' ? 'HELD'
+      : retest.status === 'failed' ? 'NOT HELD'
       : String(retest.status || 'unavailable').replace(/_/g, ' ').toUpperCase();
 
     const statusColor = invalidated ? '#ff3447'
@@ -105,12 +149,12 @@ function renderGoldIntelligence(structure) {
           Retest: ${goldSafe(type)}
         </div>
         <div style="font-size:12px;color:#9daec4;margin-top:4px">
-          Detected: ${goldSafe(retest.detected_date || 'Unavailable')}
-          · Resolved: ${goldSafe(retest.resolved_date || 'Unavailable')}
+          Detected: ${goldRetestDate(retest.detected_date)}
+          · Resolved: ${goldRetestDate(retest.resolved_date)}
         </div>
         ${invalidated ? `
           <div style="font-size:12px;color:#ff3447;margin-top:4px">
-            Invalidated: ${goldSafe(retest.invalidation_date || 'Unavailable')}
+            Reversed: ${goldRetestDate(retest.invalidation_date)}
           </div>` : ''}
       </div>`;
   }).join('');
@@ -243,8 +287,8 @@ function renderGoldIntelligence(structure) {
           DAILY RETEST INTELLIGENCE
         </div>
         <div style="font-size:12px;color:#9daec4;margin-bottom:10px">
-          Total: ${retestCount} · Confirmed: ${confirmedCount}
-          (${invalidatedCount} subsequently invalidated) · Failed: ${failedCount}
+          Total: ${retestCount} · Initially held: ${confirmedCount}
+          (${invalidatedCount} later reversed) · Not held: ${failedCount}
         </div>
         ${compactRetestRows || '<div style="color:#9daec4">No daily retests available</div>'}
 
