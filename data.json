@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-07T00:00:39.028530+00:00",
+  "generated_at_utc": "2026-11-08T11:18:45.178909+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -8,7 +8,7 @@
       "price": {
         "status": "ok",
         "date": "2026-11-06",
-        "age_days": 1,
+        "age_days": 2,
         "close": 735.29,
         "previous_close": 733.0,
         "daily_change": {
@@ -190,28 +190,28 @@
       "note": "XAU/USD spot gold price from Twelve Data",
       "price": {
         "status": "ok",
-        "date": "2026-11-06",
+        "date": "2026-11-07",
         "age_days": 1,
-        "close": 4063.327,
-        "previous_close": 4114.396,
+        "close": 4066.037,
+        "previous_close": 4063.327,
         "daily_change": {
-          "change": -51.068,
-          "percent": -1.24
+          "change": 2.709,
+          "percent": 0.07
         },
         "weekly_change": {
-          "change": 187.897,
-          "percent": 4.85
+          "change": 121.722,
+          "percent": 3.09
         },
         "monthly_change": {
-          "change": -104.838,
-          "percent": -2.52
+          "change": -98.681,
+          "percent": -2.37
         },
-        "ema20": 4033.687,
-        "ema50": 4121.151,
-        "ema200": 4293.979,
+        "ema20": 4036.768,
+        "ema50": 4118.989,
+        "ema200": 4291.399,
         "weekly_pivot": 3942.861,
-        "rsi14": 50.56,
-        "adx14": 27.09,
+        "rsi14": 50.79,
+        "adx14": 26.08,
         "market_regime": "Trend Direction Unclear",
         "factors": {
           "price_vs_ema20": 1,
@@ -233,18 +233,13 @@
         "market_structure": {
           "trend": "Bearish",
           "last_swing_high": 4081.966,
-          "last_swing_low": 3975.827,
+          "last_swing_low": 3866.021,
           "swing_high_date": "2026-10-29",
-          "swing_low_date": "2026-10-23",
+          "swing_low_date": "2026-11-02",
           "bos": "None",
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-18",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-19",
             "bos": "None",
@@ -339,10 +334,1087 @@
             "date": "2026-11-06",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-07",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
         "feed": "Twelve Data daily API; plan/exchange delays may apply"
+      },
+      "market_structure": {
+        "market": "XAU/USD",
+        "as_of": "2026-11-08",
+        "daily_candle_count": 999,
+        "weekly_candle_count": 200,
+        "monthly_candle_count": 46,
+        "monthly": {
+          "zones": [
+            {
+              "type": "resistance",
+              "swing_date": "2024-10-01",
+              "confirmed_at": "2024-12-01",
+              "level": 2790.40503,
+              "lower": 2752.446357804035,
+              "upper": 2828.363702195965,
+              "atr_at_confirmation": 151.83468878385997,
+              "status": "broken",
+              "broken_at": "2025-02-01",
+              "break_close": 2858.6001,
+              "break_confirmed_at": "2025-03-01"
+            },
+            {
+              "type": "resistance",
+              "swing_date": "2025-04-01",
+              "confirmed_at": "2025-06-01",
+              "level": 3500.33008,
+              "lower": 3449.8596677442165,
+              "upper": 3550.800492255784,
+              "atr_at_confirmation": 201.8816490231356,
+              "status": "broken",
+              "broken_at": "2025-09-01",
+              "break_close": 3858.51001,
+              "break_confirmed_at": "2025-10-01"
+            },
+            {
+              "type": "resistance",
+              "swing_date": "2026-01-01",
+              "confirmed_at": "2026-03-01",
+              "level": 5595.45996,
+              "lower": 5486.500749101185,
+              "upper": 5704.4191708988155,
+              "atr_at_confirmation": 435.83684359526023,
+              "status": "unbroken",
+              "broken_at": null,
+              "break_close": null,
+              "break_confirmed_at": null
+            },
+            {
+              "type": "support",
+              "swing_date": "2026-03-01",
+              "confirmed_at": "2026-05-01",
+              "level": 4098.87012,
+              "lower": 3991.3485274392865,
+              "upper": 4206.391712560712,
+              "atr_at_confirmation": 430.0863702428519,
+              "status": "broken",
+              "broken_at": "2026-10-01",
+              "break_close": 3875.43884,
+              "break_confirmed_at": "2026-11-01"
+            },
+            {
+              "type": "support",
+              "swing_date": "2026-06-01",
+              "confirmed_at": "2026-08-01",
+              "level": 3944.22998,
+              "lower": 3832.7252644256973,
+              "upper": 4055.734695574303,
+              "atr_at_confirmation": 446.01886229721055,
+              "status": "unbroken",
+              "broken_at": null,
+              "break_close": null,
+              "break_confirmed_at": null
+            }
+          ],
+          "support": [
+            {
+              "type": "support",
+              "swing_date": "2026-03-01",
+              "confirmed_at": "2026-05-01",
+              "level": 4098.87012,
+              "lower": 3991.3485274392865,
+              "upper": 4206.391712560712,
+              "atr_at_confirmation": 430.0863702428519,
+              "status": "broken",
+              "broken_at": "2026-10-01",
+              "break_close": 3875.43884,
+              "break_confirmed_at": "2026-11-01"
+            },
+            {
+              "type": "support",
+              "swing_date": "2026-06-01",
+              "confirmed_at": "2026-08-01",
+              "level": 3944.22998,
+              "lower": 3832.7252644256973,
+              "upper": 4055.734695574303,
+              "atr_at_confirmation": 446.01886229721055,
+              "status": "unbroken",
+              "broken_at": null,
+              "break_close": null,
+              "break_confirmed_at": null
+            }
+          ],
+          "resistance": [
+            {
+              "type": "resistance",
+              "swing_date": "2024-10-01",
+              "confirmed_at": "2024-12-01",
+              "level": 2790.40503,
+              "lower": 2752.446357804035,
+              "upper": 2828.363702195965,
+              "atr_at_confirmation": 151.83468878385997,
+              "status": "broken",
+              "broken_at": "2025-02-01",
+              "break_close": 2858.6001,
+              "break_confirmed_at": "2025-03-01"
+            },
+            {
+              "type": "resistance",
+              "swing_date": "2025-04-01",
+              "confirmed_at": "2025-06-01",
+              "level": 3500.33008,
+              "lower": 3449.8596677442165,
+              "upper": 3550.800492255784,
+              "atr_at_confirmation": 201.8816490231356,
+              "status": "broken",
+              "broken_at": "2025-09-01",
+              "break_close": 3858.51001,
+              "break_confirmed_at": "2025-10-01"
+            },
+            {
+              "type": "resistance",
+              "swing_date": "2026-01-01",
+              "confirmed_at": "2026-03-01",
+              "level": 5595.45996,
+              "lower": 5486.500749101185,
+              "upper": 5704.4191708988155,
+              "atr_at_confirmation": 435.83684359526023,
+              "status": "unbroken",
+              "broken_at": null,
+              "break_close": null,
+              "break_confirmed_at": null
+            }
+          ],
+          "broken_count": 3,
+          "unbroken_count": 2
+        },
+        "weekly": {
+          "bias": {
+            "bias": "Bearish",
+            "higher_high": false,
+            "higher_low": false,
+            "lower_high": true,
+            "lower_low": true,
+            "latest_bos": "bearish",
+            "latest_bos_date": "2026-10-26",
+            "latest_swing_high": 4697.66016,
+            "latest_swing_low": 3944.22998
+          },
+          "major_swings": [
+            {
+              "type": "high",
+              "date": "2023-05-01",
+              "price": 2073.29492,
+              "confirmed_at": "2023-05-15",
+              "atr_at_confirmation": 61.6361411886138,
+              "distance_atr": 4.358561305418439,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2023-10-02",
+              "price": 1810.099976,
+              "confirmed_at": "2023-10-16",
+              "atr_at_confirmation": 53.280414540945394,
+              "distance_atr": 2.584365102756139,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2023-12-04",
+              "price": 2135.8999,
+              "confirmed_at": "2023-12-18",
+              "atr_at_confirmation": 61.07154778008111,
+              "distance_atr": 3.343204608719492,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2023-12-11",
+              "price": 1973.091675,
+              "confirmed_at": "2023-12-25",
+              "atr_at_confirmation": 59.249560081503894,
+              "distance_atr": 2.747838545569629,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2024-04-08",
+              "price": 2431.53345,
+              "confirmed_at": "2024-04-22",
+              "atr_at_confirmation": 70.21816072101502,
+              "distance_atr": 6.369269792994586,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2024-04-29",
+              "price": 2277.46509,
+              "confirmed_at": "2024-05-13",
+              "atr_at_confirmation": 72.70765908676019,
+              "distance_atr": 2.1190114210134854,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2024-05-20",
+              "price": 2450.13062,
+              "confirmed_at": "2024-06-03",
+              "atr_at_confirmation": 75.86222743936301,
+              "distance_atr": 2.2760408681383897,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2024-06-03",
+              "price": 2286.77124,
+              "confirmed_at": "2024-06-17",
+              "atr_at_confirmation": 73.4639612614916,
+              "distance_atr": 2.2236669136112828,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2024-10-28",
+              "price": 2790.40503,
+              "confirmed_at": "2024-11-11",
+              "atr_at_confirmation": 78.69900617624164,
+              "distance_atr": 2.3666770274441964,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2024-11-11",
+              "price": 2536.90503,
+              "confirmed_at": "2024-11-25",
+              "atr_at_confirmation": 86.21263042747366,
+              "distance_atr": 2.940404425001935,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2025-04-21",
+              "price": 3500.33008,
+              "confirmed_at": "2025-05-05",
+              "atr_at_confirmation": 127.04060496006893,
+              "distance_atr": 4.279970015656835,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2025-05-12",
+              "price": 3120.52002,
+              "confirmed_at": "2025-05-26",
+              "atr_at_confirmation": 133.17842677014264,
+              "distance_atr": 2.8518887721622352,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2025-10-20",
+              "price": 4381.6001,
+              "confirmed_at": "2025-11-03",
+              "atr_at_confirmation": 153.53849784843774,
+              "distance_atr": 6.969848962938048,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2025-10-27",
+              "price": 3886.48999,
+              "confirmed_at": "2025-11-10",
+              "atr_at_confirmation": 160.23789657354934,
+              "distance_atr": 3.0898440418103195,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2026-01-26",
+              "price": 5595.45996,
+              "confirmed_at": "2026-02-09",
+              "atr_at_confirmation": 265.0112778052253,
+              "distance_atr": 6.448668842146551,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2026-02-02",
+              "price": 4404.12012,
+              "confirmed_at": "2026-02-16",
+              "atr_at_confirmation": 264.86405796199494,
+              "distance_atr": 4.497929425256124,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2026-03-02",
+              "price": 5419.25,
+              "confirmed_at": "2026-03-16",
+              "atr_at_confirmation": 289.2596721093435,
+              "distance_atr": 3.5094068682214004,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2026-03-23",
+              "price": 4098.87012,
+              "confirmed_at": "2026-04-06",
+              "atr_at_confirmation": 306.1371237595583,
+              "distance_atr": 4.313034184763014,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2026-04-13",
+              "price": 4889.7002,
+              "confirmed_at": "2026-04-27",
+              "atr_at_confirmation": 287.6141652404334,
+              "distance_atr": 2.749621456714066,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "low",
+              "date": "2026-06-29",
+              "price": 3944.22998,
+              "confirmed_at": "2026-07-13",
+              "atr_at_confirmation": 256.52778864944173,
+              "distance_atr": 3.2339580221216906,
+              "classification": "major",
+              "structural_status": "confirmed"
+            },
+            {
+              "type": "high",
+              "date": "2026-08-24",
+              "price": 4697.66016,
+              "confirmed_at": "2026-09-07",
+              "atr_at_confirmation": 238.9743430827903,
+              "distance_atr": 3.1527659843340663,
+              "classification": "major",
+              "structural_status": "confirmed"
+            }
+          ],
+          "bos": [
+            {
+              "date": "2023-08-14",
+              "direction": "bearish",
+              "primary_level": 1893.0096436,
+              "primary_level_date": "2023-06-26",
+              "close": 1888.19336,
+              "levels_broken": 1,
+              "broken_levels": [
+                1893.0096436
+              ]
+            },
+            {
+              "date": "2023-11-27",
+              "direction": "bullish",
+              "primary_level": 2009.48206,
+              "primary_level_date": "2023-10-23",
+              "close": 2070.90112,
+              "levels_broken": 2,
+              "broken_levels": [
+                2009.48206,
+                2048.84497
+              ]
+            },
+            {
+              "date": "2024-02-26",
+              "direction": "bullish",
+              "primary_level": 2073.29492,
+              "primary_level_date": "2023-05-01",
+              "close": 2083.38989,
+              "levels_broken": 1,
+              "broken_levels": [
+                2073.29492
+              ]
+            },
+            {
+              "date": "2024-03-04",
+              "direction": "bullish",
+              "primary_level": 2135.8999,
+              "primary_level_date": "2023-12-04",
+              "close": 2177.51001,
+              "levels_broken": 1,
+              "broken_levels": [
+                2135.8999
+              ]
+            },
+            {
+              "date": "2024-07-29",
+              "direction": "bullish",
+              "primary_level": 2431.53345,
+              "primary_level_date": "2024-04-08",
+              "close": 2443.29468,
+              "levels_broken": 1,
+              "broken_levels": [
+                2431.53345
+              ]
+            },
+            {
+              "date": "2024-08-12",
+              "direction": "bullish",
+              "primary_level": 2483.78296,
+              "primary_level_date": "2024-07-15",
+              "close": 2507.28247,
+              "levels_broken": 2,
+              "broken_levels": [
+                2450.13062,
+                2483.78296
+              ]
+            },
+            {
+              "date": "2024-09-09",
+              "direction": "bullish",
+              "primary_level": 2532.050049,
+              "primary_level_date": "2024-08-19",
+              "close": 2576.49536,
+              "levels_broken": 1,
+              "broken_levels": [
+                2532.050049
+              ]
+            },
+            {
+              "date": "2024-10-14",
+              "direction": "bullish",
+              "primary_level": 2685.95996,
+              "primary_level_date": "2024-09-23",
+              "close": 2720.24731,
+              "levels_broken": 1,
+              "broken_levels": [
+                2685.95996
+              ]
+            },
+            {
+              "date": "2025-01-20",
+              "direction": "bullish",
+              "primary_level": 2726.31396,
+              "primary_level_date": "2024-12-09",
+              "close": 2771.30005,
+              "levels_broken": 1,
+              "broken_levels": [
+                2726.31396
+              ]
+            },
+            {
+              "date": "2025-01-27",
+              "direction": "bullish",
+              "primary_level": 2790.40503,
+              "primary_level_date": "2024-10-28",
+              "close": 2801.0,
+              "levels_broken": 1,
+              "broken_levels": [
+                2790.40503
+              ]
+            },
+            {
+              "date": "2025-09-01",
+              "direction": "bullish",
+              "primary_level": 3451.62012,
+              "primary_level_date": "2025-06-16",
+              "close": 3586.81006,
+              "levels_broken": 2,
+              "broken_levels": [
+                3451.62012,
+                3500.33008
+              ]
+            },
+            {
+              "date": "2025-12-08",
+              "direction": "bullish",
+              "primary_level": 4245.2002,
+              "primary_level_date": "2025-11-10",
+              "close": 4302.43018,
+              "levels_broken": 1,
+              "broken_levels": [
+                4245.2002
+              ]
+            },
+            {
+              "date": "2025-12-22",
+              "direction": "bullish",
+              "primary_level": 4381.6001,
+              "primary_level_date": "2025-10-20",
+              "close": 4532.62988,
+              "levels_broken": 1,
+              "broken_levels": [
+                4381.6001
+              ]
+            },
+            {
+              "date": "2026-01-12",
+              "direction": "bullish",
+              "primary_level": 4550.10986,
+              "primary_level_date": "2025-12-22",
+              "close": 4595.1001,
+              "levels_broken": 1,
+              "broken_levels": [
+                4550.10986
+              ]
+            },
+            {
+              "date": "2026-06-01",
+              "direction": "bearish",
+              "primary_level": 4404.12012,
+              "primary_level_date": "2026-02-02",
+              "close": 4329.33008,
+              "levels_broken": 1,
+              "broken_levels": [
+                4404.12012
+              ]
+            },
+            {
+              "date": "2026-06-22",
+              "direction": "bearish",
+              "primary_level": 4098.87012,
+              "primary_level_date": "2026-03-23",
+              "close": 4089.26001,
+              "levels_broken": 1,
+              "broken_levels": [
+                4098.87012
+              ]
+            },
+            {
+              "date": "2026-10-26",
+              "direction": "bearish",
+              "primary_level": 3944.22998,
+              "primary_level_date": "2026-06-29",
+              "close": 3875.43043,
+              "levels_broken": 2,
+              "broken_levels": [
+                3886.48999,
+                3944.22998
+              ]
+            }
+          ],
+          "bos_count": 17,
+          "retests": [
+            {
+              "bos_date": "2023-08-14",
+              "direction": "bearish",
+              "level": 1893.0096436,
+              "level_date": "2023-06-26",
+              "status": "failed",
+              "detected_date": "2023-08-21",
+              "resolved_date": "2023-08-21",
+              "atr_at_retest": 48.197860501039074,
+              "tolerance": 12.049465125259768,
+              "latest_close": 1914.52551,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2023-11-27",
+              "direction": "bullish",
+              "level": 2009.48206,
+              "level_date": "2023-10-23",
+              "status": "failed",
+              "detected_date": "2023-12-04",
+              "resolved_date": "2023-12-04",
+              "atr_at_retest": 60.540295798200574,
+              "tolerance": 15.135073949550144,
+              "latest_close": 2003.39001,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-02-26",
+              "direction": "bullish",
+              "level": 2073.29492,
+              "level_date": "2023-05-01",
+              "status": "confirmed",
+              "detected_date": "2024-03-04",
+              "resolved_date": "2024-03-04",
+              "atr_at_retest": 56.81604401571122,
+              "tolerance": 14.204011003927805,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-03-04",
+              "direction": "bullish",
+              "level": 2135.8999,
+              "level_date": "2023-12-04",
+              "status": "confirmed",
+              "detected_date": "2024-03-18",
+              "resolved_date": "2024-03-18",
+              "atr_at_retest": 57.027923365587746,
+              "tolerance": 14.256980841396937,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-07-29",
+              "direction": "bullish",
+              "level": 2431.53345,
+              "level_date": "2024-04-08",
+              "status": "failed",
+              "detected_date": "2024-08-05",
+              "resolved_date": "2024-08-05",
+              "atr_at_retest": 77.39822221059116,
+              "tolerance": 19.34955555264779,
+              "latest_close": 2430.92578,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-08-12",
+              "direction": "bullish",
+              "level": 2483.78296,
+              "level_date": "2024-07-15",
+              "status": "confirmed",
+              "detected_date": "2024-08-19",
+              "resolved_date": "2024-08-19",
+              "atr_at_retest": 76.81457025300973,
+              "tolerance": 19.203642563252433,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-09-09",
+              "direction": "bullish",
+              "level": 2532.050049,
+              "level_date": "2024-08-19",
+              "status": "confirmed",
+              "detected_date": "2024-09-16",
+              "resolved_date": "2024-09-16",
+              "atr_at_retest": 74.97255682882675,
+              "tolerance": 18.74313920720669,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-10-14",
+              "direction": "bullish",
+              "level": 2685.95996,
+              "level_date": "2024-09-23",
+              "status": "failed",
+              "detected_date": "2024-11-04",
+              "resolved_date": "2024-11-04",
+              "atr_at_retest": 73.24453126672176,
+              "tolerance": 18.31113281668044,
+              "latest_close": 2683.77002,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2025-01-20",
+              "direction": "bullish",
+              "level": 2726.31396,
+              "level_date": "2024-12-09",
+              "status": "confirmed",
+              "detected_date": "2025-01-27",
+              "resolved_date": "2025-01-27",
+              "atr_at_retest": 80.83287810906147,
+              "tolerance": 20.208219527265367,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2025-01-27",
+              "direction": "bullish",
+              "level": 2790.40503,
+              "level_date": "2024-10-28",
+              "status": "confirmed",
+              "detected_date": "2025-02-03",
+              "resolved_date": "2025-02-03",
+              "atr_at_retest": 83.29267395841421,
+              "tolerance": 20.823168489603553,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2025-09-01",
+              "direction": "bullish",
+              "level": 3451.62012,
+              "level_date": "2025-06-16",
+              "status": "awaiting_retest",
+              "detected_date": null,
+              "resolved_date": null,
+              "atr_at_retest": null,
+              "tolerance": null,
+              "latest_close": null,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2025-12-08",
+              "direction": "bullish",
+              "level": 4245.2002,
+              "level_date": "2025-11-10",
+              "status": "confirmed",
+              "detected_date": "2025-12-15",
+              "resolved_date": "2025-12-15",
+              "atr_at_retest": 154.57769145883321,
+              "tolerance": 38.644422864708304,
+              "latest_close": 4219.31982,
+              "subsequently_invalidated": true,
+              "invalidation_date": "2026-06-08"
+            },
+            {
+              "bos_date": "2025-12-22",
+              "direction": "bullish",
+              "level": 4381.6001,
+              "level_date": "2025-10-20",
+              "status": "failed",
+              "detected_date": "2025-12-29",
+              "resolved_date": "2025-12-29",
+              "atr_at_retest": 167.0439997782796,
+              "tolerance": 41.7609999445699,
+              "latest_close": 4330.5,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2026-01-12",
+              "direction": "bullish",
+              "level": 4550.10986,
+              "level_date": "2025-12-22",
+              "status": "confirmed",
+              "detected_date": "2026-02-02",
+              "resolved_date": "2026-02-02",
+              "atr_at_retest": 266.92057417485796,
+              "tolerance": 66.73014354371449,
+              "latest_close": 4491.1499,
+              "subsequently_invalidated": true,
+              "invalidation_date": "2026-03-16"
+            },
+            {
+              "bos_date": "2026-06-01",
+              "direction": "bearish",
+              "level": 4404.12012,
+              "level_date": "2026-02-02",
+              "status": "confirmed",
+              "detected_date": "2026-06-08",
+              "resolved_date": "2026-06-08",
+              "atr_at_retest": 273.11659481465404,
+              "tolerance": 68.27914870366351,
+              "latest_close": 4603.56006,
+              "subsequently_invalidated": true,
+              "invalidation_date": "2026-08-17"
+            },
+            {
+              "bos_date": "2026-06-22",
+              "direction": "bearish",
+              "level": 4098.87012,
+              "level_date": "2026-03-23",
+              "status": "failed",
+              "detected_date": "2026-06-29",
+              "resolved_date": "2026-06-29",
+              "atr_at_retest": 270.0973880786424,
+              "tolerance": 67.5243470196606,
+              "latest_close": 4175.7002,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2026-10-26",
+              "direction": "bearish",
+              "level": 3944.22998,
+              "level_date": "2026-06-29",
+              "status": "failed",
+              "detected_date": "2026-11-02",
+              "resolved_date": "2026-11-02",
+              "atr_at_retest": 217.37953006217597,
+              "tolerance": 54.34488251554399,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            }
+          ],
+          "retest_count": 17
+        },
+        "daily": {
+          "retests": [
+            {
+              "bos_date": "2023-08-14",
+              "direction": "bearish",
+              "level": 1893.0096436,
+              "first_eligible_date": "2023-08-21",
+              "status": "failed",
+              "retest_type": "exact_level",
+              "detected_date": "2023-08-21",
+              "resolved_date": "2023-08-21",
+              "atr_at_retest": 17.290772935400547,
+              "tolerance": 4.322693233850137,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2023-11-27",
+              "direction": "bullish",
+              "level": 2009.48206,
+              "first_eligible_date": "2023-12-04",
+              "status": "confirmed",
+              "retest_type": "zone_approach",
+              "detected_date": "2023-12-05",
+              "resolved_date": "2023-12-05",
+              "atr_at_retest": 29.31225736476389,
+              "tolerance": 7.328064341190973,
+              "latest_close": 2003.39001,
+              "subsequently_invalidated": true,
+              "invalidation_date": "2023-12-08"
+            },
+            {
+              "bos_date": "2024-02-26",
+              "direction": "bullish",
+              "level": 2073.29492,
+              "first_eligible_date": "2024-03-04",
+              "status": "awaiting_retest",
+              "retest_type": null,
+              "detected_date": null,
+              "resolved_date": null,
+              "atr_at_retest": null,
+              "tolerance": null,
+              "latest_close": null,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-03-04",
+              "direction": "bullish",
+              "level": 2135.8999,
+              "first_eligible_date": "2024-03-11",
+              "status": "awaiting_retest",
+              "retest_type": null,
+              "detected_date": null,
+              "resolved_date": null,
+              "atr_at_retest": null,
+              "tolerance": null,
+              "latest_close": null,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-07-29",
+              "direction": "bullish",
+              "level": 2431.53345,
+              "first_eligible_date": "2024-08-05",
+              "status": "failed",
+              "retest_type": "exact_level",
+              "detected_date": "2024-08-05",
+              "resolved_date": "2024-08-05",
+              "atr_at_retest": 41.20825785458156,
+              "tolerance": 10.30206446364539,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-08-12",
+              "direction": "bullish",
+              "level": 2483.78296,
+              "first_eligible_date": "2024-08-19",
+              "status": "confirmed",
+              "retest_type": "zone_approach",
+              "detected_date": "2024-08-19",
+              "resolved_date": "2024-08-19",
+              "atr_at_retest": 38.77841306248309,
+              "tolerance": 9.694603265620772,
+              "latest_close": 2483.29492,
+              "subsequently_invalidated": true,
+              "invalidation_date": "2024-08-22"
+            },
+            {
+              "bos_date": "2024-09-09",
+              "direction": "bullish",
+              "level": 2532.050049,
+              "first_eligible_date": "2024-09-16",
+              "status": "confirmed",
+              "retest_type": "zone_approach",
+              "detected_date": "2024-11-14",
+              "resolved_date": "2024-11-14",
+              "atr_at_retest": 40.52560180365394,
+              "tolerance": 10.131400450913485,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2024-10-14",
+              "direction": "bullish",
+              "level": 2685.95996,
+              "first_eligible_date": "2024-10-21",
+              "status": "failed",
+              "retest_type": "exact_level",
+              "detected_date": "2024-11-06",
+              "resolved_date": "2024-11-06",
+              "atr_at_retest": 35.48408604597345,
+              "tolerance": 8.871021511493362,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2025-01-20",
+              "direction": "bullish",
+              "level": 2726.31396,
+              "first_eligible_date": "2025-01-27",
+              "status": "confirmed",
+              "retest_type": "zone_approach",
+              "detected_date": "2025-01-27",
+              "resolved_date": "2025-01-27",
+              "atr_at_retest": 31.46242592715957,
+              "tolerance": 7.865606481789892,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2025-01-27",
+              "direction": "bullish",
+              "level": 2790.40503,
+              "first_eligible_date": "2025-02-03",
+              "status": "confirmed",
+              "retest_type": "exact_level",
+              "detected_date": "2025-02-03",
+              "resolved_date": "2025-02-03",
+              "atr_at_retest": 33.21098538055731,
+              "tolerance": 8.302746345139328,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2025-09-01",
+              "direction": "bullish",
+              "level": 3451.62012,
+              "first_eligible_date": "2025-09-08",
+              "status": "awaiting_retest",
+              "retest_type": null,
+              "detected_date": null,
+              "resolved_date": null,
+              "atr_at_retest": null,
+              "tolerance": null,
+              "latest_close": null,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2025-12-08",
+              "direction": "bullish",
+              "level": 4245.2002,
+              "first_eligible_date": "2025-12-15",
+              "status": "confirmed",
+              "retest_type": "exact_level",
+              "detected_date": "2026-03-23",
+              "resolved_date": "2026-03-23",
+              "atr_at_retest": 187.1125738751109,
+              "tolerance": 46.77814346877773,
+              "latest_close": 4075.080078,
+              "subsequently_invalidated": true,
+              "invalidation_date": "2026-06-10"
+            },
+            {
+              "bos_date": "2025-12-22",
+              "direction": "bullish",
+              "level": 4381.6001,
+              "first_eligible_date": "2025-12-29",
+              "status": "failed",
+              "retest_type": "exact_level",
+              "detected_date": "2025-12-29",
+              "resolved_date": "2025-12-29",
+              "atr_at_retest": 81.29390577533754,
+              "tolerance": 20.323476443834384,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            },
+            {
+              "bos_date": "2026-01-12",
+              "direction": "bullish",
+              "level": 4550.10986,
+              "first_eligible_date": "2026-01-19",
+              "status": "confirmed",
+              "retest_type": "exact_level",
+              "detected_date": "2026-02-02",
+              "resolved_date": "2026-02-02",
+              "atr_at_retest": 203.79616729548906,
+              "tolerance": 50.949041823872264,
+              "latest_close": 4491.1499,
+              "subsequently_invalidated": true,
+              "invalidation_date": "2026-03-20"
+            },
+            {
+              "bos_date": "2026-06-01",
+              "direction": "bearish",
+              "level": 4404.12012,
+              "first_eligible_date": "2026-06-08",
+              "status": "confirmed",
+              "retest_type": "zone_approach",
+              "detected_date": "2026-06-17",
+              "resolved_date": "2026-06-17",
+              "atr_at_retest": 117.95175477010994,
+              "tolerance": 29.487938692527486,
+              "latest_close": 4408.7002,
+              "subsequently_invalidated": true,
+              "invalidation_date": "2026-08-12"
+            },
+            {
+              "bos_date": "2026-06-22",
+              "direction": "bearish",
+              "level": 4098.87012,
+              "first_eligible_date": "2026-06-29",
+              "status": "confirmed",
+              "retest_type": "zone_approach",
+              "detected_date": "2026-06-29",
+              "resolved_date": "2026-06-29",
+              "atr_at_retest": 113.22088979773132,
+              "tolerance": 28.30522244943283,
+              "latest_close": 4123.97998,
+              "subsequently_invalidated": true,
+              "invalidation_date": "2026-07-02"
+            },
+            {
+              "bos_date": "2026-10-26",
+              "direction": "bearish",
+              "level": 3944.22998,
+              "first_eligible_date": "2026-11-02",
+              "status": "failed",
+              "retest_type": "exact_level",
+              "detected_date": "2026-11-02",
+              "resolved_date": "2026-11-02",
+              "atr_at_retest": 62.192340731445505,
+              "tolerance": 15.548085182861376,
+              "latest_close": 4066.03658,
+              "subsequently_invalidated": false,
+              "invalidation_date": null
+            }
+          ],
+          "retest_count": 17,
+          "confirmed_count": 9,
+          "failed_count": 5,
+          "invalidated_count": 6
+        },
+        "status": "ok",
+        "latest_daily_candle": "2026-11-07"
       },
       "trade_confidence": {
         "bullish": {
@@ -374,7 +1446,7 @@
       "price": {
         "status": "ok",
         "date": "2026-11-06",
-        "age_days": 1,
+        "age_days": 2,
         "close": 656.1,
         "previous_close": 647.05,
         "daily_change": {
@@ -564,7 +1636,7 @@
       "direction": "falling",
       "observation_date": "2026-11-05",
       "comparison_date": "2026-10-29",
-      "age_days": 2,
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DGS10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -580,7 +1652,7 @@
       "direction": "falling",
       "observation_date": "2026-11-05",
       "comparison_date": "2026-10-29",
-      "age_days": 2,
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DGS2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -596,7 +1668,7 @@
       "direction": "falling",
       "observation_date": "2026-11-06",
       "comparison_date": "2026-10-30",
-      "age_days": 1,
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/T10YIE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -612,7 +1684,7 @@
       "direction": "falling",
       "observation_date": "2026-11-05",
       "comparison_date": "2026-10-07",
-      "age_days": 2,
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/DFII10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -628,7 +1700,7 @@
       "direction": "falling",
       "observation_date": "2026-10-30",
       "comparison_date": "2026-10-01",
-      "age_days": 8,
+      "age_days": 9,
       "source": "https://fred.stlouisfed.org/series/DTWEXBGS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -644,7 +1716,7 @@
       "direction": "falling",
       "observation_date": "2026-10-01",
       "comparison_date": "2026-05-01",
-      "age_days": 37,
+      "age_days": 38,
       "source": "https://fred.stlouisfed.org/series/UNRATE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -660,7 +1732,7 @@
       "direction": "falling",
       "observation_date": "2026-11-06",
       "comparison_date": "2026-10-08",
-      "age_days": 1,
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/T10Y2Y",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -676,7 +1748,7 @@
       "direction": "rising",
       "observation_date": "2026-11-05",
       "comparison_date": "2026-10-08",
-      "age_days": 2,
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -692,7 +1764,7 @@
       "direction": "falling",
       "observation_date": "2026-10-30",
       "comparison_date": "2026-10-02",
-      "age_days": 8,
+      "age_days": 9,
       "source": "https://fred.stlouisfed.org/series/STLFSI4",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -708,7 +1780,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-06-01",
-      "age_days": 67,
+      "age_days": 68,
       "source": "https://fred.stlouisfed.org/series/M2SL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -724,7 +1796,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 67,
+      "age_days": 68,
       "source": "https://fred.stlouisfed.org/series/CPIAUCSL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -740,7 +1812,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 67,
+      "age_days": 68,
       "source": "https://fred.stlouisfed.org/series/INDPRO",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -756,7 +1828,7 @@
       "direction": "rising",
       "observation_date": "2026-07-01",
       "comparison_date": "2026-04-01",
-      "age_days": 129,
+      "age_days": 130,
       "source": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -772,7 +1844,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 67,
+      "age_days": 68,
       "source": "https://fred.stlouisfed.org/series/RSAFS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -788,7 +1860,7 @@
       "direction": "falling",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 67,
+      "age_days": 68,
       "source": "https://fred.stlouisfed.org/series/UMCSENT",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -804,7 +1876,7 @@
       "direction": "rising",
       "observation_date": "2026-11-05",
       "comparison_date": "2026-10-29",
-      "age_days": 2,
+      "age_days": 3,
       "source": "https://fred.stlouisfed.org/series/VIXCLS",
       "caveat": "Observation dates are not release dates; revisions possible"
     }
