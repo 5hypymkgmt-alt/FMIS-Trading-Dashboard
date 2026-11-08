@@ -42,6 +42,39 @@ function renderGoldIntelligence(structure) {
   const daily = structure?.daily || {};
   const dailyRetests = Array.isArray(daily.retests) ? daily.retests : [];
 
+
+  // Presentation only: latest two daily retests.
+  const compactRetestRows = dailyRetests.slice(-2).reverse()
+    .map(retest => {
+      const invalidated = retest.subsequently_invalidated === true;
+
+      const status = invalidated ? 'INVALIDATED'
+        : String(retest.status || 'unavailable')
+            .replace(/_/g, ' ').toUpperCase();
+
+      const statusColor = invalidated ? '#ff3447'
+        : retest.status === 'confirmed' ? '#29dc78'
+        : retest.status === 'failed' ? '#ff3447'
+        : '#e8c46a';
+
+      const level = retest.level != null &&
+        Number.isFinite(Number(retest.level))
+        ? '$' + Number(retest.level).toFixed(2)
+        : 'Unavailable';
+
+      const direction = String(
+        retest.direction || 'unavailable'
+      ).toUpperCase();
+
+      return `
+        <div class="gold-compact-row">
+          <span>${goldSafe(direction)} · ${level}</span>
+          <span style="color:${statusColor};font-weight:700">
+            ${goldSafe(status)}
+          </span>
+        </div>`;
+    }).join('');
+
   const retestRows = dailyRetests.slice(-5).reverse().map(retest => {
     const invalidated = retest.subsequently_invalidated === true;
     const status = invalidated
@@ -93,6 +126,32 @@ function renderGoldIntelligence(structure) {
     r => r.subsequently_invalidated === true
   ).length;
 
+
+  // Presentation only: compact summary of existing monthly zones.
+  const compactZoneRows = monthlyZones.slice(-6).reverse()
+    .slice(0, 3).map(zone => {
+      const type = zone.type === 'support' ? 'S'
+        : zone.type === 'resistance' ? 'R' : '?';
+
+      const zoneColor = type === 'S' ? '#29dc78'
+        : type === 'R' ? '#ff3447' : '#9daec4';
+
+      const level = zone.level != null &&
+        Number.isFinite(Number(zone.level))
+        ? '$' + Number(zone.level).toFixed(2)
+        : 'Unavailable';
+
+      const status = String(zone.status || 'unknown').toUpperCase();
+
+      return `
+        <div class="gold-compact-row">
+          <span style="color:${zoneColor};font-weight:700">
+            ${type} · ${level}
+          </span>
+          <span>${goldSafe(status)}</span>
+        </div>`;
+    }).join('');
+
   const zoneRows = monthlyZones.slice(-6).reverse().map(zone => {
     const type = zone.type === 'support' ? 'SUPPORT'
       : zone.type === 'resistance' ? 'RESISTANCE' : 'UNKNOWN';
@@ -109,7 +168,7 @@ function renderGoldIntelligence(structure) {
           <strong style="color:${zoneColor}">${type}</strong>
           <span style="color:#eaf1fc">${status}</span>
         </div>
-        <div style="margin-top:6px;font-size:13px">
+        <div style="margin-top:6px;font-size:12px">
           Structural level: <strong>${price(zone.level)}</strong>
         </div>
         <div style="margin-top:4px;font-size:12px;color:#9daec4">
@@ -126,32 +185,32 @@ function renderGoldIntelligence(structure) {
          style="padding:16px;background:#101e30;
                 border:1px solid #46688f;border-radius:12px">
 
-      <h2 style="margin-bottom:18px">
+      <h2 style="font-size:16px;margin-bottom:12px">
         GOLD MARKET STRUCTURE INTELLIGENCE
       </h2>
+      <div class="gold-structure-grid">
 
-      <div style="padding:18px;text-align:center;
+      <div class="gold-structure-panel" style="text-align:center;
                   background:#0c1525;border-radius:10px">
 
-        <div style="color:#9daec4;font-size:13px">
+        <div style="color:#9daec4;font-size:12px">
           WEEKLY STRUCTURAL BIAS
         </div>
 
-        <div style="color:${color};font-size:28px;
+        <div style="color:${color};font-size:22px;
                     font-weight:800;margin-top:8px">
           ${goldSafe(bias)}
         </div>
 
       </div>
 
-      <div style="margin-top:12px;padding:16px;
-                  background:#0c1525;border-radius:10px">
+      <div class="gold-structure-panel">
 
-        <div style="color:#9daec4;font-size:13px">
+        <div style="color:#9daec4;font-size:12px">
           LATEST WEEKLY BREAK OF STRUCTURE
         </div>
 
-        <div style="color:${bosColor};font-size:22px;
+        <div style="color:${bosColor};font-size:18px;
                     font-weight:800;margin:8px 0">
           ${goldSafe(bosDirection.toUpperCase())}
         </div>
@@ -166,15 +225,20 @@ function renderGoldIntelligence(structure) {
 
       </div>
 
-      <div style="margin-top:12px;padding:16px;
-                  background:#0c1525;border-radius:10px">
+      <div class="gold-structure-panel">
         <div style="color:#eaf1fc;font-weight:700;margin-bottom:10px">
           MONTHLY SUPPORT & RESISTANCE
         </div>
-        ${zoneRows || '<div style="color:#9daec4">No confirmed monthly zones</div>'}
+        ${compactZoneRows || '<div style="color:#9daec4">No confirmed monthly zones</div>'}
+
+        ${monthlyZones.length ? `
+          <details class="gold-structure-details">
+            <summary>Show all monthly levels</summary>
+            ${zoneRows}
+          </details>
+        ` : ''}
       </div>
-      <div style="margin-top:12px;padding:16px;
-                  background:#0c1525;border-radius:10px">
+      <div class="gold-structure-panel">
         <div style="color:#eaf1fc;font-weight:700;margin-bottom:10px">
           DAILY RETEST INTELLIGENCE
         </div>
@@ -182,7 +246,15 @@ function renderGoldIntelligence(structure) {
           Total: ${retestCount} · Confirmed: ${confirmedCount}
           (${invalidatedCount} subsequently invalidated) · Failed: ${failedCount}
         </div>
-        ${retestRows || '<div style="color:#9daec4">No daily retests available</div>'}
+        ${compactRetestRows || '<div style="color:#9daec4">No daily retests available</div>'}
+
+        ${dailyRetests.length ? `
+          <details class="gold-structure-details">
+            <summary>Show retest details</summary>
+            ${retestRows}
+          </details>
+        ` : ''}
+      </div>
       </div>
     </div>
   `;
