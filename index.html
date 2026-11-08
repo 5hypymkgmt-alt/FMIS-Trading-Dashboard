@@ -154,6 +154,16 @@ progress{appearance:none;-webkit-appearance:none;background:#17263b;border:1px s
   min-width: 0;
 }
 
+.fmis-signal-layout.fmis-gold-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.fmis-gold-layout > div {
+  width: 100%;
+  min-width: 0;
+}
+
+
 .fmis-signal-layout .market-gauge {
   width: 100%;
   max-width: 480px;
@@ -736,7 +746,20 @@ ${ticks}${labels}
 <text class="dial-confidence" x="570" y="417" text-anchor="end" fill="${gaugeColor}">${gaugeConfidence}</text>
 </svg>
 </div>
-`;$('detail').innerHTML=`<div class="fmis-signal-layout"><div>${gaugeHTML}
+`;
+
+const goldStructure = m.market_structure;
+const goldVisual = goldStructure?.status === 'ok' ||
+  goldStructure?.status === 'stale'
+  ? (goldStructure.status === 'stale'
+      ? '<p class="note">WARNING: Gold structure data is stale.</p>'
+      : '') +
+    (typeof renderGoldIntelligence === 'function'
+      ? renderGoldIntelligence(goldStructure)
+      : '<p class="note">Gold Intelligence renderer unavailable.</p>')
+  : '<section class="card"><h2>Gold Market Structure Intelligence</h2><p class="note">Structure data unavailable. No current structural signals can be displayed.</p></section>';
+
+$('detail').innerHTML=`<div class="fmis-signal-layout ${n === 'Gold' ? 'fmis-gold-layout' : ''}"><div>${n === 'Gold' ? goldVisual : gaugeHTML}
 <div style="margin:12px 10px 20px;padding:16px;border:1px solid #46688f;border-radius:12px;background:#101e30">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <strong>Technical Confluence</strong>
@@ -912,34 +935,6 @@ ${renderTradeConfidence(m.trade_confidence)}
 </div></div>`;
 
 
-  // Gold Market Structure Intelligence — display only.
-  const goldPanel = $('fmis-gold-structure-container');
-
-  if (goldPanel) {
-    goldPanel.style.display = n === 'Gold' ? 'block' : 'none';
-
-    if (n === 'Gold') {
-      const structure = m.market_structure;
-      const status = structure?.status;
-
-      if (status === 'ok' || status === 'stale') {
-        const warning = status === 'stale'
-          ? '<p class="note">WARNING: Gold structure data is stale. Do not treat it as current.</p>'
-          : '';
-
-        goldPanel.innerHTML = warning +
-          (typeof renderGoldIntelligence === 'function'
-            ? renderGoldIntelligence(m.market_structure)
-            : '<p class="note">Gold Intelligence renderer unavailable.</p>');
-      } else {
-        goldPanel.innerHTML =
-          '<section class="card"><h2>Gold Market Structure Intelligence</h2>' +
-          '<p class="note">Structure data unavailable. No current structural signals can be displayed.</p></section>';
-      }
-    } else {
-      goldPanel.innerHTML = '';
-    }
-  }
 
 }
 function renderTradeConfidence(tc) {
