@@ -1,0 +1,169 @@
+name: Test FMIS Gold History
+
+on:
+  push:
+    branches:
+      - fmis-gold-structure-dashboard
+    paths:
+      - 'gold_market_structure.py'
+      - 'gold_daily_retests.py'
+      - 'gold_monthly_zones.py'
+      - 'gold_structure_intelligence.py'
+      - 'gold_structure_adapter.py'
+      - 'fmis-gold-intelligence.js'
+      - 'export_gold_history.py'
+      - 'tests/**'
+      - 'diagnostics/test_gold_structure.py'
+      - 'diagnostics/test_gold_weekend_sessions.py'
+      - '.github/workflows/test-gold-history.yml'
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gold-history:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Validate Python syntax
+        run: python -m compileall -q gold_market_structure.py gold_daily_retests.py gold_monthly_zones.py gold_structure_intelligence.py gold_structure_adapter.py tests
+
+      - name: Run full regression suite
+        run: python -m unittest discover -s tests -v
+
+      - name: Test historical Gold data
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python diagnostics/test_gold_history.py
+
+      - name: Investigate Gold weekend sessions
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python diagnostics/test_gold_weekend_sessions.py
+
+      - name: Check earliest Gold historical availability
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: |
+          python - <<'PYTEST'
+          import os
+          import requests
+
+          response = requests.get(
+              "https://api.twelvedata.com/earliest_timestamp",
+              params={
+                  "symbol": "XAU/USD",
+                  "interval": "1day",
+                  "apikey": os.environ["PRICE_API_KEY"],
+              },
+              timeout=30,
+          )
+          response.raise_for_status()
+          result = response.json()
+
+          print("=== XAU/USD EARLIEST HISTORY ===")
+          print(result)
+
+          if not isinstance(result.get("datetime"), str):
+              raise RuntimeError("Provider did not return an earliest datetime")
+
+          if not isinstance(result.get("unix_time"), int):
+              raise RuntimeError("Provider did not return a valid Unix timestamp")
+
+          print("PASS: Earliest Gold history validated:", result["datetime"])
+          PYTEST
+
+      - name: Test Gold market structure
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: python diagnostics/test_gold_structure.py
+
+      - name: Validate full FMIS Gold JSON integration
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: |
+          python update.py
+          python - <<'PYTEST'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("data.json").read_text())
+          gold = data["markets"]["Gold"]["market_structure"]
+
+          assert gold["status"] == "ok", gold.get("reason")
+          assert gold["market"] == "XAU/USD"
+          assert gold["daily_candle_count"] > 200
+          assert gold["weekly_candle_count"] > 0
+          assert gold["monthly_candle_count"] > 0
+
+          assert "bias" in gold["weekly"]
+          assert "bos" in gold["weekly"]
+          assert "zones" in gold["monthly"]
+          assert "retests" in gold["daily"]
+
+          print("PASS: Full FMIS Gold JSON integration")
+          print("Latest completed candle:", gold["latest_daily_candle"])
+          print("Weekly bias:", gold["weekly"]["bias"])
+          print("Weekly BOS count:", gold["weekly"]["bos_count"])
+          print("Monthly zones:", len(gold["monthly"]["zones"]))
+          print("Daily retests:", gold["daily"]["retest_count"])
+          PYTEST
+
+      - name: Test Gold dashboard adapter
+        env:
+          PRICE_API_KEY: ${{ secrets.PRICE_API_KEY }}
+        run: |
+          python - <<'PYTEST'
+          from gold_structure_adapter import fetch_gold_structure
+
+          result = fetch_gold_structure()
+
+          assert result["status"] == "ok"
+          assert result["daily_candle_count"] > 200
+          assert result["weekly_candle_count"] > 0
+          assert result["monthly_candle_count"] > 0
+          assert "bias" in result["weekly"]
+          assert "retests" in result["daily"]
+          assert "zones" in result["monthly"]
+
+          print("PASS: Gold dashboard adapter")
+          print("Latest candle:", result["latest_daily_candle"])
+          print("Daily candles:", result["daily_candle_count"])
+          print("Weekly bias:", result["weekly"]["bias"])
+          print("Weekly BOS count:", result["weekly"]["bos_count"])
+          print("Latest weekly BOS:", result["weekly"]["bos"][-1] if result["weekly"]["bos"] else "None")
+          print("Monthly support zones:", result["monthly"]["support"])
+          print("Monthly resistance zones:", result["monthly"]["resistance"])
+          print("Daily retest count:", result["daily"]["retest_count"])
+          print("Latest daily retest:", result["daily"]["retests"][-1] if result["daily"]["retests"] else "None")
+          PYTEST
+
+      - name: Preserve raw Gold history for independent validation
+        uses: actions/upload-artifact@v4
+        with:
+          name: fmis-gold-historical-candles
+          path: gold_historical_candles.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Preserve generated FMIS data for browser testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: fmis-gold-end-to-end-data
+          path: data.json
+          if-no-files-found: error
+          retention-days: 1

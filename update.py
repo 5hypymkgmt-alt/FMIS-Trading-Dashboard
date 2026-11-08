@@ -3,6 +3,7 @@ import os, json, csv, io, math, datetime, pathlib, requests
 import exchange_calendars as xc
 from market_regime import calculate_adx, classify_market_regime
 from trade_confidence import trade_confidence
+from gold_structure_adapter import fetch_gold_structure
 from cot_data import fetch_cot_data, calculate_cot_positioning, calculate_financial_futures_positioning
 
 ROOT=pathlib.Path(__file__).parent
@@ -812,6 +813,34 @@ def us_financial_conditions(macro_data):
             "not a trading signal"
         ),
     }
+
+def update_gold_structure(out, previous):
+    # Gold Market Structure Intelligence — independent of trade scoring.
+    if 'Gold' in out['markets']:
+        try:
+            structure = fetch_gold_structure()
+            out['markets']['Gold']['market_structure'] = structure
+            print('Gold market structure: updated')
+        except Exception as e:
+            previous_structure = (
+                previous.get('markets', {})
+                .get('Gold', {})
+                .get('market_structure', {})
+            )
+            if previous_structure.get('status') in ('ok', 'stale'):
+                structure = dict(previous_structure)
+                structure['status'] = 'stale'
+                structure['fallback_reason'] = str(e)
+                print('Gold market structure: retained previous data (stale)')
+            else:
+                structure = {
+                    'status': 'unavailable',
+                    'reason': str(e)
+                }
+                print('Gold market structure: unavailable')
+            out['markets']['Gold']['market_structure'] = structure
+
+
 def main():
     # Load previous readings for fallback when a data feed fails.
     previous = {}
@@ -904,6 +933,8 @@ def main():
 
         out['markets'][name] = {**cfg, 'price': p}
     
+    update_gold_structure(out, previous)
+
     for series in CFG['macro_series']:
         try:
             out['macro'][series] = macro(series)
