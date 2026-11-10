@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-08T11:18:45.178909+00:00",
+  "generated_at_utc": "2026-11-10T00:01:52.709580+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -7,45 +7,45 @@
       "note": "SPY ETF proxy for S&P 500",
       "price": {
         "status": "ok",
-        "date": "2026-11-06",
-        "age_days": 2,
-        "close": 735.29,
-        "previous_close": 733.0,
+        "date": "2026-11-09",
+        "age_days": 1,
+        "close": 752.69,
+        "previous_close": 735.29,
         "daily_change": {
-          "change": 2.29,
-          "percent": 0.31
+          "change": 17.4,
+          "percent": 2.37
         },
         "weekly_change": {
-          "change": -20.43,
-          "percent": -2.7
+          "change": 0.59,
+          "percent": 0.08
         },
         "monthly_change": {
-          "change": -38.64,
-          "percent": -4.99
+          "change": -25.88,
+          "percent": -3.32
         },
-        "ema20": 759.637,
-        "ema50": 762.646,
-        "ema200": 738.611,
-        "weekly_pivot": 759.813,
-        "rsi14": 35.11,
-        "adx14": 18.01,
+        "ema20": 758.976,
+        "ema50": 762.256,
+        "ema200": 738.887,
+        "weekly_pivot": 747.88,
+        "rsi14": 45.81,
+        "adx14": 17.44,
         "market_regime": "Ranging",
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
           "weekly_trend": -1,
-          "momentum_5d": -1,
-          "rsi_14": -1
+          "momentum_5d": 1,
+          "rsi_14": 0
         },
-        "technical_score": -5,
+        "technical_score": -2,
         "technical_max": 5,
         "confluence_factors": {
           "price_vs_ema20": -1,
           "price_vs_ema50": -1,
-          "price_vs_ema200": -1,
-          "price_vs_weekly_pivot": -1
+          "price_vs_ema200": 1,
+          "price_vs_weekly_pivot": 1
         },
-        "confluence_score": -4,
+        "confluence_score": 0,
         "confluence_max": 4,
         "market_structure": {
           "trend": "Bullish",
@@ -57,11 +57,6 @@
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-12",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-13",
             "bos": "None",
@@ -156,6 +151,11 @@
             "date": "2026-11-06",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-09",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -166,8 +166,8 @@
           "direction": "Bullish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 32,
-          "technical": 0,
+          "confidence": 38,
+          "technical": 6,
           "trend": 0,
           "macro": 12.5,
           "structure": 20
@@ -176,8 +176,8 @@
           "direction": "Bearish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 42,
-          "technical": 30,
+          "confidence": 30,
+          "technical": 18,
           "trend": 0,
           "macro": 12.5,
           "structure": 0
@@ -190,45 +190,45 @@
       "note": "XAU/USD spot gold price from Twelve Data",
       "price": {
         "status": "ok",
-        "date": "2026-11-07",
+        "date": "2026-11-09",
         "age_days": 1,
-        "close": 4066.037,
-        "previous_close": 4063.327,
+        "close": 4134.028,
+        "previous_close": 4066.03,
         "daily_change": {
-          "change": 2.709,
-          "percent": 0.07
+          "change": 67.998,
+          "percent": 1.67
         },
         "weekly_change": {
-          "change": 121.722,
-          "percent": 3.09
+          "change": 76.009,
+          "percent": 1.87
         },
         "monthly_change": {
-          "change": -98.681,
-          "percent": -2.37
+          "change": -7.507,
+          "percent": -0.18
         },
-        "ema20": 4036.768,
-        "ema50": 4118.989,
-        "ema200": 4291.399,
-        "weekly_pivot": 3942.861,
-        "rsi14": 50.79,
-        "adx14": 26.08,
+        "ema20": 4048.552,
+        "ema50": 4117.586,
+        "ema200": 4292.287,
+        "weekly_pivot": 4026.55,
+        "rsi14": 56.63,
+        "adx14": 25.13,
         "market_regime": "Trend Direction Unclear",
         "factors": {
           "price_vs_ema20": 1,
           "ema20_vs_ema50": -1,
           "weekly_trend": -1,
           "momentum_5d": 1,
-          "rsi_14": 0
+          "rsi_14": 1
         },
-        "technical_score": 0,
+        "technical_score": 1,
         "technical_max": 5,
         "confluence_factors": {
           "price_vs_ema20": 1,
-          "price_vs_ema50": -1,
+          "price_vs_ema50": 1,
           "price_vs_ema200": -1,
           "price_vs_weekly_pivot": 1
         },
-        "confluence_score": 0,
+        "confluence_score": 2,
         "confluence_max": 4,
         "market_structure": {
           "trend": "Bearish",
@@ -237,19 +237,9 @@
           "swing_high_date": "2026-10-29",
           "swing_low_date": "2026-11-02",
           "bos": "None",
-          "choch": "None"
+          "choch": "Bullish CHoCH"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-19",
-            "bos": "None",
-            "choch": "None"
-          },
-          {
-            "date": "2026-10-20",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-21",
             "bos": "None",
@@ -339,6 +329,16 @@
             "date": "2026-11-07",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-08",
+            "bos": "None",
+            "choch": "None"
+          },
+          {
+            "date": "2026-11-09",
+            "bos": "None",
+            "choch": "Bullish CHoCH"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -346,9 +346,9 @@
       },
       "market_structure": {
         "market": "XAU/USD",
-        "as_of": "2026-11-08",
+        "as_of": "2026-11-10",
         "daily_candle_count": 999,
-        "weekly_candle_count": 200,
+        "weekly_candle_count": 199,
         "monthly_candle_count": 46,
         "monthly": {
           "zones": [
@@ -508,8 +508,8 @@
               "date": "2023-05-01",
               "price": 2073.29492,
               "confirmed_at": "2023-05-15",
-              "atr_at_confirmation": 61.6361411886138,
-              "distance_atr": 4.358561305418439,
+              "atr_at_confirmation": 62.783840799849074,
+              "distance_atr": 4.278886041018465,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -518,8 +518,8 @@
               "date": "2023-10-02",
               "price": 1810.099976,
               "confirmed_at": "2023-10-16",
-              "atr_at_confirmation": 53.280414540945394,
-              "distance_atr": 2.584365102756139,
+              "atr_at_confirmation": 53.505198440121184,
+              "distance_atr": 2.573507771475675,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -528,8 +528,8 @@
               "date": "2023-12-04",
               "price": 2135.8999,
               "confirmed_at": "2023-12-18",
-              "atr_at_confirmation": 61.07154778008111,
-              "distance_atr": 3.343204608719492,
+              "atr_at_confirmation": 61.18692047841488,
+              "distance_atr": 3.3369007363596155,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -538,8 +538,8 @@
               "date": "2023-12-11",
               "price": 1973.091675,
               "confirmed_at": "2023-12-25",
-              "atr_at_confirmation": 59.249560081503894,
-              "distance_atr": 2.747838545569629,
+              "atr_at_confirmation": 59.356691872813826,
+              "distance_atr": 2.7428790227874607,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -548,8 +548,8 @@
               "date": "2024-04-08",
               "price": 2431.53345,
               "confirmed_at": "2024-04-22",
-              "atr_at_confirmation": 70.21816072101502,
-              "distance_atr": 6.369269792994586,
+              "atr_at_confirmation": 70.2485540834744,
+              "distance_atr": 6.366514098903146,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -558,8 +558,8 @@
               "date": "2024-04-29",
               "price": 2277.46509,
               "confirmed_at": "2024-05-13",
-              "atr_at_confirmation": 72.70765908676019,
-              "distance_atr": 2.1190114210134854,
+              "atr_at_confirmation": 72.73199371406457,
+              "distance_atr": 2.118302443429469,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -568,8 +568,8 @@
               "date": "2024-05-20",
               "price": 2450.13062,
               "confirmed_at": "2024-06-03",
-              "atr_at_confirmation": 75.86222743936301,
-              "distance_atr": 2.2760408681383897,
+              "atr_at_confirmation": 75.88171110415449,
+              "distance_atr": 2.275456463587132,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -578,8 +578,8 @@
               "date": "2024-06-03",
               "price": 2286.77124,
               "confirmed_at": "2024-06-17",
-              "atr_at_confirmation": 73.4639612614916,
-              "distance_atr": 2.2236669136112828,
+              "atr_at_confirmation": 73.4807609520516,
+              "distance_atr": 2.223158523175839,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -588,8 +588,8 @@
               "date": "2024-10-28",
               "price": 2790.40503,
               "confirmed_at": "2024-11-11",
-              "atr_at_confirmation": 78.69900617624164,
-              "distance_atr": 2.3666770274441964,
+              "atr_at_confirmation": 78.70254959868483,
+              "distance_atr": 2.3665704726179855,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -598,8 +598,8 @@
               "date": "2024-11-11",
               "price": 2536.90503,
               "confirmed_at": "2024-11-25",
-              "atr_at_confirmation": 86.21263042747366,
-              "distance_atr": 2.940404425001935,
+              "atr_at_confirmation": 86.21568572539663,
+              "distance_atr": 2.9403002234119713,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -608,8 +608,8 @@
               "date": "2025-04-21",
               "price": 3500.33008,
               "confirmed_at": "2025-05-05",
-              "atr_at_confirmation": 127.04060496006893,
-              "distance_atr": 4.279970015656835,
+              "atr_at_confirmation": 127.041160615863,
+              "distance_atr": 4.279951295817328,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -618,8 +618,8 @@
               "date": "2025-05-12",
               "price": 3120.52002,
               "confirmed_at": "2025-05-26",
-              "atr_at_confirmation": 133.17842677014264,
-              "distance_atr": 2.8518887721622352,
+              "atr_at_confirmation": 133.17887165927513,
+              "distance_atr": 2.8518792453183295,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -628,8 +628,8 @@
               "date": "2025-10-20",
               "price": 4381.6001,
               "confirmed_at": "2025-11-03",
-              "atr_at_confirmation": 153.53849784843774,
-              "distance_atr": 6.969848962938048,
+              "atr_at_confirmation": 153.53857875878774,
+              "distance_atr": 6.969845290031059,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -638,8 +638,8 @@
               "date": "2025-10-27",
               "price": 3886.48999,
               "confirmed_at": "2025-11-10",
-              "atr_at_confirmation": 160.23789657354934,
-              "distance_atr": 3.0898440418103195,
+              "atr_at_confirmation": 160.2379717045886,
+              "distance_atr": 3.0898425930701015,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -648,8 +648,8 @@
               "date": "2026-01-26",
               "price": 5595.45996,
               "confirmed_at": "2026-02-09",
-              "atr_at_confirmation": 265.0112778052253,
-              "distance_atr": 6.448668842146551,
+              "atr_at_confirmation": 265.0113064746193,
+              "distance_atr": 6.4486681445180976,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -658,8 +658,8 @@
               "date": "2026-02-02",
               "price": 4404.12012,
               "confirmed_at": "2026-02-16",
-              "atr_at_confirmation": 264.86405796199494,
-              "distance_atr": 4.497929425256124,
+              "atr_at_confirmation": 264.8640845835751,
+              "distance_atr": 4.497928973167691,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -668,8 +668,8 @@
               "date": "2026-03-02",
               "price": 5419.25,
               "confirmed_at": "2026-03-16",
-              "atr_at_confirmation": 289.2596721093435,
-              "distance_atr": 3.5094068682214004,
+              "atr_at_confirmation": 289.2596919015902,
+              "distance_atr": 3.5094066280944545,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -678,8 +678,8 @@
               "date": "2026-03-23",
               "price": 4098.87012,
               "confirmed_at": "2026-04-06",
-              "atr_at_confirmation": 306.1371237595583,
-              "distance_atr": 4.313034184763014,
+              "atr_at_confirmation": 306.1371396063388,
+              "distance_atr": 4.313033961504555,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -688,8 +688,8 @@
               "date": "2026-04-13",
               "price": 4889.7002,
               "confirmed_at": "2026-04-27",
-              "atr_at_confirmation": 287.6141652404334,
-              "distance_atr": 2.749621456714066,
+              "atr_at_confirmation": 287.61417792825307,
+              "distance_atr": 2.7496213354171903,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -698,8 +698,8 @@
               "date": "2026-06-29",
               "price": 3944.22998,
               "confirmed_at": "2026-07-13",
-              "atr_at_confirmation": 256.52778864944173,
-              "distance_atr": 3.2339580221216906,
+              "atr_at_confirmation": 256.52779426451565,
+              "distance_atr": 3.2339579513343772,
               "classification": "major",
               "structural_status": "confirmed"
             },
@@ -708,8 +708,8 @@
               "date": "2026-08-24",
               "price": 4697.66016,
               "confirmed_at": "2026-09-07",
-              "atr_at_confirmation": 238.9743430827903,
-              "distance_atr": 3.1527659843340663,
+              "atr_at_confirmation": 238.97434618647802,
+              "distance_atr": 3.152765943387408,
               "classification": "major",
               "structural_status": "confirmed"
             }
@@ -917,8 +917,8 @@
               "status": "failed",
               "detected_date": "2023-08-21",
               "resolved_date": "2023-08-21",
-              "atr_at_retest": 48.197860501039074,
-              "tolerance": 12.049465125259768,
+              "atr_at_retest": 48.60453099882536,
+              "tolerance": 12.15113274970634,
               "latest_close": 1914.52551,
               "subsequently_invalidated": false,
               "invalidation_date": null
@@ -931,8 +931,8 @@
               "status": "failed",
               "detected_date": "2023-12-04",
               "resolved_date": "2023-12-04",
-              "atr_at_retest": 60.540295798200574,
-              "tolerance": 15.135073949550144,
+              "atr_at_retest": 60.674100821120206,
+              "tolerance": 15.168525205280051,
               "latest_close": 2003.39001,
               "subsequently_invalidated": false,
               "invalidation_date": null
@@ -945,9 +945,9 @@
               "status": "confirmed",
               "detected_date": "2024-03-04",
               "resolved_date": "2024-03-04",
-              "atr_at_retest": 56.81604401571122,
-              "tolerance": 14.204011003927805,
-              "latest_close": 4066.03658,
+              "atr_at_retest": 56.86710292496299,
+              "tolerance": 14.216775731240748,
+              "latest_close": 4066.02968,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -959,9 +959,9 @@
               "status": "confirmed",
               "detected_date": "2024-03-18",
               "resolved_date": "2024-03-18",
-              "atr_at_retest": 57.027923365587746,
-              "tolerance": 14.256980841396937,
-              "latest_close": 4066.03658,
+              "atr_at_retest": 57.071948649585444,
+              "tolerance": 14.267987162396361,
+              "latest_close": 4066.02968,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -973,8 +973,8 @@
               "status": "failed",
               "detected_date": "2024-08-05",
               "resolved_date": "2024-08-05",
-              "atr_at_retest": 77.39822221059116,
-              "tolerance": 19.34955555264779,
+              "atr_at_retest": 77.40822240628427,
+              "tolerance": 19.352055601571067,
               "latest_close": 2430.92578,
               "subsequently_invalidated": false,
               "invalidation_date": null
@@ -987,9 +987,9 @@
               "status": "confirmed",
               "detected_date": "2024-08-19",
               "resolved_date": "2024-08-19",
-              "atr_at_retest": 76.81457025300973,
-              "tolerance": 19.203642563252433,
-              "latest_close": 4066.03658,
+              "atr_at_retest": 76.82319287072471,
+              "tolerance": 19.205798217681178,
+              "latest_close": 4066.02968,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1001,9 +1001,9 @@
               "status": "confirmed",
               "detected_date": "2024-09-16",
               "resolved_date": "2024-09-16",
-              "atr_at_retest": 74.97255682882675,
-              "tolerance": 18.74313920720669,
-              "latest_close": 4066.03658,
+              "atr_at_retest": 74.97896745420569,
+              "tolerance": 18.744741863551422,
+              "latest_close": 4066.02968,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1015,8 +1015,8 @@
               "status": "failed",
               "detected_date": "2024-11-04",
               "resolved_date": "2024-11-04",
-              "atr_at_retest": 73.24453126672176,
-              "tolerance": 18.31113281668044,
+              "atr_at_retest": 73.24834726012212,
+              "tolerance": 18.31208681503053,
               "latest_close": 2683.77002,
               "subsequently_invalidated": false,
               "invalidation_date": null
@@ -1029,9 +1029,9 @@
               "status": "confirmed",
               "detected_date": "2025-01-27",
               "resolved_date": "2025-01-27",
-              "atr_at_retest": 80.83287810906147,
-              "tolerance": 20.208219527265367,
-              "latest_close": 4066.03658,
+              "atr_at_retest": 80.83444627282621,
+              "tolerance": 20.208611568206553,
+              "latest_close": 4066.02968,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1043,9 +1043,9 @@
               "status": "confirmed",
               "detected_date": "2025-02-03",
               "resolved_date": "2025-02-03",
-              "atr_at_retest": 83.29267395841421,
-              "tolerance": 20.823168489603553,
-              "latest_close": 4066.03658,
+              "atr_at_retest": 83.29413011048148,
+              "tolerance": 20.82353252762037,
+              "latest_close": 4066.02968,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1071,8 +1071,8 @@
               "status": "confirmed",
               "detected_date": "2025-12-15",
               "resolved_date": "2025-12-15",
-              "atr_at_retest": 154.57769145883321,
-              "tolerance": 38.644422864708304,
+              "atr_at_retest": 154.5777433264125,
+              "tolerance": 38.644435831603126,
               "latest_close": 4219.31982,
               "subsequently_invalidated": true,
               "invalidation_date": "2026-06-08"
@@ -1085,8 +1085,8 @@
               "status": "failed",
               "detected_date": "2025-12-29",
               "resolved_date": "2025-12-29",
-              "atr_at_retest": 167.0439997782796,
-              "tolerance": 41.7609999445699,
+              "atr_at_retest": 167.04404450083524,
+              "tolerance": 41.76101112520881,
               "latest_close": 4330.5,
               "subsequently_invalidated": false,
               "invalidation_date": null
@@ -1099,8 +1099,8 @@
               "status": "confirmed",
               "detected_date": "2026-02-02",
               "resolved_date": "2026-02-02",
-              "atr_at_retest": 266.92057417485796,
-              "tolerance": 66.73014354371449,
+              "atr_at_retest": 266.92060504958994,
+              "tolerance": 66.73015126239748,
               "latest_close": 4491.1499,
               "subsequently_invalidated": true,
               "invalidation_date": "2026-03-16"
@@ -1113,8 +1113,8 @@
               "status": "confirmed",
               "detected_date": "2026-06-08",
               "resolved_date": "2026-06-08",
-              "atr_at_retest": 273.11659481465404,
-              "tolerance": 68.27914870366351,
+              "atr_at_retest": 273.1166029481808,
+              "tolerance": 68.2791507370452,
               "latest_close": 4603.56006,
               "subsequently_invalidated": true,
               "invalidation_date": "2026-08-17"
@@ -1127,8 +1127,8 @@
               "status": "failed",
               "detected_date": "2026-06-29",
               "resolved_date": "2026-06-29",
-              "atr_at_retest": 270.0973880786424,
-              "tolerance": 67.5243470196606,
+              "atr_at_retest": 270.09739459079924,
+              "tolerance": 67.52434864769981,
               "latest_close": 4175.7002,
               "subsequently_invalidated": false,
               "invalidation_date": null
@@ -1141,9 +1141,9 @@
               "status": "failed",
               "detected_date": "2026-11-02",
               "resolved_date": "2026-11-02",
-              "atr_at_retest": 217.37953006217597,
-              "tolerance": 54.34488251554399,
-              "latest_close": 4066.03658,
+              "atr_at_retest": 217.37953177771482,
+              "tolerance": 54.344882944428704,
+              "latest_close": 4066.02968,
               "subsequently_invalidated": false,
               "invalidation_date": null
             }
@@ -1161,9 +1161,9 @@
               "retest_type": "exact_level",
               "detected_date": "2023-08-21",
               "resolved_date": "2023-08-21",
-              "atr_at_retest": 17.290772935400547,
-              "tolerance": 4.322693233850137,
-              "latest_close": 4066.03658,
+              "atr_at_retest": 17.29078000336083,
+              "tolerance": 4.322695000840207,
+              "latest_close": 4134.02757,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1176,8 +1176,8 @@
               "retest_type": "zone_approach",
               "detected_date": "2023-12-05",
               "resolved_date": "2023-12-05",
-              "atr_at_retest": 29.31225736476389,
-              "tolerance": 7.328064341190973,
+              "atr_at_retest": 29.3122573900719,
+              "tolerance": 7.328064347517975,
               "latest_close": 2003.39001,
               "subsequently_invalidated": true,
               "invalidation_date": "2023-12-08"
@@ -1221,9 +1221,9 @@
               "retest_type": "exact_level",
               "detected_date": "2024-08-05",
               "resolved_date": "2024-08-05",
-              "atr_at_retest": 41.20825785458156,
-              "tolerance": 10.30206446364539,
-              "latest_close": 4066.03658,
+              "atr_at_retest": 41.208257854581625,
+              "tolerance": 10.302064463645406,
+              "latest_close": 4134.02757,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1236,8 +1236,8 @@
               "retest_type": "zone_approach",
               "detected_date": "2024-08-19",
               "resolved_date": "2024-08-19",
-              "atr_at_retest": 38.77841306248309,
-              "tolerance": 9.694603265620772,
+              "atr_at_retest": 38.778413062483104,
+              "tolerance": 9.694603265620776,
               "latest_close": 2483.29492,
               "subsequently_invalidated": true,
               "invalidation_date": "2024-08-22"
@@ -1253,7 +1253,7 @@
               "resolved_date": "2024-11-14",
               "atr_at_retest": 40.52560180365394,
               "tolerance": 10.131400450913485,
-              "latest_close": 4066.03658,
+              "latest_close": 4134.02757,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1268,7 +1268,7 @@
               "resolved_date": "2024-11-06",
               "atr_at_retest": 35.48408604597345,
               "tolerance": 8.871021511493362,
-              "latest_close": 4066.03658,
+              "latest_close": 4134.02757,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1283,7 +1283,7 @@
               "resolved_date": "2025-01-27",
               "atr_at_retest": 31.46242592715957,
               "tolerance": 7.865606481789892,
-              "latest_close": 4066.03658,
+              "latest_close": 4134.02757,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1298,7 +1298,7 @@
               "resolved_date": "2025-02-03",
               "atr_at_retest": 33.21098538055731,
               "tolerance": 8.302746345139328,
-              "latest_close": 4066.03658,
+              "latest_close": 4134.02757,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1343,7 +1343,7 @@
               "resolved_date": "2025-12-29",
               "atr_at_retest": 81.29390577533754,
               "tolerance": 20.323476443834384,
-              "latest_close": 4066.03658,
+              "latest_close": 4134.02757,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1403,7 +1403,7 @@
               "resolved_date": "2026-11-02",
               "atr_at_retest": 62.192340731445505,
               "tolerance": 15.548085182861376,
-              "latest_close": 4066.03658,
+              "latest_close": 4134.02757,
               "subsequently_invalidated": false,
               "invalidation_date": null
             }
@@ -1414,28 +1414,28 @@
           "invalidated_count": 6
         },
         "status": "ok",
-        "latest_daily_candle": "2026-11-07"
+        "latest_daily_candle": "2026-11-09"
       },
       "trade_confidence": {
         "bullish": {
           "direction": "Bullish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 37,
-          "technical": 12,
+          "confidence": 30,
+          "technical": 18,
           "trend": 0,
-          "macro": 25.0,
+          "macro": 12.5,
           "structure": 0
         },
         "bearish": {
           "direction": "Bearish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 32,
+          "confidence": 34,
           "technical": 12,
           "trend": 0,
-          "macro": 0,
-          "structure": 20
+          "macro": 12.5,
+          "structure": 10
         }
       }
     },
@@ -1445,28 +1445,28 @@
       "note": "QQQ ETF proxy for Nasdaq 100",
       "price": {
         "status": "ok",
-        "date": "2026-11-06",
-        "age_days": 2,
-        "close": 656.1,
-        "previous_close": 647.05,
+        "date": "2026-11-09",
+        "age_days": 1,
+        "close": 679.35,
+        "previous_close": 656.1,
         "daily_change": {
-          "change": 9.05,
-          "percent": 1.4
+          "change": 23.25,
+          "percent": 3.54
         },
         "weekly_change": {
-          "change": -34.39,
-          "percent": -4.98
+          "change": -1.74,
+          "percent": -0.26
         },
         "monthly_change": {
-          "change": -91.48,
-          "percent": -12.24
+          "change": -71.92,
+          "percent": -9.57
         },
-        "ema20": 701.192,
-        "ema50": 713.71,
-        "ema200": 690.556,
-        "weekly_pivot": 700.027,
-        "rsi14": 31.37,
-        "adx14": 33.07,
+        "ema20": 699.111,
+        "ema50": 712.363,
+        "ema200": 690.803,
+        "weekly_pivot": 668.2,
+        "rsi14": 41.37,
+        "adx14": 32.98,
         "market_regime": "Bearish Trend",
         "factors": {
           "price_vs_ema20": -1,
@@ -1481,9 +1481,9 @@
           "price_vs_ema20": -1,
           "price_vs_ema50": -1,
           "price_vs_ema200": -1,
-          "price_vs_weekly_pivot": -1
+          "price_vs_weekly_pivot": 1
         },
-        "confluence_score": -4,
+        "confluence_score": -2,
         "confluence_max": 4,
         "market_structure": {
           "trend": "Ranging / Mixed",
@@ -1495,11 +1495,6 @@
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-12",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-13",
             "bos": "None",
@@ -1594,6 +1589,11 @@
             "date": "2026-11-06",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-09",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -1626,81 +1626,81 @@
   "macro": {
     "DGS10": {
       "status": "ok",
-      "value": 4.84,
+      "value": 4.86,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 4.98,
-      "health_previous_value": 4.9,
-      "health_change": -0.06,
-      "change": -0.14,
+      "previous_value": 4.94,
+      "health_previous_value": 4.84,
+      "health_change": 0.02,
+      "change": -0.08,
       "direction": "falling",
-      "observation_date": "2026-11-05",
-      "comparison_date": "2026-10-29",
-      "age_days": 3,
+      "observation_date": "2026-11-06",
+      "comparison_date": "2026-10-30",
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DGS10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "DGS2": {
       "status": "ok",
-      "value": 4.46,
+      "value": 4.51,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 4.61,
-      "health_previous_value": 4.58,
-      "health_change": -0.12,
-      "change": -0.15,
+      "previous_value": 4.56,
+      "health_previous_value": 4.46,
+      "health_change": 0.05,
+      "change": -0.05,
       "direction": "falling",
-      "observation_date": "2026-11-05",
-      "comparison_date": "2026-10-29",
-      "age_days": 3,
+      "observation_date": "2026-11-06",
+      "comparison_date": "2026-10-30",
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DGS2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "T10YIE": {
       "status": "ok",
-      "value": 2.23,
+      "value": 2.22,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 2.34,
-      "health_previous_value": 2.24,
+      "previous_value": 2.29,
+      "health_previous_value": 2.23,
       "health_change": -0.01,
-      "change": -0.11,
+      "change": -0.07,
       "direction": "falling",
-      "observation_date": "2026-11-06",
-      "comparison_date": "2026-10-30",
-      "age_days": 2,
+      "observation_date": "2026-11-09",
+      "comparison_date": "2026-11-02",
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/T10YIE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "DFII10": {
       "status": "ok",
-      "value": 2.6,
+      "value": 2.63,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 2.92,
-      "health_previous_value": 2.64,
-      "health_change": -0.04,
-      "change": -0.32,
+      "previous_value": 2.87,
+      "health_previous_value": 2.6,
+      "health_change": 0.03,
+      "change": -0.24,
       "direction": "falling",
-      "observation_date": "2026-11-05",
-      "comparison_date": "2026-10-07",
-      "age_days": 3,
+      "observation_date": "2026-11-06",
+      "comparison_date": "2026-10-08",
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DFII10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "DTWEXBGS": {
       "status": "ok",
-      "value": 121.6656,
+      "value": 121.8803,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 121.7882,
-      "health_previous_value": 121.7361,
-      "health_change": -0.0705,
-      "change": -0.1226,
-      "direction": "falling",
-      "observation_date": "2026-10-30",
-      "comparison_date": "2026-10-01",
-      "age_days": 9,
+      "previous_value": 121.4469,
+      "health_previous_value": 121.5061,
+      "health_change": 0.3742,
+      "change": 0.4334,
+      "direction": "rising",
+      "observation_date": "2026-11-06",
+      "comparison_date": "2026-10-08",
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/DTWEXBGS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1716,44 +1716,44 @@
       "direction": "falling",
       "observation_date": "2026-10-01",
       "comparison_date": "2026-05-01",
-      "age_days": 38,
+      "age_days": 40,
       "source": "https://fred.stlouisfed.org/series/UNRATE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "T10Y2Y": {
       "status": "ok",
-      "value": 0.35,
+      "value": 0.32,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 0.47,
-      "health_previous_value": 0.38,
+      "previous_value": 0.44,
+      "health_previous_value": 0.35,
       "health_change": -0.03,
       "change": -0.12,
       "direction": "falling",
-      "observation_date": "2026-11-06",
-      "comparison_date": "2026-10-08",
-      "age_days": 2,
+      "observation_date": "2026-11-09",
+      "comparison_date": "2026-10-09",
+      "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/T10Y2Y",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "BAMLH0A0HYM2": {
       "status": "ok",
-      "value": 3.48,
+      "value": 3.42,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 3.15,
-      "health_previous_value": 3.32,
-      "health_change": 0.16,
-      "change": 0.33,
+      "previous_value": 3.11,
+      "health_previous_value": 3.48,
+      "health_change": -0.06,
+      "change": 0.31,
       "direction": "rising",
-      "observation_date": "2026-11-05",
-      "comparison_date": "2026-10-08",
-      "age_days": 3,
+      "observation_date": "2026-11-06",
+      "comparison_date": "2026-10-09",
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "STLFSI4": {
-      "status": "ok",
+      "status": "stale",
       "value": -0.5224,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
@@ -1766,7 +1766,8 @@
       "comparison_date": "2026-10-02",
       "age_days": 9,
       "source": "https://fred.stlouisfed.org/series/STLFSI4",
-      "caveat": "Observation dates are not release dates; revisions possible"
+      "caveat": "Observation dates are not release dates; revisions possible",
+      "fallback_reason": "Latest FRED update unavailable"
     },
     "M2SL": {
       "status": "ok",
@@ -1780,7 +1781,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-06-01",
-      "age_days": 68,
+      "age_days": 70,
       "source": "https://fred.stlouisfed.org/series/M2SL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1796,7 +1797,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 68,
+      "age_days": 70,
       "source": "https://fred.stlouisfed.org/series/CPIAUCSL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1812,7 +1813,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 68,
+      "age_days": 70,
       "source": "https://fred.stlouisfed.org/series/INDPRO",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1828,7 +1829,7 @@
       "direction": "rising",
       "observation_date": "2026-07-01",
       "comparison_date": "2026-04-01",
-      "age_days": 130,
+      "age_days": 132,
       "source": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1844,7 +1845,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 68,
+      "age_days": 70,
       "source": "https://fred.stlouisfed.org/series/RSAFS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1860,23 +1861,23 @@
       "direction": "falling",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 68,
+      "age_days": 70,
       "source": "https://fred.stlouisfed.org/series/UMCSENT",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "VIXCLS": {
       "status": "ok",
-      "value": 28.18,
+      "value": 25.64,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 17.2,
-      "health_previous_value": 16.61,
-      "health_change": 11.57,
-      "change": 10.98,
+      "previous_value": 19.42,
+      "health_previous_value": 28.18,
+      "health_change": -2.54,
+      "change": 6.22,
       "direction": "rising",
-      "observation_date": "2026-11-05",
-      "comparison_date": "2026-10-29",
-      "age_days": 3,
+      "observation_date": "2026-11-06",
+      "comparison_date": "2026-10-30",
+      "age_days": 4,
       "source": "https://fred.stlouisfed.org/series/VIXCLS",
       "caveat": "Observation dates are not release dates; revisions possible"
     }
@@ -2058,17 +2059,17 @@
         "status": "ok",
         "score": -1,
         "series": "T10Y2Y",
-        "value": 0.35,
+        "value": 0.32,
         "change": -0.12,
-        "observation_date": "2026-11-06"
+        "observation_date": "2026-11-09"
       },
       "High-Yield Credit Spread": {
         "status": "ok",
         "score": -1,
         "series": "BAMLH0A0HYM2",
-        "value": 3.48,
-        "change": 0.33,
-        "observation_date": "2026-11-05"
+        "value": 3.42,
+        "change": 0.31,
+        "observation_date": "2026-11-06"
       },
       "Financial Stress Index": {
         "status": "ok",
