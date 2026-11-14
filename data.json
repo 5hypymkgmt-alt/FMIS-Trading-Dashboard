@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-13T00:08:54.674574+00:00",
+  "generated_at_utc": "2026-11-14T00:01:51.668719+00:00",
   "markets": {
     "S&P 500": {
       "symbol": "SPY",
@@ -7,28 +7,28 @@
       "note": "SPY ETF proxy for S&P 500",
       "price": {
         "status": "ok",
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "age_days": 1,
-        "close": 757.12,
-        "previous_close": 759.81,
+        "close": 754.25,
+        "previous_close": 757.12,
         "daily_change": {
-          "change": -2.69,
-          "percent": -0.35
+          "change": -2.87,
+          "percent": -0.38
         },
         "weekly_change": {
-          "change": 24.12,
-          "percent": 3.29
+          "change": 18.96,
+          "percent": 2.58
         },
         "monthly_change": {
-          "change": -12.48,
-          "percent": -1.62
+          "change": -17.54,
+          "percent": -2.27
         },
-        "ema20": 758.165,
-        "ema50": 761.516,
-        "ema200": 739.015,
+        "ema20": 757.792,
+        "ema50": 761.231,
+        "ema200": 739.262,
         "weekly_pivot": 747.88,
-        "rsi14": 48.5,
-        "adx14": 14.82,
+        "rsi14": 47.02,
+        "adx14": 14.38,
         "market_regime": "Ranging",
         "factors": {
           "price_vs_ema20": -1,
@@ -57,11 +57,6 @@
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-16",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-19",
             "bos": "None",
@@ -156,6 +151,11 @@
             "date": "2026-11-12",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-13",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -166,20 +166,20 @@
           "direction": "Bullish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 6,
+          "confidence": 18,
           "technical": 6,
           "trend": 0,
-          "macro": 0,
+          "macro": 12.5,
           "structure": 0
         },
         "bearish": {
           "direction": "Bearish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 63,
+          "confidence": 50,
           "technical": 18,
           "trend": 0,
-          "macro": 25.0,
+          "macro": 12.5,
           "structure": 20
         }
       }
@@ -190,28 +190,28 @@
       "note": "XAU/USD spot gold price from Twelve Data",
       "price": {
         "status": "ok",
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "age_days": 1,
-        "close": 3883.655,
-        "previous_close": 3987.032,
+        "close": 3875.683,
+        "previous_close": 3883.655,
         "daily_change": {
-          "change": -103.377,
-          "percent": -2.59
+          "change": -7.972,
+          "percent": -0.21
         },
         "weekly_change": {
-          "change": -182.381,
-          "percent": -4.49
+          "change": -190.346,
+          "percent": -4.68
         },
         "monthly_change": {
-          "change": -142.487,
-          "percent": -3.54
+          "change": -125.199,
+          "percent": -3.13
         },
-        "ema20": 4026.133,
-        "ema50": 4100.338,
-        "ema200": 4283.988,
+        "ema20": 4011.805,
+        "ema50": 4091.531,
+        "ema200": 4285.407,
         "weekly_pivot": 4026.55,
-        "rsi14": 37.55,
-        "adx14": 22.66,
+        "rsi14": 37.09,
+        "adx14": 22.2,
         "market_regime": "Transitional",
         "factors": {
           "price_vs_ema20": -1,
@@ -240,11 +240,6 @@
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-24",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-25",
             "bos": "None",
@@ -339,6 +334,11 @@
             "date": "2026-11-12",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-13",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -346,9 +346,9 @@
       },
       "market_structure": {
         "market": "XAU/USD",
-        "as_of": "2026-11-13",
+        "as_of": "2026-11-14",
         "daily_candle_count": 999,
-        "weekly_candle_count": 199,
+        "weekly_candle_count": 200,
         "monthly_candle_count": 46,
         "monthly": {
           "zones": [
@@ -947,7 +947,7 @@
               "resolved_date": "2024-03-04",
               "atr_at_retest": 56.86710292496299,
               "tolerance": 14.216775731240748,
-              "latest_close": 4066.02968,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -961,7 +961,7 @@
               "resolved_date": "2024-03-18",
               "atr_at_retest": 57.071948649585444,
               "tolerance": 14.267987162396361,
-              "latest_close": 4066.02968,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -989,7 +989,7 @@
               "resolved_date": "2024-08-19",
               "atr_at_retest": 76.82319287072471,
               "tolerance": 19.205798217681178,
-              "latest_close": 4066.02968,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1003,7 +1003,7 @@
               "resolved_date": "2024-09-16",
               "atr_at_retest": 74.97896745420569,
               "tolerance": 18.744741863551422,
-              "latest_close": 4066.02968,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1031,7 +1031,7 @@
               "resolved_date": "2025-01-27",
               "atr_at_retest": 80.83444627282621,
               "tolerance": 20.208611568206553,
-              "latest_close": 4066.02968,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1045,7 +1045,7 @@
               "resolved_date": "2025-02-03",
               "atr_at_retest": 83.29413011048148,
               "tolerance": 20.82353252762037,
-              "latest_close": 4066.02968,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1161,9 +1161,9 @@
               "retest_type": "exact_level",
               "detected_date": "2023-08-21",
               "resolved_date": "2023-08-21",
-              "atr_at_retest": 17.29079409136927,
-              "tolerance": 4.322698522842318,
-              "latest_close": 3883.65515,
+              "atr_at_retest": 17.29082590275869,
+              "tolerance": 4.322706475689673,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1176,8 +1176,8 @@
               "retest_type": "zone_approach",
               "detected_date": "2023-12-05",
               "resolved_date": "2023-12-05",
-              "atr_at_retest": 29.312257440516394,
-              "tolerance": 7.3280643601290985,
+              "atr_at_retest": 29.31225755442241,
+              "tolerance": 7.328064388605602,
               "latest_close": 2003.39001,
               "subsequently_invalidated": true,
               "invalidation_date": "2023-12-08"
@@ -1221,9 +1221,9 @@
               "retest_type": "exact_level",
               "detected_date": "2024-08-05",
               "resolved_date": "2024-08-05",
-              "atr_at_retest": 41.20825785458176,
-              "tolerance": 10.30206446364544,
-              "latest_close": 3883.65515,
+              "atr_at_retest": 41.208257854582065,
+              "tolerance": 10.302064463645516,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1236,8 +1236,8 @@
               "retest_type": "zone_approach",
               "detected_date": "2024-08-19",
               "resolved_date": "2024-08-19",
-              "atr_at_retest": 38.77841306248319,
-              "tolerance": 9.694603265620797,
+              "atr_at_retest": 38.77841306248333,
+              "tolerance": 9.694603265620833,
               "latest_close": 2483.29492,
               "subsequently_invalidated": true,
               "invalidation_date": "2024-08-22"
@@ -1253,7 +1253,7 @@
               "resolved_date": "2024-11-14",
               "atr_at_retest": 40.52560180365394,
               "tolerance": 10.131400450913485,
-              "latest_close": 3883.65515,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1268,7 +1268,7 @@
               "resolved_date": "2024-11-06",
               "atr_at_retest": 35.48408604597345,
               "tolerance": 8.871021511493362,
-              "latest_close": 3883.65515,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1283,7 +1283,7 @@
               "resolved_date": "2025-01-27",
               "atr_at_retest": 31.46242592715957,
               "tolerance": 7.865606481789892,
-              "latest_close": 3883.65515,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1298,7 +1298,7 @@
               "resolved_date": "2025-02-03",
               "atr_at_retest": 33.21098538055731,
               "tolerance": 8.302746345139328,
-              "latest_close": 3883.65515,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1343,7 +1343,7 @@
               "resolved_date": "2025-12-29",
               "atr_at_retest": 81.29390577533754,
               "tolerance": 20.323476443834384,
-              "latest_close": 3883.65515,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             },
@@ -1403,7 +1403,7 @@
               "resolved_date": "2026-11-02",
               "atr_at_retest": 62.192340731445505,
               "tolerance": 15.548085182861376,
-              "latest_close": 3883.65515,
+              "latest_close": 3875.68335,
               "subsequently_invalidated": false,
               "invalidation_date": null
             }
@@ -1414,27 +1414,27 @@
           "invalidated_count": 6
         },
         "status": "ok",
-        "latest_daily_candle": "2026-11-12"
+        "latest_daily_candle": "2026-11-13"
       },
       "trade_confidence": {
         "bullish": {
           "direction": "Bullish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 12,
+          "confidence": 0,
           "technical": 0,
           "trend": 0,
-          "macro": 12.5,
+          "macro": 0,
           "structure": 0
         },
         "bearish": {
           "direction": "Bearish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 62,
+          "confidence": 75,
           "technical": 30,
           "trend": 0,
-          "macro": 12.5,
+          "macro": 25.0,
           "structure": 20
         }
       }
@@ -1445,37 +1445,37 @@
       "note": "QQQ ETF proxy for Nasdaq 100",
       "price": {
         "status": "ok",
-        "date": "2026-11-12",
+        "date": "2026-11-13",
         "age_days": 1,
-        "close": 688.17,
-        "previous_close": 690.38,
+        "close": 679.89,
+        "previous_close": 688.17,
         "daily_change": {
-          "change": -2.21,
-          "percent": -0.32
+          "change": -8.28,
+          "percent": -1.2
         },
         "weekly_change": {
-          "change": 41.12,
-          "percent": 6.35
+          "change": 23.79,
+          "percent": 3.63
         },
         "monthly_change": {
-          "change": -40.78,
-          "percent": -5.59
+          "change": -48.11,
+          "percent": -6.61
         },
-        "ema20": 695.419,
-        "ema50": 709.225,
-        "ema200": 690.333,
+        "ema20": 693.94,
+        "ema50": 708.074,
+        "ema200": 690.453,
         "weekly_pivot": 668.2,
-        "rsi14": 45.38,
-        "adx14": 30.73,
+        "rsi14": 42.81,
+        "adx14": 30.26,
         "market_regime": "Bearish Trend",
         "factors": {
           "price_vs_ema20": -1,
           "ema20_vs_ema50": -1,
           "weekly_trend": -1,
           "momentum_5d": 1,
-          "rsi_14": 0
+          "rsi_14": -1
         },
-        "technical_score": -2,
+        "technical_score": -3,
         "technical_max": 5,
         "confluence_factors": {
           "price_vs_ema20": -1,
@@ -1495,11 +1495,6 @@
           "choch": "None"
         },
         "recent_structure": [
-          {
-            "date": "2026-10-16",
-            "bos": "None",
-            "choch": "None"
-          },
           {
             "date": "2026-10-19",
             "bos": "None",
@@ -1594,6 +1589,11 @@
             "date": "2026-11-12",
             "bos": "None",
             "choch": "None"
+          },
+          {
+            "date": "2026-11-13",
+            "bos": "None",
+            "choch": "None"
           }
         ],
         "source": "https://twelvedata.com/",
@@ -1604,20 +1604,20 @@
           "direction": "Bullish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 6,
+          "confidence": 18,
           "technical": 6,
           "trend": 0,
-          "macro": 0,
+          "macro": 12.5,
           "structure": 0
         },
         "bearish": {
           "direction": "Bearish",
           "status": "Complete",
           "excluded_macro": [],
-          "confidence": 68,
-          "technical": 18,
+          "confidence": 62,
+          "technical": 24,
           "trend": 25,
-          "macro": 25.0,
+          "macro": 12.5,
           "structure": 0
         }
       }
@@ -1626,33 +1626,33 @@
   "macro": {
     "DGS10": {
       "status": "ok",
-      "value": 4.98,
+      "value": 5.1,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 4.95,
-      "health_previous_value": 4.88,
-      "health_change": 0.1,
-      "change": 0.03,
+      "previous_value": 4.9,
+      "health_previous_value": 4.98,
+      "health_change": 0.12,
+      "change": 0.2,
       "direction": "rising",
-      "observation_date": "2026-11-10",
-      "comparison_date": "2026-11-03",
-      "age_days": 3,
+      "observation_date": "2026-11-12",
+      "comparison_date": "2026-11-04",
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/DGS10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "DGS2": {
       "status": "ok",
-      "value": 4.73,
+      "value": 4.86,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 4.61,
-      "health_previous_value": 4.56,
-      "health_change": 0.17,
-      "change": 0.12,
+      "previous_value": 4.58,
+      "health_previous_value": 4.73,
+      "health_change": 0.13,
+      "change": 0.28,
       "direction": "rising",
-      "observation_date": "2026-11-10",
-      "comparison_date": "2026-11-03",
-      "age_days": 3,
+      "observation_date": "2026-11-12",
+      "comparison_date": "2026-11-04",
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/DGS2",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1661,30 +1661,30 @@
       "value": 2.24,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 2.26,
-      "health_previous_value": 2.2,
-      "health_change": 0.04,
-      "change": -0.02,
-      "direction": "falling",
-      "observation_date": "2026-11-12",
-      "comparison_date": "2026-11-04",
+      "previous_value": 2.24,
+      "health_previous_value": 2.24,
+      "health_change": 0.0,
+      "change": 0.0,
+      "direction": "unchanged",
+      "observation_date": "2026-11-13",
+      "comparison_date": "2026-11-05",
       "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/T10YIE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "DFII10": {
       "status": "ok",
-      "value": 2.78,
+      "value": 2.86,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 2.88,
-      "health_previous_value": 2.66,
-      "health_change": 0.12,
-      "change": -0.1,
-      "direction": "falling",
-      "observation_date": "2026-11-10",
-      "comparison_date": "2026-10-13",
-      "age_days": 3,
+      "previous_value": 2.84,
+      "health_previous_value": 2.78,
+      "health_change": 0.08,
+      "change": 0.02,
+      "direction": "rising",
+      "observation_date": "2026-11-12",
+      "comparison_date": "2026-10-14",
+      "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/DFII10",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1700,7 +1700,7 @@
       "direction": "rising",
       "observation_date": "2026-11-06",
       "comparison_date": "2026-10-08",
-      "age_days": 7,
+      "age_days": 8,
       "source": "https://fred.stlouisfed.org/series/DTWEXBGS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1716,38 +1716,38 @@
       "direction": "falling",
       "observation_date": "2026-10-01",
       "comparison_date": "2026-05-01",
-      "age_days": 43,
+      "age_days": 44,
       "source": "https://fred.stlouisfed.org/series/UNRATE",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "T10Y2Y": {
       "status": "ok",
-      "value": 0.24,
+      "value": 0.27,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 0.37,
-      "health_previous_value": 0.25,
-      "health_change": -0.01,
-      "change": -0.13,
+      "previous_value": 0.33,
+      "health_previous_value": 0.24,
+      "health_change": 0.03,
+      "change": -0.06,
       "direction": "falling",
-      "observation_date": "2026-11-12",
-      "comparison_date": "2026-10-14",
+      "observation_date": "2026-11-13",
+      "comparison_date": "2026-10-15",
       "age_days": 1,
       "source": "https://fred.stlouisfed.org/series/T10Y2Y",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "BAMLH0A0HYM2": {
       "status": "ok",
-      "value": 3.3,
+      "value": 3.2,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 3.16,
-      "health_previous_value": 3.34,
-      "health_change": -0.04,
-      "change": 0.14,
-      "direction": "rising",
-      "observation_date": "2026-11-11",
-      "comparison_date": "2026-10-13",
+      "previous_value": 3.25,
+      "health_previous_value": 3.3,
+      "health_change": -0.1,
+      "change": -0.05,
+      "direction": "falling",
+      "observation_date": "2026-11-12",
+      "comparison_date": "2026-10-14",
       "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
       "caveat": "Observation dates are not release dates; revisions possible"
@@ -1764,7 +1764,7 @@
       "direction": "rising",
       "observation_date": "2026-11-06",
       "comparison_date": "2026-10-09",
-      "age_days": 7,
+      "age_days": 8,
       "source": "https://fred.stlouisfed.org/series/STLFSI4",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1780,7 +1780,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-06-01",
-      "age_days": 73,
+      "age_days": 74,
       "source": "https://fred.stlouisfed.org/series/M2SL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1796,7 +1796,7 @@
       "direction": "rising",
       "observation_date": "2026-10-01",
       "comparison_date": "2026-05-01",
-      "age_days": 43,
+      "age_days": 44,
       "source": "https://fred.stlouisfed.org/series/CPIAUCSL",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1812,7 +1812,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 73,
+      "age_days": 74,
       "source": "https://fred.stlouisfed.org/series/INDPRO",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1828,7 +1828,7 @@
       "direction": "rising",
       "observation_date": "2026-07-01",
       "comparison_date": "2026-04-01",
-      "age_days": 135,
+      "age_days": 136,
       "source": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1844,7 +1844,7 @@
       "direction": "rising",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 73,
+      "age_days": 74,
       "source": "https://fred.stlouisfed.org/series/RSAFS",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
@@ -1860,22 +1860,22 @@
       "direction": "falling",
       "observation_date": "2026-09-01",
       "comparison_date": "2026-04-01",
-      "age_days": 73,
+      "age_days": 74,
       "source": "https://fred.stlouisfed.org/series/UMCSENT",
       "caveat": "Observation dates are not release dates; revisions possible"
     },
     "VIXCLS": {
       "status": "ok",
-      "value": 17.49,
+      "value": 18.7,
       "inflation_yoy": null,
       "inflation_previous_yoy": null,
-      "previous_value": 16.61,
-      "health_previous_value": 19.46,
-      "health_change": -1.97,
-      "change": 0.88,
-      "direction": "rising",
-      "observation_date": "2026-11-11",
-      "comparison_date": "2026-11-04",
+      "previous_value": 28.18,
+      "health_previous_value": 17.49,
+      "health_change": 1.21,
+      "change": -9.48,
+      "direction": "falling",
+      "observation_date": "2026-11-12",
+      "comparison_date": "2026-11-05",
       "age_days": 2,
       "source": "https://fred.stlouisfed.org/series/VIXCLS",
       "caveat": "Observation dates are not release dates; revisions possible"
@@ -1955,7 +1955,7 @@
   },
   "macro_scores": {
     "Gold": {
-      "score": -3,
+      "score": -2,
       "maximum_score": 3,
       "indicators_available": 3,
       "indicators_required": 3,
@@ -1963,35 +1963,35 @@
       "factors": {
         "DGS10": -1,
         "DGS2": -1,
-        "T10YIE": -1
+        "T10YIE": 0
       },
       "note": "Heuristic macro score, not a trade signal"
     },
     "S&P 500": {
-      "score": -2,
+      "score": 0,
       "maximum_score": 4,
       "indicators_available": 4,
       "indicators_required": 4,
-      "bias": "Bearish macro",
+      "bias": "Mixed macro",
       "factors": {
         "DGS10": -1,
         "DGS2": -1,
         "UNRATE": 1,
-        "VIXCLS": -1
+        "VIXCLS": 1
       },
       "note": "Heuristic macro score, not a trade signal"
     },
     "Nasdaq 100": {
-      "score": -2,
+      "score": 0,
       "maximum_score": 4,
       "indicators_available": 4,
       "indicators_required": 4,
-      "bias": "Bearish macro",
+      "bias": "Mixed macro",
       "factors": {
         "DGS10": -1,
         "DGS2": -1,
         "UNRATE": 1,
-        "VIXCLS": -1
+        "VIXCLS": 1
       },
       "note": "Heuristic macro score, not a trade signal"
     }
@@ -2049,26 +2049,26 @@
     "note": "Directional economic-health heuristic, not a trading signal"
   },
   "us_financial_conditions": {
-    "score": -2,
+    "score": 0,
     "maximum_score": 4,
     "indicators_available": 4,
-    "bias": "Bearish",
+    "bias": "Neutral",
     "factors": {
       "Treasury Yield Curve": {
         "status": "ok",
-        "score": -1,
+        "score": 0,
         "series": "T10Y2Y",
-        "value": 0.24,
-        "change": -0.13,
-        "observation_date": "2026-11-12"
+        "value": 0.27,
+        "change": -0.06,
+        "observation_date": "2026-11-13"
       },
       "High-Yield Credit Spread": {
         "status": "ok",
-        "score": -1,
+        "score": 0,
         "series": "BAMLH0A0HYM2",
-        "value": 3.3,
-        "change": 0.14,
-        "observation_date": "2026-11-11"
+        "value": 3.2,
+        "change": -0.05,
+        "observation_date": "2026-11-12"
       },
       "Financial Stress Index": {
         "status": "ok",
