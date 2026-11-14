@@ -1,0 +1,23 @@
+# Python virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local credentials and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# macOS files
+.DS_Store
+
+# Local testing
+.pytest_cache/
+
+# Local development backups
+app-health-backup.py
